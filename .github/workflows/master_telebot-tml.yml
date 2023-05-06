@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'TeleBot-TML'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_68FEA3A580B740279FE70E7E62F4B49F }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E99BAFBD35904439A82A651FB9D35251 }}
