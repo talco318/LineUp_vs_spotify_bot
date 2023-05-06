@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 import telebot
 import artist as artists_class
 import re
-import re
 
 
 your_client_id = '47b7fe5aad594079b5c0d9d4c62819c2'
