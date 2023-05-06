@@ -1,9 +1,0 @@
-# Telebot requirements
-# Usage: pip install -r requirements.txt
-
-# Base ------------------------------------------------------------------------
-pyTelegramBotAPI>=4.11.0
-telebot>=0.0.5
-spotipy>=2.23.0
-requests>=2.29.0
-
