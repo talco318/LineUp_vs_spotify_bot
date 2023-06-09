@@ -1,0 +1,535 @@
+{
+	"copyright":"Licensed under a Creative Commons Attribution-NonCommercial 3.0 License http://creativecommons.org/licenses/by-nc/3.0/. Free for non-commercial use. Contact halvin@clashfinder.com for other uses.",
+	"modified":"2023-06-08 14:49",
+	"name":"Tomorrowland - Weekend 1 2023",
+	"id":"tml2023w1",
+	"url":"https://clashfinder.com/s/tml2023w1/",
+	"printAdvisory":5,
+	"timezone":"Europe/London",
+	"tzOffset":3600,
+	"tzNote":"Start and end times are given in the timezone of the event. Offset by -tzOffset for UTC.",
+	"locations":[
+		{
+			"name":"Mainstage (all day: Mc Stretch)",
+			"events":[
+				{"name":"Daybreak session: Claptone","short":"daybre(1)","start":"2023-07-21 12:00","end":"2023-07-21 14:30","estd":"0"},
+				{"name":"Anfisa Letyago","short":"anfisa(1)","start":"2023-07-21 14:30","end":"2023-07-21 15:30","estd":"0"},
+				{"name":"Andromedik","short":"androm(1)","start":"2023-07-21 15:30","end":"2023-07-21 16:30","estd":"0"},
+				{"name":"Henri PFR","short":"henrip(1)","start":"2023-07-21 16:30","end":"2023-07-21 17:30","estd":"0"},
+				{"name":"MATTN","short":"mattn(1)","start":"2023-07-21 17:35","end":"2023-07-21 18:35","estd":"0"},
+				{"name":"Vini Vici","short":"vinivi(1)","start":"2023-07-21 18:40","end":"2023-07-21 19:40","estd":"0"},
+				{"name":"Amelie Lens","short":"amelie(1)","start":"2023-07-21 19:40","end":"2023-07-21 20:40","estd":"0"},
+				{"name":"Sunnery James & Ryan Marciano","short":"sunner(1)","start":"2023-07-21 20:40","end":"2023-07-21 21:40","estd":"0"},
+				{"name":"Steve Angello","short":"stevea(1)","start":"2023-07-21 21:45","end":"2023-07-21 22:45","estd":"0"},
+				{"name":"The Chainsmokers","short":"chains(1)","start":"2023-07-21 22:50","end":"2023-07-21 23:50","estd":"0"},
+				{"name":"Tiësto","short":"tisto(1)","start":"2023-07-21 23:50","end":"2023-07-22 00:50","estd":"0"},
+				{"name":"Daybreak session: Laidback Luke presents Wayback Luke","short":"daybre1(1)","start":"2023-07-22 12:00","end":"2023-07-22 14:30","estd":"0"},
+				{"name":"To be announced","short":"tobean(5)","start":"2023-07-22 14:30","end":"2023-07-22 15:30","estd":"0"},
+				{"name":"220 Kid","short":"220kid(1)","start":"2023-07-22 15:30","end":"2023-07-22 16:30","estd":"0"},
+				{"name":"Lilly Palmer","short":"lillyp(1)","start":"2023-07-22 16:30","end":"2023-07-22 17:30","estd":"0"},
+				{"name":"GORDO","short":"gordo(1)","start":"2023-07-22 17:35","end":"2023-07-22 18:35","estd":"0"},
+				{"name":"James Hype","short":"jamesh(1)","start":"2023-07-22 18:40","end":"2023-07-22 19:40","estd":"0"},
+				{"name":"Amber Broos","short":"amberb(1)","start":"2023-07-22 19:40","end":"2023-07-22 20:40","estd":"0"},
+				{"name":"ALOK","short":"alok(1)","start":"2023-07-22 20:40","end":"2023-07-22 21:40","estd":"0"},
+				{"name":"Afrojack","short":"afroja(1)","start":"2023-07-22 21:45","end":"2023-07-22 22:45","estd":"0"},
+				{"name":"Dimitri Vegas & Like Mike","short":"dimitr(1)","start":"2023-07-22 22:50","end":"2023-07-22 23:50","estd":"0"},
+				{"name":"Alesso","short":"alesso(1)","start":"2023-07-22 23:50","end":"2023-07-23 00:50","estd":"0"},
+				{"name":"Daybreak Session: Franky Rizardo","short":"daybre2(1)","start":"2023-07-23 12:00","end":"2023-07-23 14:30","estd":"0"},
+				{"name":"To be announced","short":"tobean(7)","start":"2023-07-23 14:30","end":"2023-07-23 15:30","estd":"0"},
+				{"name":"Korolova","short":"korolo(1)","start":"2023-07-23 15:30","end":"2023-07-23 16:30","estd":"0"},
+				{"name":"Yves Deruyter","short":"yvesde(1)","start":"2023-07-23 16:30","end":"2023-07-23 17:30","estd":"0"},
+				{"name":"Vintage Culture","short":"vintag(1)","start":"2023-07-23 17:35","end":"2023-07-23 18:35","estd":"0"},
+				{"name":"Nina Kraviz","short":"ninakr(1)","start":"2023-07-23 18:35","end":"2023-07-23 19:35","estd":"0"},
+				{"name":"Da Tweekaz","short":"datwee(1)","start":"2023-07-23 19:40","end":"2023-07-23 20:40","estd":"0"},
+				{"name":"Timmy Trumpet","short":"timmyt(1)","start":"2023-07-23 20:45","end":"2023-07-23 21:45","estd":"0"},
+				{"name":"Lost Frequencies","short":"lostfr(2)","start":"2023-07-23 21:50","end":"2023-07-23 22:50","estd":"0"},
+				{"name":"Martin Garrix","short":"martin1(1)","start":"2023-07-23 22:55","end":"2023-07-23 23:55","estd":"0"}
+			]
+		},
+		{
+			"name":"Unknown Host @ Freedom",
+			"events":[
+				{"name":"Maxi Meraki","short":"maxime(1)","start":"2023-07-21 12:00","end":"2023-07-21 13:30","estd":"0"},
+				{"name":"Mooglie","short":"moogli(1)","start":"2023-07-21 13:30","end":"2023-07-21 15:00","estd":"0"},
+				{"name":"Mau P","short":"maup(1)","start":"2023-07-21 15:00","end":"2023-07-21 16:30","estd":"0"},
+				{"name":"Agents Of Time","short":"agents(1)","start":"2023-07-21 16:30","end":"2023-07-21 18:00","estd":"0"},
+				{"name":"Meduza","short":"meduza(1)","start":"2023-07-21 18:00","end":"2023-07-21 19:30","estd":"0"},
+				{"name":"Mathame","short":"matham(1)","start":"2023-07-21 19:30","end":"2023-07-21 21:00","estd":"0"},
+				{"name":"Kölsch","short":"klsch(1)","start":"2023-07-21 21:00","end":"2023-07-21 23:00","estd":"0"},
+				{"name":"Eric Prydz presents HOLO","short":"ericpr(1)","start":"2023-07-21 23:00","end":"2023-07-22 00:30","estd":"0"}
+			]
+		},
+		{
+			"name":"Rampage @ The Rose Garden (all day: Mc Mota)",
+			"events":[
+				{"name":"Maze","short":"maze(1)","start":"2023-07-21 12:00","end":"2023-07-21 13:30","estd":"0"},
+				{"name":"Monrroe & Duskee","short":"monrro1(1)","start":"2023-07-21 13:30","end":"2023-07-21 15:00","estd":"0"},
+				{"name":"A Little Sound","short":"alittl(1)","start":"2023-07-21 15:00","end":"2023-07-21 16:00","estd":"0"},
+				{"name":"Dr Ushuu B2B Ivory","short":"drushu(1)","start":"2023-07-21 16:00","end":"2023-07-21 17:00","estd":"0"},
+				{"name":"Grafix","short":"grafix(1)","start":"2023-07-21 17:00","end":"2023-07-21 18:00","estd":"0"},
+				{"name":"Hazard","short":"hazard(1)","start":"2023-07-21 18:00","end":"2023-07-21 19:00","estd":"0"},
+				{"name":"Murdock","short":"murdoc(1)","start":"2023-07-21 19:00","end":"2023-07-21 20:00","estd":"0"},
+				{"name":"SVDDEN DEATH","short":"svdden(1)","start":"2023-07-21 20:00","end":"2023-07-21 21:00","estd":"0"},
+				{"name":"USED","short":"used(1)","start":"2023-07-21 21:00","end":"2023-07-21 22:00","estd":"0"},
+				{"name":"Funtcase","short":"funtca(1)","start":"2023-07-21 22:00","end":"2023-07-21 23:00","estd":"0"},
+				{"name":"Macky Gee","short":"mackyg(1)","start":"2023-07-21 23:00","end":"2023-07-22 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"The Mangrove @ Elixir (all day: MC Rim)",
+			"events":[
+				{"name":"Milinguap","short":"miling(1)","start":"2023-07-21 13:00","end":"2023-07-21 14:30","estd":"0"},
+				{"name":"Soul Shakers","short":"soulsh(1)","start":"2023-07-21 14:30","end":"2023-07-21 16:00","estd":"0"},
+				{"name":"BAVR","short":"bavr(1)","start":"2023-07-21 16:00","end":"2023-07-21 17:30","estd":"0"},
+				{"name":"Flo Windey ft. Skyve","short":"flowin(1)","start":"2023-07-21 17:30","end":"2023-07-21 18:30","estd":"0"},
+				{"name":"MagiK","short":"magik(1)","start":"2023-07-21 18:30","end":"2023-07-21 19:30","estd":"0"},
+				{"name":"Hyalyte","short":"hyalyt(1)","start":"2023-07-21 19:30","end":"2023-07-21 20:30","estd":"0"},
+				{"name":"DJ NC","short":"djnc(1)","start":"2023-07-21 20:30","end":"2023-07-21 22:00","estd":"0"},
+				{"name":"Kamal Bankay","short":"kamalb(1)","start":"2023-07-21 22:00","end":"2023-07-21 23:30","estd":"0"},
+				{"name":"Audiowave","short":"audiow(1)","start":"2023-07-21 23:30","end":"2023-07-22 01:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Unknown Host @ Cage",
+			"events":[
+				{"name":"Wanton","short":"wanton(1)","start":"2023-07-21 12:00","end":"2023-07-21 14:00","estd":"0"},
+				{"name":"Jan Vercauteren","short":"janver1(1)","start":"2023-07-21 14:00","end":"2023-07-21 16:00","estd":"0"},
+				{"name":"Patrick Mason","short":"patric(1)","start":"2023-07-21 16:00","end":"2023-07-21 18:00","estd":"0"},
+				{"name":"Cera Khin","short":"cerakh(1)","start":"2023-07-21 18:00","end":"2023-07-21 19:30","estd":"0"},
+				{"name":"SPFDJ","short":"spfdj(1)","start":"2023-07-21 19:30","end":"2023-07-21 21:00","estd":"0"},
+				{"name":"Paula Temple","short":"paulat(1)","start":"2023-07-21 21:00","end":"2023-07-21 23:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Burenhinder @ The Rave Cave",
+			"events":[
+				{"name":"Lexi","short":"lexi(1)","start":"2023-07-21 13:00","end":"2023-07-21 14:30","estd":"0"},
+				{"name":"Jane Muss","short":"janemu(1)","start":"2023-07-21 14:30","end":"2023-07-21 16:00","estd":"0"},
+				{"name":"Jazie","short":"jazie(1)","start":"2023-07-21 16:00","end":"2023-07-21 17:00","estd":"0"},
+				{"name":"Stella K","short":"stella(1)","start":"2023-07-21 17:00","end":"2023-07-21 18:00","estd":"0"},
+				{"name":"Myu:sa","short":"myusa(1)","start":"2023-07-21 18:00","end":"2023-07-21 19:00","estd":"0"},
+				{"name":"LOLITA","short":"lolita(1)","start":"2023-07-21 19:00","end":"2023-07-21 20:00","estd":"0"},
+				{"name":"Waltur","short":"waltur(1)","start":"2023-07-21 20:00","end":"2023-07-21 21:00","estd":"0"},
+				{"name":"Instar","short":"instar(1)","start":"2023-07-21 21:00","end":"2023-07-21 22:00","estd":"0"},
+				{"name":"Gitzwart","short":"gitzwa(1)","start":"2023-07-21 22:00","end":"2023-07-21 23:00","estd":"0"},
+				{"name":"Burenhinder b4b","short":"burenh(1)","start":"2023-07-21 23:00","end":"2023-07-22 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Sub Zero Project – Psychodelic @ Youphoria (all day: MC Villain)",
+			"events":[
+				{"name":"Demi Kanon","short":"demika(1)","start":"2023-07-21 12:30","end":"2023-07-21 14:00","estd":"0"},
+				{"name":"Boray","short":"boray(1)","start":"2023-07-21 14:00","end":"2023-07-21 15:30","estd":"0"},
+				{"name":"Devin Wild","short":"devinw(1)","start":"2023-07-21 15:30","end":"2023-07-21 16:30","estd":"0"},
+				{"name":"Coone","short":"coone(1)","start":"2023-07-21 16:30","end":"2023-07-21 17:30","estd":"0"},
+				{"name":"TNT","short":"tnt(1)","start":"2023-07-21 17:30","end":"2023-07-21 18:30","estd":"0"},
+				{"name":"Sub Zero Project","short":"subzer(1)","start":"2023-07-21 18:30","end":"2023-07-21 19:30","estd":"0"},
+				{"name":"Ben Nicky presents Xtreme","short":"bennic(1)","start":"2023-07-21 19:30","end":"2023-07-21 20:30","estd":"0"},
+				{"name":"Hard Driver","short":"harddr(1)","start":"2023-07-21 20:30","end":"2023-07-21 21:30","estd":"0"},
+				{"name":"Warface","short":"warfac(1)","start":"2023-07-21 21:30","end":"2023-07-21 22:30","estd":"0"},
+				{"name":"Sickmode","short":"sickmo(1)","start":"2023-07-21 22:30","end":"2023-07-21 23:30","estd":"0"},
+				{"name":"D-Sturb","short":"dsturb(1)","start":"2023-07-21 23:30","end":"2023-07-22 00:50","estd":"0"}
+			]
+		},
+		{
+			"name":"Unknown Host @ Terra Solis",
+			"events":[
+				{"name":"Kap's","short":"kaps(1)","start":"2023-07-21 12:00","end":"2023-07-21 13:30","estd":"0"},
+				{"name":"Mosoo","short":"mosoo(1)","start":"2023-07-21 13:30","end":"2023-07-21 15:00","estd":"0"},
+				{"name":"Dorian Craft","short":"dorian(1)","start":"2023-07-21 15:00","end":"2023-07-21 16:30","estd":"0"},
+				{"name":"MoBlack","short":"moblac(1)","start":"2023-07-21 16:30","end":"2023-07-21 18:00","estd":"0"},
+				{"name":"Kasango","short":"kasang(1)","start":"2023-07-21 18:00","end":"2023-07-21 19:30","estd":"0"},
+				{"name":"Philou Louzolo","short":"philou(1)","start":"2023-07-21 19:30","end":"2023-07-21 21:00","estd":"0"},
+				{"name":"Airrica","short":"airric(1)","start":"2023-07-21 21:00","end":"2023-07-21 23:30","estd":"0"},
+				{"name":"Daoud","short":"daoud(1)","start":"2023-07-22 12:30","end":"2023-07-22 14:30","estd":"0"},
+				{"name":"Capoon","short":"capoon(1)","start":"2023-07-22 14:30","end":"2023-07-22 16:30","estd":"0"},
+				{"name":"Francesca Lombardo","short":"france(1)","start":"2023-07-22 16:30","end":"2023-07-22 18:30","estd":"0"},
+				{"name":"Amémé","short":"amm(1)","start":"2023-07-22 18:30","end":"2023-07-22 20:30","estd":"0"},
+				{"name":"Bedouin","short":"bedoui(1)","start":"2023-07-22 20:30","end":"2023-07-22 23:30","estd":"0"}
+			]
+		},
+		{
+			"name":"Unknown Host @ Rise",
+			"events":[
+				{"name":"To be announced","short":"tobean(1)","start":"2023-07-21 12:30","end":"2023-07-21 17:00","estd":"0"},
+				{"name":"Nils Hoffmann","short":"nilsho(1)","start":"2023-07-21 17:00","end":"2023-07-21 18:00","estd":"0"},
+				{"name":"Nora En Pure","short":"noraen(1)","start":"2023-07-21 18:00","end":"2023-07-21 19:30","estd":"0"},
+				{"name":"NTO","short":"nto(1)","start":"2023-07-21 19:30","end":"2023-07-21 21:00","estd":"0"},
+				{"name":"Franky Wah","short":"franky(1)","start":"2023-07-21 21:00","end":"2023-07-21 22:30","estd":"0"},
+				{"name":"Marsh","short":"marsh(1)","start":"2023-07-21 22:00","end":"2023-07-22 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Drumcode @ Atmosphere",
+			"events":[
+				{"name":"SHDDR","short":"shddr(1)","start":"2023-07-21 12:00","end":"2023-07-21 14:00","estd":"0"},
+				{"name":"Carmen Lisa","short":"carmen(1)","start":"2023-07-21 14:00","end":"2023-07-21 16:00","estd":"0"},
+				{"name":"Juliet Fox","short":"juliet(1)","start":"2023-07-21 16:00","end":"2023-07-21 18:00","estd":"0"},
+				{"name":"Eli Brown","short":"elibro(1)","start":"2023-07-21 18:00","end":"2023-07-21 19:30","estd":"0"},
+				{"name":"HI-LO b2b Layton Giordani","short":"hilob2(1)","start":"2023-07-21 19:30","end":"2023-07-21 21:30","estd":"0"},
+				{"name":"Joris Voorn","short":"jorisv(1)","start":"2023-07-21 21:30","end":"2023-07-21 23:00","estd":"0"},
+				{"name":"Adam Beyer","short":"adambe(1)","start":"2023-07-21 23:00","end":"2023-07-22 01:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Core @ CORE",
+			"events":[
+				{"name":"Asian Sal","short":"asians(1)","start":"2023-07-21 12:30","end":"2023-07-21 14:30","estd":"0"},
+				{"name":"Ava Eva","short":"avaeva(1)","start":"2023-07-21 14:30","end":"2023-07-21 16:00","estd":"0"},
+				{"name":"Chloé Caillet","short":"chloca(1)","start":"2023-07-21 16:00","end":"2023-07-21 17:30","estd":"0"},
+				{"name":"Dino Lenny","short":"dinole(1)","start":"2023-07-21 17:30","end":"2023-07-21 19:00","estd":"0"},
+				{"name":"Krystal Klear","short":"krysta(1)","start":"2023-07-21 19:00","end":"2023-07-21 21:00","estd":"0"},
+				{"name":"Folamour","short":"folamo(1)","start":"2023-07-21 21:00","end":"2023-07-21 23:00","estd":"0"},
+				{"name":"Special Request","short":"specia(1)","start":"2023-07-21 23:00","end":"2023-07-22 01:00","estd":"0"},
+				{"name":"A Local Hero","short":"alocal(1)","start":"2023-07-23 13:00","end":"2023-07-23 15:00","estd":"0"},
+				{"name":"Jordan Vickors","short":"jordan(1)","start":"2023-07-23 15:00","end":"2023-07-23 17:00","estd":"0"},
+				{"name":"Cellini","short":"cellin(1)","start":"2023-07-23 17:00","end":"2023-07-23 19:00","estd":"0"},
+				{"name":"CiCi","short":"cici(1)","start":"2023-07-23 19:00","end":"2023-07-23 21:00","estd":"0"},
+				{"name":"Chet Faker dj-set","short":"chetfa(1)","start":"2023-07-23 21:00","end":"2023-07-23 22:30","estd":"0"},
+				{"name":"DJ BORING","short":"djbori(1)","start":"2023-07-23 22:30","end":"2023-07-24 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Unknown Host @ Crystal Garden",
+			"events":[
+				{"name":"D&W","short":"dw(1)","start":"2023-07-21 12:00","end":"2023-07-21 13:30","estd":"0"},
+				{"name":"Tom & Collins","short":"tomcol(1)","start":"2023-07-21 13:30","end":"2023-07-21 15:00","estd":"0"},
+				{"name":"HoneyLuv","short":"honeyl(1)","start":"2023-07-21 15:00","end":"2023-07-21 16:00","estd":"0"},
+				{"name":"Matt Guy","short":"mattgu(1)","start":"2023-07-21 16:00","end":"2023-07-21 17:30","estd":"0"},
+				{"name":"LP Giobbi","short":"lpgiob(1)","start":"2023-07-21 17:30","end":"2023-07-21 19:00","estd":"0"},
+				{"name":"LF System","short":"lfsyst(1)","start":"2023-07-21 19:00","end":"2023-07-21 20:30","estd":"0"},
+				{"name":"Solardo","short":"solard(1)","start":"2023-07-21 20:30","end":"2023-07-21 22:00","estd":"0"},
+				{"name":"Purple Disco Machine","short":"purple(1)","start":"2023-07-21 22:00","end":"2023-07-22 00:00","estd":"0"},
+				{"name":"Ben Malone","short":"benmal(1)","start":"2023-07-22 12:30","end":"2023-07-22 14:00","estd":"0"},
+				{"name":"Sem Thomasson","short":"semtho(1)","start":"2023-07-22 14:00","end":"2023-07-22 15:00","estd":"0"},
+				{"name":"Chico Rose","short":"chicor(1)","start":"2023-07-22 15:00","end":"2023-07-22 16:00","estd":"0"},
+				{"name":"Double Pleasure","short":"double(1)","start":"2023-07-22 16:00","end":"2023-07-22 17:00","estd":"0"},
+				{"name":"Kapuchon","short":"kapuch(1)","start":"2023-07-22 17:00","end":"2023-07-22 18:30","estd":"0"},
+				{"name":"Kryder & B Jones","short":"kryder(1)","start":"2023-07-22 18:30","end":"2023-07-22 19:30","estd":"0"},
+				{"name":"Jengi","short":"jengi(1)","start":"2023-07-22 19:30","end":"2023-07-22 20:30","estd":"0"},
+				{"name":"Sunnery James & Ryan Marciano present Amazone Project","short":"sunner1(1)","start":"2023-07-22 20:30","end":"2023-07-22 22:00","estd":"0"},
+				{"name":"Öwnboss","short":"wnboss(1)","start":"2023-07-22 22:00","end":"2023-07-22 23:00","estd":"0"},
+				{"name":"Lou8","short":"lou8(1)","start":"2023-07-23 12:00","end":"2023-07-23 14:00","estd":"0"},
+				{"name":"Dana Montana","short":"danamo(1)","start":"2023-07-23 14:00","end":"2023-07-23 16:00","estd":"0"},
+				{"name":"Airwolf Paradise","short":"airwol(1)","start":"2023-07-23 16:00","end":"2023-07-23 17:30","estd":"0"},
+				{"name":"Dom Dolla","short":"domdol(1)","start":"2023-07-23 17:30","end":"2023-07-23 19:00","estd":"0"},
+				{"name":"Cloonee","short":"cloone(1)","start":"2023-07-23 19:00","end":"2023-07-23 20:30","estd":"0"},
+				{"name":"Eats Everything","short":"eatsev(1)","start":"2023-07-23 20:30","end":"2023-07-23 22:00","estd":"0"},
+				{"name":"Patrick Topping","short":"patric1(1)","start":"2023-07-23 22:00","end":"2023-07-23 23:30","estd":"0"}
+			]
+		},
+		{
+			"name":"Lost Frequencies & Friends @ The Library",
+			"events":[
+				{"name":"AdamK","short":"adamk(1)","start":"2023-07-21 12:00","end":"2023-07-21 13:00","estd":"0"},
+				{"name":"Marwan Dua","short":"marwan(1)","start":"2023-07-21 13:00","end":"2023-07-21 14:00","estd":"0"},
+				{"name":"Chemical Surf","short":"chemic(1)","start":"2023-07-21 14:00","end":"2023-07-21 15:00","estd":"0"},
+				{"name":"Bleu Clair","short":"bleucl(1)","start":"2023-07-21 15:00","end":"2023-07-21 16:00","estd":"0"},
+				{"name":"Omdat Het Kan Soundsystem ft. Average Rob","short":"omdath(1)","start":"2023-07-21 16:00","end":"2023-07-21 17:00","estd":"0"},
+				{"name":"The Magician","short":"magici(1)","start":"2023-07-21 17:00","end":"2023-07-21 18:00","estd":"0"},
+				{"name":"Wax Motif","short":"waxmot(1)","start":"2023-07-21 18:00","end":"2023-07-21 19:00","estd":"0"},
+				{"name":"Marten Hørger","short":"marten(1)","start":"2023-07-21 19:00","end":"2023-07-21 20:00","estd":"0"},
+				{"name":"Sonny Fodera","short":"sonnyf(1)","start":"2023-07-21 20:00","end":"2023-07-21 21:00","estd":"0"},
+				{"name":"Acraze","short":"acraze(1)","start":"2023-07-21 21:00","end":"2023-07-21 22:00","estd":"0"},
+				{"name":"Lost Frequencies","short":"lostfr(1)","start":"2023-07-21 22:00","end":"2023-07-21 23:00","estd":"0"},
+				{"name":"Oliver Heldens","short":"oliver(1)","start":"2023-07-21 23:00","end":"2023-07-22 00:00","estd":"0"},
+				{"name":"Netsky","short":"netsky(1)","start":"2023-07-22 00:00","end":"2023-07-22 01:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Unknown Host @ Moosebar",
+			"events":[
+				{"name":"Jelle DK","short":"jelled(1)","start":"2023-07-21 12:00","end":"2023-07-21 16:00","estd":"0"},
+				{"name":"Michael More","short":"michae(1)","start":"2023-07-21 16:00","end":"2023-07-21 19:00","estd":"0"},
+				{"name":"Partyfriex","short":"partyf(1)","start":"2023-07-21 19:00","end":"2023-07-21 20:00","estd":"0"},
+				{"name":"F.R.A.N.K","short":"frank(1)","start":"2023-07-21 20:00","end":"2023-07-22 00:00","estd":"0"},
+				{"name":"Jan V","short":"janv(1)","start":"2023-07-22 12:00","end":"2023-07-22 15:00","estd":"0"},
+				{"name":"Thierry VonderWarth","short":"thierr(1)","start":"2023-07-22 15:00","end":"2023-07-22 19:00","estd":"0"},
+				{"name":"Bromeo's","short":"bromeo(1)","start":"2023-07-22 19:00","end":"2023-07-22 20:00","estd":"0"},
+				{"name":"Jeroen Visser","short":"jeroen(1)","start":"2023-07-22 20:00","end":"2023-07-23 00:00","estd":"0"},
+				{"name":"Mr E","short":"mre(1)","start":"2023-07-23 12:00","end":"2023-07-23 16:00","estd":"0"},
+				{"name":"The Bobmeister","short":"bobmei(1)","start":"2023-07-23 16:00","end":"2023-07-23 19:00","estd":"0"},
+				{"name":"Peter Wackel","short":"peterw(1)","start":"2023-07-23 19:00","end":"2023-07-23 20:00","estd":"0"},
+				{"name":"Feest DJ Lucki Luc","short":"feestd1(1)","start":"2023-07-23 20:00","end":"2023-07-24 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Afterlife @ Freedom",
+			"events":[
+				{"name":"Axel Haube","short":"axelha(1)","start":"2023-07-22 12:00","end":"2023-07-22 13:30","estd":"0"},
+				{"name":"8Kays","short":"8kays(1)","start":"2023-07-22 13:30","end":"2023-07-22 15:00","estd":"0"},
+				{"name":"Colyn","short":"colyn(1)","start":"2023-07-22 15:00","end":"2023-07-22 16:30","estd":"0"},
+				{"name":"Kevin De Vries","short":"kevind(1)","start":"2023-07-22 16:30","end":"2023-07-22 18:00","estd":"0"},
+				{"name":"Camelphat","short":"camelp(1)","start":"2023-07-22 18:00","end":"2023-07-22 19:30","estd":"0"},
+				{"name":"Anyma","short":"anyma(1)","start":"2023-07-22 19:30","end":"2023-07-22 21:00","estd":"0"},
+				{"name":"Adriatique","short":"adriat(1)","start":"2023-07-22 21:00","end":"2023-07-22 22:30","estd":"0"},
+				{"name":"Tale Of Us","short":"taleof(1)","start":"2023-07-22 22:30","end":"2023-07-23 00:30","estd":"0"}
+			]
+		},
+		{
+			"name":"Bonzai @ The Rose Garden (all day: Mc Pyro)",
+			"events":[
+				{"name":"Dj Fire","short":"djfire(1)","start":"2023-07-22 13:00","end":"2023-07-22 14:00","estd":"0"},
+				{"name":"Phi Phi","short":"phiphi(1)","start":"2023-07-22 14:00","end":"2023-07-22 15:00","estd":"0"},
+				{"name":"DJ Jan","short":"djjan(1)","start":"2023-07-22 15:00","end":"2023-07-22 16:00","estd":"0"},
+				{"name":"Franky Jones","short":"franky1(1)","start":"2023-07-22 16:00","end":"2023-07-22 17:00","estd":"0"},
+				{"name":"Jens Lissat","short":"jensli(1)","start":"2023-07-22 17:00","end":"2023-07-22 18:00","estd":"0"},
+				{"name":"Jan Vervloet","short":"janver(1)","start":"2023-07-22 18:00","end":"2023-07-22 19:00","estd":"0"},
+				{"name":"DJ Ghost","short":"djghos(1)","start":"2023-07-22 19:00","end":"2023-07-22 20:00","estd":"0"},
+				{"name":"Franky Kloeck","short":"franky2(1)","start":"2023-07-22 20:00","end":"2023-07-22 21:00","estd":"0"},
+				{"name":"Greg S","short":"gregs(1)","start":"2023-07-22 21:00","end":"2023-07-22 22:30","estd":"0"},
+				{"name":"PUSH","short":"push(1)","start":"2023-07-22 22:30","end":"2023-07-22 23:30","estd":"0"},
+				{"name":"Bonzai All Stars","short":"bonzai(1)","start":"2023-07-22 23:30","end":"2023-07-23 01:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Lonely at the Tap by FeestDJRuud @ Elixir",
+			"events":[
+				{"name":"Bennie Disko","short":"bennie(1)","start":"2023-07-22 13:00","end":"2023-07-22 14:30","estd":"0"},
+				{"name":"Raywell","short":"raywel(1)","start":"2023-07-22 14:30","end":"2023-07-22 16:00","estd":"0"},
+				{"name":"Disco Danny","short":"discod(1)","start":"2023-07-22 16:00","end":"2023-07-22 17:30","estd":"0"},
+				{"name":"Otto Wunderbar","short":"ottowu(1)","start":"2023-07-22 17:30","end":"2023-07-22 18:00","estd":"0"},
+				{"name":"FeestDJRuud","short":"feestd(1)","start":"2023-07-22 18:00","end":"2023-07-22 19:30","estd":"0"},
+				{"name":"Gullie","short":"gullie(1)","start":"2023-07-22 19:30","end":"2023-07-22 20:00","estd":"0"},
+				{"name":"Raywell &  Ron Simpson","short":"raywel1(1)","start":"2023-07-22 20:00","end":"2023-07-22 21:00","estd":"0"},
+				{"name":"Lady Bee","short":"ladybe(1)","start":"2023-07-22 21:00","end":"2023-07-22 22:00","estd":"0"},
+				{"name":"Trobi","short":"trobi(1)","start":"2023-07-22 22:00","end":"2023-07-22 23:00","estd":"0"},
+				{"name":"Afro Bros","short":"afrobr(1)","start":"2023-07-22 23:00","end":"2023-07-23 00:00","estd":"0"},
+				{"name":"Ruthless","short":"ruthle(1)","start":"2023-07-23 00:00","end":"2023-07-23 01:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Footworxx @ Cage",
+			"events":[
+				{"name":"Revenja","short":"revenj(1)","start":"2023-07-22 12:00","end":"2023-07-22 13:00","estd":"0"},
+				{"name":"Dark Phoenix","short":"darkph(1)","start":"2023-07-22 13:00","end":"2023-07-22 14:00","estd":"0"},
+				{"name":"Cryex","short":"cryex(1)","start":"2023-07-22 14:00","end":"2023-07-22 15:00","estd":"0"},
+				{"name":"Killshot","short":"killsh(1)","start":"2023-07-22 15:00","end":"2023-07-22 16:00","estd":"0"},
+				{"name":"Mad Dog","short":"maddog(1)","start":"2023-07-22 16:00","end":"2023-07-22 17:00","estd":"0"},
+				{"name":"Sakyra","short":"sakyra(1)","start":"2023-07-22 17:00","end":"2023-07-22 18:00","estd":"0"},
+				{"name":"Sandy Warez vs The Mind Destiny","short":"sandyw(1)","start":"2023-07-22 18:00","end":"2023-07-22 19:00","estd":"0"},
+				{"name":"Neko vs Maissouille","short":"nekovs(1)","start":"2023-07-22 19:00","end":"2023-07-22 20:00","estd":"0"},
+				{"name":"Remzcore","short":"remzco(1)","start":"2023-07-22 20:00","end":"2023-07-22 21:00","estd":"0"},
+				{"name":"The Dark Horror","short":"darkho(1)","start":"2023-07-22 21:00","end":"2023-07-22 22:00","estd":"0"},
+				{"name":"Estasia vs Republic","short":"estasi(1)","start":"2023-07-22 22:00","end":"2023-07-22 23:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Crystal @ The Rave Cave",
+			"events":[
+				{"name":"Bridgeman","short":"bridge1(1)","start":"2023-07-22 13:00","end":"2023-07-22 14:00","estd":"0"},
+				{"name":"Atitdude","short":"atitdu(1)","start":"2023-07-22 14:00","end":"2023-07-22 15:00","estd":"0"},
+				{"name":"Los Bomberos","short":"bomber(1)","start":"2023-07-22 15:00","end":"2023-07-22 16:00","estd":"0"},
+				{"name":"Soulcity","short":"soulci(1)","start":"2023-07-22 16:00","end":"2023-07-22 17:30","estd":"0"},
+				{"name":"Jonas Van Opstal","short":"jonasv(1)","start":"2023-07-22 17:30","end":"2023-07-22 19:00","estd":"0"},
+				{"name":"Monta","short":"monta(1)","start":"2023-07-22 19:00","end":"2023-07-22 20:30","estd":"0"},
+				{"name":"Pisca","short":"pisca(1)","start":"2023-07-22 20:30","end":"2023-07-22 22:00","estd":"0"},
+				{"name":"Himperson","short":"himper(1)","start":"2023-07-22 22:00","end":"2023-07-22 23:30","estd":"0"},
+				{"name":"Deuxfwa","short":"deuxfw(1)","start":"2023-07-22 23:30","end":"2023-07-23 01:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Monstercat @ Youphoria",
+			"events":[
+				{"name":"To be announced","short":"tobean(4)","start":"2023-07-22 13:00","end":"2023-07-22 15:00","estd":"0"},
+				{"name":"Shingo Nakamura","short":"shingo(1)","start":"2023-07-22 15:00","end":"2023-07-22 16:00","estd":"0"},
+				{"name":"Godlands","short":"godlan(1)","start":"2023-07-22 16:00","end":"2023-07-22 17:00","estd":"0"},
+				{"name":"Curbi","short":"curbi(1)","start":"2023-07-22 17:00","end":"2023-07-22 18:00","estd":"0"},
+				{"name":"Ray Volpe","short":"rayvol(1)","start":"2023-07-22 18:00","end":"2023-07-22 19:00","estd":"0"},
+				{"name":"Kompany","short":"kompan(1)","start":"2023-07-22 19:00","end":"2023-07-22 20:00","estd":"0"},
+				{"name":"ARMNHMR","short":"armnhm(1)","start":"2023-07-22 20:00","end":"2023-07-22 21:00","estd":"0"},
+				{"name":"Koven","short":"koven(1)","start":"2023-07-22 21:00","end":"2023-07-22 22:00","estd":"0"},
+				{"name":"SLANDER","short":"slande(1)","start":"2023-07-22 22:00","end":"2023-07-22 23:00","estd":"0"},
+				{"name":"Adventure Club","short":"advent(1)","start":"2023-07-22 23:00","end":"2023-07-23 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Glitterbox @ Rise",
+			"events":[
+				{"name":"To be announced","short":"tobean(3)","start":"2023-07-22 12:30","end":"2023-07-22 18:30","estd":"0"},
+				{"name":"Sophie Lloyd","short":"sophie(1)","start":"2023-07-22 18:30","end":"2023-07-22 19:30","estd":"0"},
+				{"name":"Todd Terry","short":"toddte(1)","start":"2023-07-22 19:30","end":"2023-07-22 21:30","estd":"0"},
+				{"name":"Groove Armada","short":"groove(1)","start":"2023-07-22 21:00","end":"2023-07-22 22:30","estd":"0"},
+				{"name":"Mousse T.","short":"mousse(1)","start":"2023-07-22 22:30","end":"2023-07-22 23:50","estd":"0"}
+			]
+		},
+		{
+			"name":"Unknown Host @ Atmosphere",
+			"events":[
+				{"name":"To be announced","short":"tobean(2)","start":"2023-07-22 12:00","end":"2023-07-22 14:00","estd":"0"},
+				{"name":"One Track Brain b2b Ogenn","short":"onetra(1)","start":"2023-07-22 14:00","end":"2023-07-22 16:00","estd":"0"},
+				{"name":"Symphony of Unity","short":"sympho(1)","start":"2023-07-22 16:00","end":"2023-07-22 17:30","estd":"0"},
+				{"name":"Ramon Tapia","short":"ramont(1)","start":"2023-07-22 17:30","end":"2023-07-22 19:30","estd":"0"},
+				{"name":"Klaudia Gawlas","short":"klaudi(1)","start":"2023-07-22 19:30","end":"2023-07-22 21:30","estd":"0"},
+				{"name":"Indira Paganotto","short":"indira(1)","start":"2023-07-22 21:30","end":"2023-07-22 23:30","estd":"0"},
+				{"name":"Reinier Zonneveld","short":"reinie(1)","start":"2023-07-22 23:30","end":"2023-07-23 01:00","estd":"0"},
+				{"name":"Rick Baguette","short":"rickba(1)","start":"2023-07-23 12:30","end":"2023-07-23 14:30","estd":"0"},
+				{"name":"Samm","short":"samm(1)","start":"2023-07-23 14:30","end":"2023-07-23 16:00","estd":"0"},
+				{"name":"Sona","short":"sona(1)","start":"2023-07-23 16:00","end":"2023-07-23 17:30","estd":"0"},
+				{"name":"GHEIST live","short":"gheist(1)","start":"2023-07-23 17:30","end":"2023-07-23 19:00","estd":"0"},
+				{"name":"Carlita","short":"carlit(1)","start":"2023-07-23 19:00","end":"2023-07-23 20:30","estd":"0"},
+				{"name":"Dixon","short":"dixon(1)","start":"2023-07-23 20:30","end":"2023-07-23 22:00","estd":"0"},
+				{"name":"Black Coffee","short":"blackc(1)","start":"2023-07-23 22:00","end":"2023-07-24 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"CORE presents ZAMNA @ Core",
+			"events":[
+				{"name":"Unruly Phoenix","short":"unruly(1)","start":"2023-07-22 12:30","end":"2023-07-22 14:30","estd":"0"},
+				{"name":"Human Rias","short":"humanr(1)","start":"2023-07-22 14:30","end":"2023-07-22 16:00","estd":"0"},
+				{"name":"Elif","short":"elif(1)","start":"2023-07-22 16:00","end":"2023-07-22 17:30","estd":"0"},
+				{"name":"Armonica","short":"armoni(1)","start":"2023-07-22 17:30","end":"2023-07-22 19:00","estd":"0"},
+				{"name":"Oostil b2b The Element","short":"oostil(1)","start":"2023-07-22 19:00","end":"2023-07-22 21:00","estd":"0"},
+				{"name":"Brina Knauss","short":"brinak(1)","start":"2023-07-22 21:00","end":"2023-07-22 23:00","estd":"0"},
+				{"name":"&ME","short":"me(1)","start":"2023-07-22 23:00","end":"2023-07-23 01:00","estd":"0"}
+			]
+		},
+		{
+			"name":"STMPD RCRDS x Tomorrowland Music @ The Library",
+			"events":[
+				{"name":"Peter Luts","short":"peterl(1)","start":"2023-07-22 12:00","end":"2023-07-22 13:00","estd":"0"},
+				{"name":"Fancy Inc","short":"fancyi(1)","start":"2023-07-22 13:00","end":"2023-07-22 14:00","estd":"0"},
+				{"name":"Sentinel","short":"sentin(1)","start":"2023-07-22 14:00","end":"2023-07-22 15:00","estd":"0"},
+				{"name":"Goodboys","short":"goodbo(1)","start":"2023-07-22 15:00","end":"2023-07-22 16:00","estd":"0"},
+				{"name":"Matisse & Sadko","short":"matiss(1)","start":"2023-07-22 16:00","end":"2023-07-22 18:30","estd":"0"},
+				{"name":"Julian Jordan","short":"julian(1)","start":"2023-07-22 18:30","end":"2023-07-22 19:30","estd":"0"},
+				{"name":"Dubvision","short":"dubvis(1)","start":"2023-07-22 19:30","end":"2023-07-22 20:30","estd":"0"},
+				{"name":"Joseph Capriati","short":"joseph(1)","start":"2023-07-22 20:30","end":"2023-07-22 21:30","estd":"0"},
+				{"name":"Paul Kalkbrenner","short":"paulka(1)","start":"2023-07-22 21:30","end":"2023-07-22 23:30","estd":"0"},
+				{"name":"Martin Garrix and Friends","short":"martin(1)","start":"2023-07-22 23:30","end":"2023-07-23 01:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Q-dance @ Freedom (all day: MC Villain)",
+			"events":[
+				{"name":"Refuzion","short":"refuzi(1)","start":"2023-07-23 12:00","end":"2023-07-23 13:00","estd":"0"},
+				{"name":"Frontliner","short":"frontl(1)","start":"2023-07-23 13:00","end":"2023-07-23 14:00","estd":"0"},
+				{"name":"Frontliner","short":"frontl(2)","start":"2023-07-23 13:00","end":"2023-07-23 14:00","estd":"0"},
+				{"name":"Frequencerz","short":"freque(1)","start":"2023-07-23 14:00","end":"2023-07-23 15:00","estd":"0"},
+				{"name":"Outsiders","short":"outsid(1)","start":"2023-07-23 15:00","end":"2023-07-23 16:00","estd":"0"},
+				{"name":"MANDY","short":"mandy(1)","start":"2023-07-23 16:00","end":"2023-07-23 17:00","estd":"0"},
+				{"name":"KELTEK","short":"keltek(1)","start":"2023-07-23 17:00","end":"2023-07-23 17:30","estd":"0"},
+				{"name":"Sound Rush","short":"soundr(1)","start":"2023-07-23 17:30","end":"2023-07-23 18:30","estd":"0"},
+				{"name":"Brennan Heart","short":"brenna(1)","start":"2023-07-23 18:30","end":"2023-07-23 19:30","estd":"0"},
+				{"name":"Rebelion & Vertile","short":"rebeli1(1)","start":"2023-07-23 19:30","end":"2023-07-23 20:00","estd":"0"},
+				{"name":"Mark With a K & Mc Chucky","short":"markwi(1)","start":"2023-07-23 20:00","end":"2023-07-23 21:00","estd":"0"},
+				{"name":"Angerfist","short":"angerf(1)","start":"2023-07-23 21:00","end":"2023-07-23 22:00","estd":"0"}
+			]
+		},
+		{
+			"name":"2010-2012 @ The Rose Garden",
+			"events":[
+				{"name":"Mystique","short":"mystiq(1)","start":"2023-07-23 13:00","end":"2023-07-23 14:30","estd":"0"},
+				{"name":"DiMaro","short":"dimaro(1)","start":"2023-07-23 14:30","end":"2023-07-23 16:00","estd":"0"},
+				{"name":"Boy","short":"boy(1)","start":"2023-07-23 16:00","end":"2023-07-23 17:00","estd":"0"},
+				{"name":"Quintino","short":"quinti(1)","start":"2023-07-23 17:00","end":"2023-07-23 18:00","estd":"0"},
+				{"name":"Chuckie","short":"chucki(1)","start":"2023-07-23 18:00","end":"2023-07-23 19:00","estd":"0"},
+				{"name":"Yves V","short":"yvesv(1)","start":"2023-07-23 19:00","end":"2023-07-23 20:00","estd":"0"},
+				{"name":"Dyro","short":"dyro(1)","start":"2023-07-23 20:00","end":"2023-07-23 21:00","estd":"0"},
+				{"name":"Firebeatz","short":"firebe(1)","start":"2023-07-23 21:00","end":"2023-07-23 22:00","estd":"0"},
+				{"name":"W&W","short":"ww(1)","start":"2023-07-23 22:00","end":"2023-07-23 23:00","estd":"0"},
+				{"name":"Blasterjaxx","short":"blaste(1)","start":"2023-07-23 23:00","end":"2023-07-24 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Radio Ultra Modern @ Elixir",
+			"events":[
+				{"name":"Bubba","short":"bubba(1)","start":"2023-07-23 13:00","end":"2023-07-23 14:30","estd":"0"},
+				{"name":"DJ ND","short":"djnd(1)","start":"2023-07-23 14:30","end":"2023-07-23 15:30","estd":"0"},
+				{"name":"Fabio Marcs","short":"fabiom(1)","start":"2023-07-23 15:30","end":"2023-07-23 16:30","estd":"0"},
+				{"name":"To be announced","short":"tobean(8)","start":"2023-07-23 16:30","end":"2023-07-23 18:00","estd":"0"},
+				{"name":"DJ Flash","short":"djflas(1)","start":"2023-07-23 18:00","end":"2023-07-23 19:00","estd":"0"},
+				{"name":"MIMI","short":"mimi(1)","start":"2023-07-23 19:00","end":"2023-07-23 20:00","estd":"0"},
+				{"name":"Team DAMP","short":"teamda(1)","start":"2023-07-23 20:00","end":"2023-07-23 21:30","estd":"0"},
+				{"name":"B-KAY","short":"bkay(1)","start":"2023-07-23 21:30","end":"2023-07-23 23:00","estd":"0"},
+				{"name":"To be announced","short":"tobean(9)","start":"2023-07-23 23:00","end":"2023-07-24 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"One87 presents @ Cage (all day: Mc Lowqui, MC Nice)",
+			"events":[
+				{"name":"Farflow","short":"farflo(1)","start":"2023-07-23 14:00","end":"2023-07-23 15:00","estd":"0"},
+				{"name":"Midas Touch Showcase w/ SVB & Scepticz","short":"midast(1)","start":"2023-07-23 15:00","end":"2023-07-23 16:00","estd":"0"},
+				{"name":"Phase & LaMeduza","short":"phasel(1)","start":"2023-07-23 16:00","end":"2023-07-23 17:00","estd":"0"},
+				{"name":"One87","short":"one87(1)","start":"2023-07-23 17:00","end":"2023-07-23 18:00","estd":"0"},
+				{"name":"CESCO","short":"cesco(1)","start":"2023-07-23 18:00","end":"2023-07-23 19:00","estd":"0"},
+				{"name":"The Sauce","short":"sauce(1)","start":"2023-07-23 19:00","end":"2023-07-23 20:00","estd":"0"},
+				{"name":"Serum","short":"serum(1)","start":"2023-07-23 20:00","end":"2023-07-23 21:00","estd":"0"},
+				{"name":"GEST","short":"gest(1)","start":"2023-07-23 21:00","end":"2023-07-23 22:00","estd":"0"},
+				{"name":"James Marvel","short":"jamesm(1)","start":"2023-07-23 22:00","end":"2023-07-23 23:00","estd":"0"}
+			]
+		},
+		{
+			"name":"WoodyWeekend @ The Rave Cave",
+			"events":[
+				{"name":"Jackless & The Fox","short":"jackle(1)","start":"2023-07-23 13:00","end":"2023-07-23 14:00","estd":"0"},
+				{"name":"Toitoy Boys","short":"toitoy(1)","start":"2023-07-23 14:00","end":"2023-07-23 15:00","estd":"0"},
+				{"name":"Maximo","short":"maximo(1)","start":"2023-07-23 15:00","end":"2023-07-23 16:00","estd":"0"},
+				{"name":"Fre","short":"fre(1)","start":"2023-07-23 16:00","end":"2023-07-23 17:00","estd":"0"},
+				{"name":"Thim","short":"thim(1)","start":"2023-07-23 17:00","end":"2023-07-23 18:00","estd":"0"},
+				{"name":"DJ Tom & Saxy Mr S","short":"djtoms(1)","start":"2023-07-23 18:00","end":"2023-07-23 19:00","estd":"0"},
+				{"name":"Greg Lamore","short":"gregla(1)","start":"2023-07-23 19:00","end":"2023-07-23 20:00","estd":"0"},
+				{"name":"QUE9","short":"que9(1)","start":"2023-07-23 20:00","end":"2023-07-23 21:00","estd":"0"},
+				{"name":"Sol & Sura","short":"solsur(1)","start":"2023-07-23 21:00","end":"2023-07-23 22:00","estd":"0"},
+				{"name":"Luna Lucci","short":"lunalu(1)","start":"2023-07-23 22:00","end":"2023-07-23 23:00","estd":"0"},
+				{"name":"Many Moore","short":"manymo(1)","start":"2023-07-23 23:00","end":"2023-07-24 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Unknown Host @ Youphoria",
+			"events":[
+				{"name":"Fred Baker","short":"fredba(1)","start":"2023-07-23 13:00","end":"2023-07-23 14:30","estd":"0"},
+				{"name":"RODG","short":"rodg(1)","start":"2023-07-23 14:30","end":"2023-07-23 15:30","estd":"0"},
+				{"name":"Ruben de Ronde","short":"rubend(1)","start":"2023-07-23 15:30","end":"2023-07-23 16:30","estd":"0"},
+				{"name":"Cosmic Gate","short":"cosmic(1)","start":"2023-07-23 16:30","end":"2023-07-23 17:30","estd":"0"},
+				{"name":"Nifra","short":"nifra(1)","start":"2023-07-23 17:30","end":"2023-07-23 18:30","estd":"0"},
+				{"name":"Andrew Rayel","short":"andrew(1)","start":"2023-07-23 18:30","end":"2023-07-23 19:30","estd":"0"},
+				{"name":"M.I.K.E. Push","short":"mikepu(1)","start":"2023-07-23 19:30","end":"2023-07-23 21:00","estd":"0"},
+				{"name":"Ben Nicky presents Emotional Havoc","short":"bennic1(1)","start":"2023-07-23 21:00","end":"2023-07-23 22:30","estd":"0"},
+				{"name":"Gareth Emery","short":"gareth(1)","start":"2023-07-23 22:30","end":"2023-07-23 23:50","estd":"0"}
+			]
+		},
+		{
+			"name":"WoodyWeekend @ Terra Solis (all day: Sakso, Iljac, Robbie Rise)",
+			"events":[
+				{"name":"Justin Wilkes","short":"justin(1)","start":"2023-07-23 12:30","end":"2023-07-23 13:30","estd":"0"},
+				{"name":"Yamo","short":"yamo(1)","start":"2023-07-23 13:30","end":"2023-07-23 15:00","estd":"0"},
+				{"name":"Elenore","short":"elenor(1)","start":"2023-07-23 15:00","end":"2023-07-23 16:00","estd":"0"},
+				{"name":"Guz","short":"guz(1)","start":"2023-07-23 16:00","end":"2023-07-23 17:30","estd":"0"},
+				{"name":"Majestic","short":"majest(1)","start":"2023-07-23 17:30","end":"2023-07-23 19:00","estd":"0"},
+				{"name":"DJ Licious","short":"djlici(1)","start":"2023-07-23 19:00","end":"2023-07-23 20:30","estd":"0"},
+				{"name":"Danny Howard","short":"dannyh(1)","start":"2023-07-23 20:30","end":"2023-07-23 22:00","estd":"0"},
+				{"name":"Delafino B2B DJ Gee","short":"delafi(1)","start":"2023-07-23 22:00","end":"2023-07-23 23:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Cafeína @ Rise",
+			"events":[
+				{"name":"To be announced","short":"tobean(6)","start":"2023-07-23 12:30","end":"2023-07-23 16:30","estd":"0"},
+				{"name":"ZT Music","short":"ztmusi(1)","start":"2023-07-23 16:30","end":"2023-07-23 17:30","estd":"0"},
+				{"name":"Cemode & Seelen","short":"cemode(1)","start":"2023-07-23 17:30","end":"2023-07-23 18:30","estd":"0"},
+				{"name":"Joeri & Neon","short":"joerin(1)","start":"2023-07-23 18:30","end":"2023-07-23 20:00","estd":"0"},
+				{"name":"Pat Krimson","short":"patkri(1)","start":"2023-07-23 20:00","end":"2023-07-23 21:30","estd":"0"},
+				{"name":"Roma","short":"roma(1)","start":"2023-07-23 21:30","end":"2023-07-23 23:00","estd":"0"},
+				{"name":"Disco Dasco","short":"discod1(1)","start":"2023-07-23 23:00","end":"2023-07-24 00:00","estd":"0"}
+			]
+		},
+		{
+			"name":"Smash The House @ The Library",
+			"events":[
+				{"name":"D-Wayne","short":"dwayne(1)","start":"2023-07-23 12:00","end":"2023-07-23 13:00","estd":"0"},
+				{"name":"Faulhaber","short":"faulha(1)","start":"2023-07-23 13:00","end":"2023-07-23 14:00","estd":"0"},
+				{"name":"Wolfpack vs Diego Miranda","short":"wolfpa(1)","start":"2023-07-23 14:00","end":"2023-07-23 15:00","estd":"0"},
+				{"name":"Dubdogz","short":"dubdog(1)","start":"2023-07-23 15:00","end":"2023-07-23 16:00","estd":"0"},
+				{"name":"Azteck & Angemi","short":"azteck(1)","start":"2023-07-23 16:00","end":"2023-07-23 17:00","estd":"0"},
+				{"name":"Joel Corry","short":"joelco(1)","start":"2023-07-23 17:00","end":"2023-07-23 18:00","estd":"0"},
+				{"name":"Martin Jensen","short":"martin2(1)","start":"2023-07-23 18:00","end":"2023-07-23 19:00","estd":"0"},
+				{"name":"DJ Diesel","short":"djdies(1)","start":"2023-07-23 19:00","end":"2023-07-23 20:00","estd":"0"},
+				{"name":"John Newman","short":"johnne(1)","start":"2023-07-23 20:00","end":"2023-07-23 21:00","estd":"0"},
+				{"name":"Quintino","short":"quinti(2)","start":"2023-07-23 21:00","end":"2023-07-23 22:00","estd":"0"},
+				{"name":"Bassjackers","short":"bassja(1)","start":"2023-07-23 22:00","end":"2023-07-23 23:00","estd":"0"},
+				{"name":"3 Are Legend","short":"3arele(1)","start":"2023-07-23 23:00","end":"2023-07-24 00:00","estd":"0"}
+			]
+		}
+	]
+}

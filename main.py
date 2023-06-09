@@ -1,29 +1,31 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-import requests
-from bs4 import BeautifulSoup
 import telebot
-import artist as artists_class
 import re
+import json
+from artist import Artist
+import uuid
+import requests
 
-
+#spotify api:
 your_client_id = '47b7fe5aad594079b5c0d9d4c62819c2'
 your_client_secret = '9979cf4e8f524bcdb1702816b79d2988'
-YOUR_API_TOKEN = '6117611777:AAG7B5P8aLOWYyxh2T3l5pfYmCqcKUhb_6s'
 
+#telegram bot api:
+YOUR_API_TOKEN = '6184179776:AAGaWgK7BB3Vv7_APE8YJgRvYQ81fxx_s6w'
 
 
 def cut_content_after_question_mark(link):
-  # Use regular expression to match the question mark and the content after it
-  match = re.search(r"(.*?)(\?.*)", link)
+    # Use regular expression to match the question mark and the content after it
+    match = re.search(r"(.*?)(\?.*)", link)
 
-  # If the match is found, return the content before the question mark
-  if match:
-    return match.group(1)
+    # If the match is found, return the content before the question mark
+    if match:
+        return match.group(1)
 
-  # Otherwise, return the original link
-  else:
-    return link
+    # Otherwise, return the original link
+    else:
+        return link
 
 
 def get_artists_from_spotify(playlist_link):
@@ -35,18 +37,23 @@ def get_artists_from_spotify(playlist_link):
     client_credentials_manager = SpotifyClientCredentials(client_id, client_secret)
     sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-    # Retrieve the playlist ID from the link
     playlist_id = playlist_link.split('/')[-1]
 
-    # Retrieve the track objects from the playlist
-    results = sp.playlist_items(playlist_id, fields='items(track(name, artists(name)))')
+    # Get the playlist tracks
+    results = sp.playlist_items(playlist_id)
+    tracks = results['items']
 
-    # Extract the artists' names from the track objects
+    # Iterate over the tracks and extract artists' names
     artists = []
-    for track in results['items']:
+    while results['next']:
+        results = sp.next(results)
+        tracks.extend(results['items'])
+
+    for track in tracks:
         for artist in track['track']['artists']:
             if artist['name'] not in artists:
                 artists.append(artist['name'])
+                # print(artist['name'])
     return artists
 
 
@@ -54,65 +61,90 @@ def get_relevant(link):
     playlist_artists = get_artists_from_spotify(link)
     lineup_data = extract_artists_from_tml()
     my_relavant = []
-    for art in lineup_data:
-        if art.name in playlist_artists:
-            if art not in my_relavant:
-                my_relavant.append(art)
+
+    for artist_name in playlist_artists:
+        for artist_obj in lineup_data:
+            if artist_name == artist_obj.name:
+                my_relavant.append(artist_obj)
+                break
     return my_relavant
 
 
-def get_weekend(date):
-    # Use regular expression to match the day and the number
-    match = re.search(r"(\w+) (\d+)", date)
+def find_artist_and_update(artists, artist_name, new_date, weekend, host_name_and_stage):
+    for artist in artists:
+        if artist.name == artist_name:
+            artist.host_name_and_stage = artist.host_name_and_stage + '\n' + host_name_and_stage
+            artist.date = artist.date + '\n' + new_date
+            artist.weekend = artist.weekend + '\n' + weekend
+            break  # Exit the loop after updating the first matching
 
-    # If the match is found, print the number
-    if match:
-        number = match.group(2)
-    if number in ['21','22','23']:
-        return 1
-    else:
-        return 2
+
+def is_artist_in_array(artist_name, array):
+    for artist in array:
+        if artist.name == artist_name:
+            return True, artist
+    return False
+
 
 def extract_artists_from_tml():
-    response = requests.get('https://www.tomorrowland.com/en/festival/line-up/stages')
     artists = []
-    soup = BeautifulSoup(response.content, "html.parser")
-    weekends = soup.find_all('div', class_="weekend-switch")
-    days = soup.find_all('div', class_="eventday")
-    for day in days:
-        data_eventday = day.attrs['data-eventday']
-        stages = day.find_all('div', class_="stage")
-        for stage_div in stages:
-            host_name = stage_div.find('div', class_="stage__heading").text
-            host_name = host_name.lstrip()
-            host_name = host_name.rstrip()
-            stage_contents = stage_div.find_all('div', class_='stage__content')
-
-            for stage in stage_contents:
-                stage_location = stage.find('p')
-                if (stage_location):
-                    stage_location= stage_location.text
-
-                for li_element in stage.find_all("li"):
-                    # Get the text content of the `<li>` element
-                    artist_name = li_element.text
-                    artist_name = artist_name.lstrip()
-                    artist_name = artist_name.rstrip()
-                    if(stage_location):
-                        host_name_and_stage = str(stage_location) + ", " + str(host_name)
+    files = ['tml2023w1.json', 'tml2023w2.json']
+    for file in files:
+        with open(file) as file:
+            data = json.load(file)
+            locations = data["locations"]
+            for location in locations:
+                events = location["events"]
+                for event in events:
+                    name = event["name"]
+                    start = event["start"]
+                    end = event["end"]
+                    # datetime_obj = datetime.strptime(start, "%Y-%m-%d %H:%M")
+                    weekend = 'weekend 1' if file.name == 'tml2023w1.json' else 'weekend 2'
+                    host_name_and_stage = location["name"]
+                    time = start + " to " + end
+                    artist = Artist(name, host_name_and_stage, weekend, time)
+                    if is_artist_in_array(name, artists):
+                        find_artist_and_update(artists, artist.name, time, weekend, host_name_and_stage)
                     else:
-                        host_name_and_stage = host_name
-
-
-                    new_art = artists_class.Artist(artist_name, host_name_and_stage, "Weekend "+ str(get_weekend(data_eventday)), data_eventday)
-                    # new_art = artists_class.Artist(artist_name, host_name_and_stage, "Weekend ", data_eventday)
-
-                    artists.append(new_art)
+                        artists.append(artist)
     return artists
+
+
+def is_link_good(link):
+    """
+    This function checks if a link is valid.
+
+    Args:
+      link: The link that you want to check.
+
+    Returns:
+      `True` if the link is valid, `False` if not.
+    """
+
+    # Check if the link is empty.
+    if not link:
+        return False
+
+    # Try to access the link.
+    try:
+        response = requests.get(link)
+    except requests.exceptions.HTTPError as e:
+        # The link is not valid.
+        return False
+
+    # Check if the request was successful.
+    if response.status_code == 200:
+        # The link is valid.
+        return True
+    else:
+        # The link is not valid.
+        return False
 
 
 if __name__ == '__main__':
     # link = input("Please enter playlist link\n")
+    # lineup_data = extract_artists_from_tml()
     # my_relavant = get_relevant(link)
     # print("Number of artists that has been found: ", len(my_relavant))
     # for art in my_relavant:
@@ -120,24 +152,40 @@ if __name__ == '__main__':
     # print("Number of artists that has been found: ", len(my_relavant))
 
     bot = telebot.TeleBot(YOUR_API_TOKEN)
+
+
     @bot.message_handler(commands=["start"])
     def start(message):
         bot.send_message(message.chat.id, "Hello! I am the telegram bot. \nTo get started - send a playlist link:")
+        username = message.from_user.username
+        print('username is: ' + username + ' wrote:\n' + str(message.text))
+
         @bot.message_handler(func=lambda message: not message.text.startswith("https://open.spotify.com/playlist/"))
         def greet(message):
             bot.send_message(message.chat.id, "Send spotify link only!")
+            username = message.from_user.username
+            print('username is: ' + username + ' wrote:\n' + str(message.text))
 
-        @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
-        def greet(message):
-            newlink = cut_content_after_question_mark(message.text)
-            my_relavant = get_relevant(newlink)
 
-            mess = "Number of artists that has been found: "+ str(len(my_relavant))
-            bot.send_message(message.chat.id, mess)
+    @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
+    def greet(message):
+        username = message.from_user.username
+        print('username is: ' + username + ' wrote:\n' + str(message.text))
+        if (not is_link_good(str(message.text))):
+            bot.send_message(message.chat.id, "link not valid!", parse_mode='Markdown')
+            return
+        newlink = cut_content_after_question_mark(message.text)
+        my_relavant = get_relevant(newlink)
 
-            for art in my_relavant:
-                #bot.send_message("Artist: ", art.name, " Stage: ", art.stage)
-                bot.send_message(message.chat.id, art)
+        mess = "Number of artists that has been found: " + str(len(my_relavant))
+        bot.send_message(message.chat.id, mess, parse_mode='Markdown')
 
-                print(art,"\n")
+        for art in my_relavant:
+            # bot.send_message("Artist: ", art.name, " Stage: ", art.stage)
+            bot.send_message(message.chat.id, art, parse_mode='Markdown')
+            print(art, "\n")
+
+        print("--------------------------------------------------------------")
+
+
     bot.polling()

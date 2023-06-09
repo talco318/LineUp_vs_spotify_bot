@@ -6,4 +6,4 @@ class Artist:
         self.date = date
 
     def __str__(self):
-        return f"Artist: {self.name}\nStage and host name: {self.host_name_and_stage}\nWeekend: {self.weekend}\nDate: {self.date}"
+        return f"*{self.name}*\nStage and host name: {self.host_name_and_stage}\nWeekend:\n{self.weekend}\nDate:\n{self.date}"
