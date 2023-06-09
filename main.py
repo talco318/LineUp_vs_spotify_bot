@@ -2,11 +2,12 @@ import spotify_funcs
 import telebot
 import json
 from artist import Artist
+import requests
+import random
 
-
-
-#telegram bot api:
+# telegram bot api:
 YOUR_API_TOKEN = '6184179776:AAGaWgK7BB3Vv7_APE8YJgRvYQ81fxx_s6w'
+bot = telebot.TeleBot(YOUR_API_TOKEN)
 
 
 def get_relevant(link):
@@ -38,33 +39,41 @@ def is_artist_in_array(artist_name, array):
     return False
 
 
+def read_json_data(url):
+    user_agents_list = [
+        'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36']
+    response = requests.get(url, headers={'User-Agent': random.choice(user_agents_list)})
+    data = response.json()
+    return data
+
+
 def extract_artists_from_tml():
     artists = []
     files = ['tml2023w1.json', 'tml2023w2.json']
     for file in files:
-        with open(file) as file:
-            data = json.load(file)
-            locations = data["locations"]
-            for location in locations:
-                events = location["events"]
-                for event in events:
-                    name = event["name"]
-                    start = event["start"]
-                    end = event["end"]
-                    # datetime_obj = datetime.strptime(start, "%Y-%m-%d %H:%M")
-                    weekend = 'weekend 1' if file.name == 'tml2023w1.json' else 'weekend 2'
-                    host_name_and_stage = location["name"]
-                    time = start + " to " + end
-                    artist = Artist(name, host_name_and_stage, weekend, time)
-                    if is_artist_in_array(name, artists):
-                        find_artist_and_update(artists, artist.name, time, weekend, host_name_and_stage)
-                    else:
-                        artists.append(artist)
+        # with open(file) as file:
+        url = 'https://clashfinder.com/data/event/'+str(file)
+        data = read_json_data(url)
+        # data = json.load(file)
+        locations = data["locations"]
+        for location in locations:
+            events = location["events"]
+            for event in events:
+                name = event["name"]
+                start = event["start"]
+                end = event["end"]
+                # datetime_obj = datetime.strptime(start, "%Y-%m-%d %H:%M")
+                weekend = 'weekend 1' if str(file) == 'tml2023w1.json' else 'weekend 2'
+                host_name_and_stage = location["name"]
+                time = start + " to " + end
+                artist = Artist(name, host_name_and_stage, weekend, time)
+                if is_artist_in_array(name, artists):
+                    find_artist_and_update(artists, artist.name, time, weekend, host_name_and_stage)
+                else:
+                    artists.append(artist)
     return artists
-
-
-
-
 
 if __name__ == '__main__':
     # link = input("Please enter playlist link\n")
@@ -75,26 +84,23 @@ if __name__ == '__main__':
     #     print(art, "\n")
     # print("Number of artists that has been found: ", len(my_relavant))
 
-    bot = telebot.TeleBot(YOUR_API_TOKEN)
-
-
     @bot.message_handler(commands=["start"])
     def start(message):
         bot.send_message(message.chat.id, "Hello! I am the telegram bot. \nTo get started - send a playlist link:")
         username = message.from_user.username
-        print('username is: ' + username + ' wrote:\n' + str(message.text))
+        print('username is: ', username, ' wrote:\n', str(message.text))
 
         @bot.message_handler(func=lambda message: not message.text.startswith("https://open.spotify.com/playlist/"))
         def greet(message):
             bot.send_message(message.chat.id, "Send spotify link only!")
             username = message.from_user.username
-            print('username is: ' + username + ' wrote:\n' + str(message.text))
+            print('username is: ', username, ' wrote:\n', str(message.text))
 
 
     @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
     def greet(message):
         username = message.from_user.username
-        print('username is: ' + username + ' wrote:\n' + str(message.text))
+        print('username is: ', username, ' wrote:\n', str(message.text))
         if (not spotify_funcs.is_link_good(str(message.text))):
             bot.send_message(message.chat.id, "link not valid!", parse_mode='Markdown')
             return
