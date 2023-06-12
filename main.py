@@ -1,6 +1,11 @@
+import telegram
+from telebot import types
+from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
+
 import spotify_funcs
 import telebot
 import json
+
 from artist import Artist
 import requests
 import random
@@ -8,13 +13,17 @@ import APIs
 
 bot = telebot.TeleBot(APIs.telegram_Bot_API)
 
-
 def get_relevant(link):
     playlist_artists = spotify_funcs.get_artists_from_spotify(link)
     lineup_data = extract_artists_from_tml()
+    my_relevant = []
 
     artist_map = {artist.name: artist for artist in lineup_data}
-    my_relevant = [artist_map[artist.name] for artist in playlist_artists if artist.name in artist_map]
+    for artist in playlist_artists:
+        if artist.name in artist_map:
+            artist_obj = artist_map[artist.name]
+            artist_obj.songs_num = artist.songs_num
+            my_relevant.append(artist_obj)
 
     return my_relevant
 
@@ -38,9 +47,35 @@ def read_json_data(url):
     return data
 
 
+# def extract_artists_from_tml():
+#     artists = []
+#     files = ['tml2023w1.json', 'tml2023w2.json']
+#     for file in files:
+#         with open(file) as file:
+#             data = json.load(file)
+#             locations = data["locations"]
+#             for location in locations:
+#                 events = location["events"]
+#                 for event in events:
+#                     name = event["name"]
+#                     start = event["start"]
+#                     end = event["end"]
+#                     weekend = 'weekend 1' if file.name == 'tml2023w1.json' else 'weekend 2'
+#                     host_name_and_stage = location["name"]
+#                     time = f'{start} to {end}'
+#                     artist = Artist(name, host_name_and_stage, weekend, time)
+#                     existing_artist = next((a for a in artists if a.name == name), None)
+#                     if existing_artist:
+#                         find_artist_and_update(artists, name, 0, time, weekend, host_name_and_stage)
+#                     else:
+#                         artists.append(artist)
+#     return artists
+
+
 def extract_artists_from_tml():
     artists = []
     files = ['tml2023w1.json', 'tml2023w2.json']
+
     for file in files:
         url = f'https://clashfinder.com/data/event/{file}'
         data = read_json_data(url)
@@ -55,9 +90,8 @@ def extract_artists_from_tml():
                 host_name_and_stage = location["name"]
                 time = f'{start} to {end}'
                 artist = Artist(name, host_name_and_stage, weekend, time)
-                existing_artist = next((a for a in artists if a.name == name), None)
-                if existing_artist:
-                    find_artist_and_update(artists, name, 0, time, weekend, host_name_and_stage)
+                if any(a.name == name for a in artists):
+                    find_artist_and_update(artists, artist.name, 0, time, weekend, host_name_and_stage)
                 else:
                     artists.append(artist)
     return artists
@@ -77,12 +111,14 @@ def handle_invalid_link(message):
     print(f'Username is: {username}, wrote:\n{str(message.text)}')
 
 
+
 @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
 def handle_spotify_link(message):
     username = message.from_user.username
     print(f'Username is: {username}, wrote:\n{str(message.text)}')
     if not spotify_funcs.is_link_good(str(message.text)):
         bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
+        print("Invalid link!")
         return
 
     new_link = spotify_funcs.cut_content_after_question_mark(message.text)
@@ -94,6 +130,7 @@ def handle_spotify_link(message):
     for art in my_relevant:
         bot.send_message(message.chat.id, str(art), parse_mode='Markdown')
         print(art, "\n")
+
 
     print("--------------------------------------------------------------")
 
