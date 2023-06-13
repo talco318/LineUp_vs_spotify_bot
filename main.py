@@ -13,6 +13,7 @@ import APIs
 
 bot = telebot.TeleBot(APIs.telegram_Bot_API)
 
+my_relevant = []
 
 
 def get_relevant(link):
@@ -58,6 +59,7 @@ def filtered_list(artists, weekend_number):
             newlist.append(art)
 
     return newlist
+
 
 # def extract_artists_from_tml():
 #     artists = []
@@ -108,6 +110,7 @@ def extract_artists_from_tml():
                     artists.append(artist)
     return artists
 
+
 def print_arts(call, arr):
     for art in arr:
         bot.send_message(call.message.chat.id, str(art), parse_mode='Markdown')
@@ -128,7 +131,6 @@ def handle_invalid_link(message):
     print(f'Username is: {username}, wrote:\n{str(message.text)}')
 
 
-
 @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
 def handle_spotify_link(message):
     username = message.from_user.username
@@ -139,16 +141,8 @@ def handle_spotify_link(message):
         return
 
     new_link = spotify_funcs.cut_content_after_question_mark(message.text)
+    global my_relevant
     my_relevant = get_relevant(new_link)
-
-    num_artists = len(my_relevant)
-    bot.send_message(message.chat.id, f"Number of artists found: {num_artists}", parse_mode='Markdown')
-
-    # for art in my_relevant:
-    #     bot.send_message(message.chat.id, str(art), parse_mode='Markdown')
-    #     print(art, "\n")
-
-    # Create a keyboard with options for weekend selection
     keyboard = types.InlineKeyboardMarkup()
     weekend1_button = types.InlineKeyboardButton(text='Weekend 1', callback_data='weekend1')
     weekend2_button = types.InlineKeyboardButton(text='Weekend 2', callback_data='weekend2')
@@ -157,28 +151,30 @@ def handle_spotify_link(message):
     keyboard.add(weekend1_button, weekend2_button, all_button)
 
     bot.send_message(message.chat.id, 'Select a weekend:', reply_markup=keyboard)
-    print("Options sent")
 
-    print("--------------------------------------------------------------")
 
-    @bot.callback_query_handler(func=lambda call: True)
-    def handle_callback(call):
-        if call.data == 'weekend1':
-            filtered_artists = filtered_list(my_relevant,weekend_number='weekend 1')
-            bot.send_message(call.message.chat.id, "*Weekend 1 artists:*\n", parse_mode='Markdown')
-            print_arts(call, filtered_artists)
-        elif call.data == 'weekend2':
-            filtered_artists = filtered_list(my_relevant,weekend_number='weekend 2')
-            bot.send_message(call.message.chat.id, "*Weekend 2 artists:*\n", parse_mode='Markdown')
-            print_arts(call, filtered_artists)
-        elif call.data == 'all':
-            bot.send_message(call.message.chat.id, "*All artists:*\n", parse_mode='Markdown')
-            print_arts(call, my_relevant)
-        else:
-            bot.send_message(call.message.chat.id, 'Invalid option selected!')
-            return
+@bot.callback_query_handler(func=lambda call: call.data.startswith("weekend"))
+def handle_callback(call):
+    if call.data == 'weekend1':
+        filtered_artists = filtered_list(my_relevant, weekend_number='weekend 1')
+        bot.send_message(call.message.chat.id, "*Weekend 1 artists*\n", parse_mode='Markdown')
+        bot.send_message(call.message.chat.id, f"Number of artists that have been found: {len(filtered_artists)}", parse_mode='Markdown')
+        print_arts(call, filtered_artists)
 
+    elif call.data == 'weekend2':
+        filtered_artists = filtered_list(my_relevant, weekend_number='weekend 2')
+        bot.send_message(call.message.chat.id, "*Weekend 2 artists:*\n", parse_mode='Markdown')
+        bot.send_message(call.message.chat.id, f"Number of artists that have been found: {len(filtered_artists)}", parse_mode='Markdown')
+        print_arts(call, filtered_artists)
+
+    elif call.data == 'all':
+        bot.send_message(call.message.chat.id, "*All artists:*\n", parse_mode='Markdown')
+        bot.send_message(call.message.chat.id, f"Number of artists that have been found: {len(my_relevant)}", parse_mode='Markdown')
+        print_arts(call, my_relevant)
+
+    else:
+        bot.send_message(call.message.chat.id, 'Invalid option selected!')
+        print("--------------------------------------------------------------")
 
 
 bot.infinity_polling()
-
