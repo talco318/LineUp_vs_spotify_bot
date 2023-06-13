@@ -15,6 +15,7 @@ class Artist:
     def add_show(self,weekend, host_name_and_stage, date):
         self.show2 = Show(weekend,host_name_and_stage,date)
 
+
     def __str__(self):
         output = f"*{self.name}*- Songs number: {self.songs_num}\nShow:\n{self.show}"
         if self.show2 is not None:
