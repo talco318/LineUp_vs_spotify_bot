@@ -92,14 +92,8 @@ def filtered_list(artists, weekend_number):
     Returns:
         list: A new list containing the 'Artist' objects with shows scheduled for the provided weekend number.
     """
-    newlist = []
-    for art in artists:
-        if art.show.weekend_number == weekend_number:
-            newlist.append(art)
-        if art.show2 is not None and art.show2.weekend_number == weekend_number:
-            newlist.append(art)
-
-    return newlist
+    return [art for art in artists if art.show.weekend_number == weekend_number or
+            (art.show2 is not None and art.show2.weekend_number == weekend_number)]
 
 
 # def extract_artists_from_tml():
