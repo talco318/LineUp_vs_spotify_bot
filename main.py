@@ -10,9 +10,10 @@ import APIs
 bot = telebot.TeleBot(APIs.telegram_Bot_API)
 
 my_relevant = []
+tomorrowland_lineup_weekend_json_files = ['tml2023w1.json', 'tml2023w2.json']
 
 
-def get_relevant(link):
+def get_lineup_artists_from_playlist(link):
     """
     Get relevant artists from a Spotify playlist based on the extracted data from a festival lineup.
 
@@ -23,20 +24,20 @@ def get_relevant(link):
         list: A list of 'Artist' objects representing relevant artists found both in the Spotify playlist and the festival lineup.
     """
     playlist_artists = spotify_funcs.get_artists_from_spotify(link)
-    lineup_data = extract_artists_from_tml()
-    my_relevant = []
+    lineup_data = extract_artists_from_tomorrowland_lineup()
+    matching_artists = []
 
     artist_map = {artist.name: artist for artist in lineup_data}
     for artist in playlist_artists:
         if artist.name in artist_map:
             artist_obj = artist_map[artist.name]
             artist_obj.songs_num = artist.songs_num
-            my_relevant.append(artist_obj)
+            matching_artists.append(artist_obj)
 
-    return my_relevant
+    return matching_artists
 
 
-def find_artist_and_update(artists, artist_name, songs_num, new_date, weekend, host_name_and_stage):
+def find_artist_and_update_new_data(artists, artist_name, songs_num, new_date, weekend, host_name_and_stage):
     """
     This function searches for the artist with the given 'artist_name' in the list of 'artists'.
     If the artist is found, it updates the 'songs_num' attribute with the provided 'songs_num'.
@@ -61,7 +62,7 @@ def find_artist_and_update(artists, artist_name, songs_num, new_date, weekend, h
             break
 
 
-def read_json_data(url):
+def fatch_json_data(url):
     """
     Read and parse JSON data from the specified URL.
 
@@ -92,51 +93,31 @@ def filtered_list(artists, weekend_number):
     Returns:
         list: A new list containing the 'Artist' objects with shows scheduled for the provided weekend number.
     """
-    return [art for art in artists if art.show.weekend_number == weekend_number or
-            (art.show2 is not None and art.show2.weekend_number == weekend_number)]
+    filtered_artists = []
+    for art in artists:
+        if art.show.weekend_number == weekend_number or (art.show2 is not None and art.show2.weekend_number == weekend_number):
+            filtered_artists.append(art)
+    return filtered_artists
 
 
-# def extract_artists_from_tml():
-#     artists = []
-#     files = ['tml2023w1.json', 'tml2023w2.json']
-#     for file in files:
-#         with open(file) as file:
-#             data = json.load(file)
-#             locations = data["locations"]
-#             for location in locations:
-#                 events = location["events"]
-#                 for event in events:
-#                     name = event["name"]
-#                     start = event["start"]
-#                     end = event["end"]
-#                     weekend = 'weekend 1' if file.name == 'tml2023w1.json' else 'weekend 2'
-#                     host_name_and_stage = location["name"]
-#                     time = f'{start} to {end}'
-#                     artist = Artist(name, host_name_and_stage, weekend, time)
-#                     existing_artist = next((a for a in artists if a.name == name), None)
-#                     if existing_artist:
-#                         find_artist_and_update(artists, name, 0, time, weekend, host_name_and_stage)
-#                     else:
-#                         artists.append(artist)
-#     return artists
 
-
-def extract_artists_from_tml():
+def extract_artists_from_tomorrowland_lineup():
     """
-    Extract artists' data from Tomorrowland (TML) festival JSON files.
+    Extract artists' data from Tomorrowland (TML) festival JSON tomorrowland_lineup_weekend_json_files.
 
     Returns:
         list: A list of 'Artist' objects containing the extracted data for the artists.
     """
     artists = []
-    files = ['tml2023w1.json', 'tml2023w2.json']
 
-    for file in files:
+    for file in tomorrowland_lineup_weekend_json_files:
         url = f'https://clashfinder.com/data/event/{file}'
-        data = read_json_data(url)
+        data = fatch_json_data(url)
         locations = data["locations"]
+
         for location in locations:
             events = location["events"]
+
             for event in events:
                 name = event["name"]
                 start = event["start"]
@@ -146,7 +127,7 @@ def extract_artists_from_tml():
                 time = f'{start} to {end}'
                 artist = Artist(name, host_name_and_stage, weekend, time)
                 if any(a.name == name for a in artists):
-                    find_artist_and_update(artists, artist.name, 0, time, weekend, host_name_and_stage)
+                    find_artist_and_update_new_data(artists, artist.name, 0, time, weekend, host_name_and_stage)
                 else:
                     artists.append(artist)
     return artists
@@ -193,7 +174,7 @@ def handle_spotify_link(message):
 
     new_link = spotify_funcs.cut_content_after_question_mark(message.text)
     global my_relevant
-    my_relevant = get_relevant(new_link)
+    my_relevant = get_lineup_artists_from_playlist(new_link)
     keyboard = types.InlineKeyboardMarkup()
     weekend1_button = types.InlineKeyboardButton(text='Weekend 1', callback_data='weekend1')
     weekend2_button = types.InlineKeyboardButton(text='Weekend 2', callback_data='weekend2')
