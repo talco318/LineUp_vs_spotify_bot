@@ -23,7 +23,7 @@ def get_lineup_artists_from_playlist(link):
     Returns:
         list: A list of 'Artist' objects representing relevant artists found both in the Spotify playlist and the festival lineup.
     """
-    playlist_artists = spotify_funcs.get_artists_from_spotify(link)
+    playlist_artists = spotify_funcs.get_artists_from_spotify_playlist(link)
     lineup_data = extract_artists_from_tomorrowland_lineup()
     matching_artists = []
 
@@ -189,7 +189,7 @@ def handle_invalid_link(message):
 def handle_spotify_link(message):
     username = message.from_user.username
     print(f'Username is: {username}, wrote:\n{str(message.text)}')
-    if not spotify_funcs.is_link_good(str(message.text)):
+    if not spotify_funcs.is_link_valid(str(message.text)):
         bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
         print("Invalid link!")
         return
