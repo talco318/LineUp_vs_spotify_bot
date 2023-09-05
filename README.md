@@ -22,11 +22,10 @@ As a music lover and a Tomorrowland enthusiast, I created this bot to enhance th
 Connect with me and let's make your Tomorrowland journey even more unforgettable! 🎵🌟
 
 
-
-### Contributions and Feedback: 
+## Contributions and Feedback: 
 Contributions and feedback are highly welcome! If you'd like to contribute to this project or have suggestions for improvement, please don't hesitate to reach out.
 
-### Connect with Me: 
+## Connect with Me: 
 Feel free to connect with me on LinkedIn or through the Telegram bot. Let's share our passion for music and Tomorrowland! 🚀🎪🎉
 
 ![image](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/e88fe15e-9f59-4dfe-aaba-76639438b5b0)
