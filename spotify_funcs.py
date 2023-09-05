@@ -80,7 +80,7 @@ def get_artists_from_spotify_playlist(playlist_link):
 
     # Create Artist objects with the collected data
     for artist_name, songs_num in artist_song_count.items():
-        new_artist = Artist(artist_name, 'none', 'none', 'none')
+        new_artist = Artist(name=artist_name, host_name_and_stage='none', weekend='none', date='none')
         new_artist.songs_num = songs_num
         artists.append(new_artist)
 

@@ -1,18 +1,12 @@
 from show import Show
 class Artist:
-    def __init__(self, name,songs_num, host_name_and_stage, weekend, date):
+    def __init__(self, name, host_name_and_stage, weekend, date, songs_num=0):
         self.name = name
         self.songs_num = songs_num
         self.show = Show(weekend, host_name_and_stage, date)
         self.show2 = None
 
-    def __init__(self, name, host_name_and_stage, weekend, date):
-        self.name = name
-        self.songs_num = 1
-        self.show = Show(weekend, host_name_and_stage, date)
-        self.show2 = None
-
-    def add_show(self,weekend, host_name_and_stage, date):
+    def add_new_show(self, weekend, host_name_and_stage, date):
         """
         Add a new show to the object's attribute 'show2'.
 

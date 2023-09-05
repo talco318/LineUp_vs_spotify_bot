@@ -58,7 +58,7 @@ def find_artist_and_update_new_data(artists, artist_name, songs_num, new_date, w
     for artist in artists:
         if artist.name == artist_name:
             artist.songs_num = songs_num
-            artist.add_show(weekend, host_name_and_stage, new_date)
+            artist.add_new_show(weekend, host_name_and_stage, new_date)
             break
 
 
@@ -137,9 +137,9 @@ def extract_artists_from_tomorrowland_lineup():
                     start = event.get("start")
                     end = event.get("end")
                     weekend = 'weekend 1' if file == 'tml2023w1.json' else 'weekend 2'
-                    host_name_and_stage = location["name"]
+                    host_name_and_stage = location.get("name")
                     time = f'{start} to {end}'
-                    artist = Artist(name, host_name_and_stage, weekend, time)
+                    artist = Artist(name=name, host_name_and_stage=host_name_and_stage, weekend=weekend, date=time)
 
                     try:
                         if any(a.name == name for a in artists):
