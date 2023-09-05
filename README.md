@@ -1,9 +1,9 @@
 # LineUp_vs_spotify_bot
 
-** Project Name: **
+**Project Name:**
 LineUp_vs_spotify_bot
  
-** Description: **
+**Description:**
 Are you a music enthusiast gearing up for the next Tomorrowland festival? Look no further! The Tomorrowland Playlist Analyzer Bot is your ultimate companion for making the most of this epic music event.
 
 ** Features: **
