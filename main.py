@@ -100,6 +100,8 @@ def filtered_list(artists, weekend_number):
     return filtered_artists
 
 
+import json
+
 
 def extract_artists_from_tomorrowland_lineup():
     """
@@ -111,40 +113,60 @@ def extract_artists_from_tomorrowland_lineup():
     artists = []
 
     for file in tomorrowland_lineup_weekend_json_files:
-        url = f'https://clashfinder.com/data/event/{file}'
-        data = fatch_json_data(url)
-        locations = data["locations"]
+        try:
+            url = f'https://clashfinder.com/data/event/{file}'
 
-        for location in locations:
-            events = location["events"]
+            # Try to open and read the JSON file, handle exceptions if it fails
+            try:
+                with open(file, 'r', encoding='utf-8') as json_file:
+                    data = json.load(json_file)
+            except FileNotFoundError:
+                print(f"Error: JSON file {file} not found.")
+                continue
+            except json.JSONDecodeError as e:
+                print(f"Error decoding JSON in {file}: {str(e)}")
+                continue
 
-            for event in events:
-                name = event["name"]
-                start = event["start"]
-                end = event["end"]
-                weekend = 'weekend 1' if file == 'tml2023w1.json' else 'weekend 2'
-                host_name_and_stage = location["name"]
-                time = f'{start} to {end}'
-                artist = Artist(name, host_name_and_stage, weekend, time)
-                if any(a.name == name for a in artists):
-                    find_artist_and_update_new_data(artists, artist.name, 0, time, weekend, host_name_and_stage)
-                else:
-                    artists.append(artist)
+            locations = data.get("locations")
+
+            for location in locations:
+                events = location.get("events")
+
+                for event in events:
+                    name = event.get("name")
+                    start = event.get("start")
+                    end = event.get("end")
+                    weekend = 'weekend 1' if file == 'tml2023w1.json' else 'weekend 2'
+                    host_name_and_stage = location["name"]
+                    time = f'{start} to {end}'
+                    artist = Artist(name, host_name_and_stage, weekend, time)
+
+                    try:
+                        if any(a.name == name for a in artists):
+                            find_artist_and_update_new_data(artists, artist.name, 0, time, weekend, host_name_and_stage)
+                        else:
+                            artists.append(artist)
+                    except Exception as e:
+                        print(f"Error updating artist data: {str(e)}")
+
+        except Exception as e:
+            print(f"Error fetching data for {file}: {str(e)}")
+
     return artists
 
 
-def print_arts(call, arr):
+def messege_artists_to_user(call, artists):
     """
     Print and send messages for each item in the 'arr' list.
 
     Arguments:
         call (object): An object containing information about the chat and the message.
-        arr (list): A list of items to be printed and sent as messages.
+        artists (list): A list of items to be printed and sent as messages.
 
     Returns:
         None: The function does not return anything; it sends messages using the 'bot.send_message' function.
     """
-    for art in arr:
+    for art in artists:
         bot.send_message(call.message.chat.id, str(art), parse_mode='Markdown')
         print(art, "\n")
 
@@ -192,20 +214,20 @@ def handle_callback(call):
         bot.send_message(call.message.chat.id, "*Weekend 1 artists*\n", parse_mode='Markdown')
         bot.send_message(call.message.chat.id, f"Number of artists that have been found: {len(filtered_artists)}",
                          parse_mode='Markdown')
-        print_arts(call, filtered_artists)
+        messege_artists_to_user(call, filtered_artists)
 
     elif call.data == 'weekend2':
         filtered_artists = filtered_list(my_relevant, weekend_number='weekend 2')
         bot.send_message(call.message.chat.id, "*Weekend 2 artists:*\n", parse_mode='Markdown')
         bot.send_message(call.message.chat.id, f"Number of artists that have been found: {len(filtered_artists)}",
                          parse_mode='Markdown')
-        print_arts(call, filtered_artists)
+        messege_artists_to_user(call, filtered_artists)
 
     elif call.data == 'weekend_all':
         bot.send_message(call.message.chat.id, "*All artists:*\n", parse_mode='Markdown')
         bot.send_message(call.message.chat.id, f"Number of artists that have been found: {len(my_relevant)}",
                          parse_mode='Markdown')
-        print_arts(call, my_relevant)
+        messege_artists_to_user(call, my_relevant)
     else:
         bot.send_message(call.message.chat.id, 'Invalid option selected!')
         print("--------------------------------------------------------------")
