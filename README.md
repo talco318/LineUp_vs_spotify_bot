@@ -21,6 +21,8 @@ Explore additional details about each artist's show and plan your festival exper
 As a music lover and a Tomorrowland enthusiast, I created this bot to enhance the festival experience for fellow music aficionados. Tomorrowland is all about discovering new artists and immersing yourself in the world of music, and this bot is designed to help you do just that.
 Connect with me and let's make your Tomorrowland journey even more unforgettable! 🎵🌟
 
+
+
 ### Contributions and Feedback: 
 Contributions and feedback are highly welcome! If you'd like to contribute to this project or have suggestions for improvement, please don't hesitate to reach out.
 
