@@ -118,7 +118,7 @@ def extract_artists_from_tomorrowland_lineup():
 
             # Try to open and read the JSON file, handle exceptions if it fails
             try:
-                with open(file, 'r', encoding='utf-8') as json_file:
+                with open('json_lineup_files/' + file, 'r', encoding='utf-8') as json_file:
                     data = json.load(json_file)
             except FileNotFoundError:
                 print(f"Error: JSON file {file} not found.")
