@@ -4,6 +4,10 @@ LineUp_vs_spotify_bot
 ## Description:
 Are you a music enthusiast gearing up for the next Tomorrowland festival? Look no further! The Tomorrowland Playlist Analyzer Bot is your ultimate companion for making the most of this epic music event.
 
+![image](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/85546ff6-48e4-461c-afe8-d44bfd46fee7)
+
+
+
 ## Features: 
 Playlist Analysis: Send the bot your Spotify playlist link, and it will analyze your playlist to identify all the artists set to perform at Tomorrowland.
 Detailed Show Information: The bot provides comprehensive details about each artist's show at the festival, including set times, stage locations, and other essential information.
@@ -28,4 +32,3 @@ Contributions and feedback are highly welcome! If you'd like to contribute to th
 ## Connect with Me: 
 Feel free to connect with me on LinkedIn or through the Telegram bot. Let's share our passion for music and Tomorrowland! 🚀🎪🎉
 
-![image](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/e88fe15e-9f59-4dfe-aaba-76639438b5b0)
