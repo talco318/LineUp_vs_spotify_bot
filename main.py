@@ -100,7 +100,6 @@ def filtered_list(artists, weekend_number):
     return filtered_artists
 
 
-import json
 
 
 def extract_artists_from_tomorrowland_lineup():
