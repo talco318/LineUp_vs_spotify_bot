@@ -31,5 +31,4 @@ Connect with me and let's make your Tomorrowland journey even more unforgettable
 Contributions and feedback are highly welcome! If you'd like to contribute to this project or have suggestions for improvement, please don't hesitate to reach out.
 
 ## Connect with Me: 
-Feel free to connect with me on LinkedIn or through the Telegram bot. Let's share our passion for music and Tomorrowland! 🚀🎪🎉
-
+Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/talco318/ "Tal Cohen in LinkedIn") or through the Telegram bot. Let's share our passion for music and Tomorrowland! 🚀🎪🎉
