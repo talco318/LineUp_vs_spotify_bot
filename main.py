@@ -211,20 +211,20 @@ def handle_callback(call):
     if call.data == 'weekend1':
         filtered_artists = filtered_list(my_relevant, weekend_number='weekend 1')
         bot.send_message(call.message.chat.id, "*Weekend 1 artists*\n", parse_mode='Markdown')
-        bot.send_message(call.message.chat.id, f"Number of artists that have been found: {len(filtered_artists)}",
+        bot.send_message(call.message.chat.id,  f"*{len(filtered_artists)}* artists that have been found in weekend 1: ",
                          parse_mode='Markdown')
         messege_artists_to_user(call, filtered_artists)
 
     elif call.data == 'weekend2':
         filtered_artists = filtered_list(my_relevant, weekend_number='weekend 2')
         bot.send_message(call.message.chat.id, "*Weekend 2 artists:*\n", parse_mode='Markdown')
-        bot.send_message(call.message.chat.id, f"Number of artists that have been found: {len(filtered_artists)}",
+        bot.send_message(call.message.chat.id,  f" *{len(filtered_artists)}* artists that have been found in weekend 2:",
                          parse_mode='Markdown')
         messege_artists_to_user(call, filtered_artists)
 
     elif call.data == 'weekend_all':
         bot.send_message(call.message.chat.id, "*All artists:*\n", parse_mode='Markdown')
-        bot.send_message(call.message.chat.id, f"Number of artists that have been found: {len(my_relevant)}",
+        bot.send_message(call.message.chat.id, f" *{len(my_relevant)}* artists that have been found in both weekends: ",
                          parse_mode='Markdown')
         messege_artists_to_user(call, my_relevant)
     else:
