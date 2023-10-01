@@ -170,6 +170,21 @@ def messege_artists_to_user(call, artists):
         print(art, "\n")
 
 
+def process_weekend_data(call, weekend_name):
+    filtered_artists = filtered_list(my_relevant, weekend_number=weekend_name)
+    bot.send_message(call.message.chat.id, f"*{weekend_name} artists:*\n", parse_mode='Markdown')
+    bot.send_message(call.message.chat.id,
+                    f"*{len(filtered_artists)}* artists that have been found in {weekend_name}:",
+                    parse_mode='Markdown')
+    messege_artists_to_user(call, filtered_artists)
+
+
+# def process_weekend_data(call, weekend_name, artist_list):
+#         filtered_artists = filtered_list(my_relevant, weekend_number=call.data)
+#         bot.send_message(call.message.chat.id, f"*{weekend_name} artists:*\n", parse_mode='Markdown')
+#         bot.send_message(call.message.chat.id, f"*{len(filtered_artists)}* artists that have been found in {weekend_name}:", parse_mode='Markdown')
+#         messege_artists_to_user(call, filtered_artists)
+
 @bot.message_handler(commands=["start"])
 def start(message):
     bot.send_message(message.chat.id, "Hello! I am the Telegram bot.\nTo get started, send a playlist link:")
@@ -206,21 +221,15 @@ def handle_spotify_link(message):
     bot.send_message(message.chat.id, 'Select a weekend:', reply_markup=keyboard)
 
 
+
+
+
 @bot.callback_query_handler(func=lambda call: call.data)
 def handle_callback(call):
     if call.data == 'weekend1':
-        filtered_artists = filtered_list(my_relevant, weekend_number='weekend 1')
-        bot.send_message(call.message.chat.id, "*Weekend 1 artists*\n", parse_mode='Markdown')
-        bot.send_message(call.message.chat.id,  f"*{len(filtered_artists)}* artists that have been found in weekend 1: ",
-                         parse_mode='Markdown')
-        messege_artists_to_user(call, filtered_artists)
-
+        process_weekend_data(call, 'weekend 1')
     elif call.data == 'weekend2':
-        filtered_artists = filtered_list(my_relevant, weekend_number='weekend 2')
-        bot.send_message(call.message.chat.id, "*Weekend 2 artists:*\n", parse_mode='Markdown')
-        bot.send_message(call.message.chat.id,  f" *{len(filtered_artists)}* artists that have been found in weekend 2:",
-                         parse_mode='Markdown')
-        messege_artists_to_user(call, filtered_artists)
+        process_weekend_data(call, 'weekend 2')
 
     elif call.data == 'weekend_all':
         bot.send_message(call.message.chat.id, "*All artists:*\n", parse_mode='Markdown')
