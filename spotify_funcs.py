@@ -87,9 +87,6 @@ def is_link_valid(link):
     """
     This function checks if a link is valid.
 
-    Args:
-      link: The link that you want to check.
-
     Returns:
       `True` if the link is valid, `False` if not.
     """
