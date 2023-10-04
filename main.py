@@ -69,41 +69,27 @@ def find_artist_and_update_new_data(artists_list, artist_name, songs_num, new_da
             break
 
 
-def fatch_json_data(url):
-    """
-    Read and parse JSON data from the specified URL.
-
-    Arguments:
-        url (str): The URL from which to read the JSON data.
-
-    Returns:
-        dict: A dictionary representing the parsed JSON data.
-    """
-    user_agents_list = [
-        'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.83 Safari/537.36',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36'
-    ]
-    response = requests.get(url, headers={'User-Agent': random.choice(user_agents_list)})
-    data = response.json()
-    return data
-
-
-def filtered_list(artists, weekend_number):
+def filter_artists_by_weekend(artists_list, weekend_number):
     """
     Filter the list of artists based on the provided weekend number.
 
-    Arguments:
-        artists (list): A list of 'Artist' objects.
+    Args:
+        artists_list (list): A list of 'Artist' objects.
         weekend_number (int): The weekend number to filter by.
 
     Returns:
         list: A new list containing the 'Artist' objects with shows scheduled for the provided weekend number.
     """
     filtered_artists = []
-    for art in artists:
-        if art.show.weekend_number == weekend_number or (art.show2 is not None and art.show2.weekend_number == weekend_number):
-            filtered_artists.append(art)
+
+    for artist in artists_list:
+        # Check if the artist's primary show matches the provided weekend number
+        if artist.show.weekend_number == weekend_number:
+            filtered_artists.append(artist)
+        # Check if the artist's secondary show matches the provided weekend number (if available)
+        elif artist.show2 is not None and artist.show2.weekend_number == weekend_number:
+            filtered_artists.append(artist)
+
     return filtered_artists
 
 
@@ -118,13 +104,11 @@ def extract_artists_from_tomorrowland_lineup():
 
     for file in tomorrowland_lineup_weekend_json_files:
         try:
-            # Construct the URL for the JSON data
+            # Starting URL of the JSON data
             url = f'https://clashfinder.com/data/event/{file}'
-
             # Try to fetch JSON data from the URL
             headers = {'User-Agent': 'My App 1.0'}
             response = requests.get(url, headers=headers)
-
             response.raise_for_status()
             data = response.json()
 
@@ -158,18 +142,11 @@ def extract_artists_from_tomorrowland_lineup():
 
 
 
-def messege_artists_to_user(call, artists):
+def messege_artists_to_user(call, artists_list):
     """
-    Print and send messages for each item in the 'arr' list.
-
-    Arguments:
-        call (object): An object containing information about the chat and the message.
-        artists (list): A list of items to be printed and sent as messages.
-
-    Returns:
-        None: The function does not return anything; it sends messages using the 'bot.send_message' function.
+    Print and send messages for each item in the 'artists_list' list.
     """
-    for art in artists:
+    for art in artists_list:
         bot.send_message(call.message.chat.id, str(art), parse_mode='Markdown')
         print(art, "\n")
 
