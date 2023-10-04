@@ -15,6 +15,16 @@ tomorrowland_lineup_weekend_json_files = ['tml2023w1.json', 'tml2023w2.json']
 
 
 def get_matching_artists(playlist_artists, lineup_data):
+    """
+       Finds and returns artists that appear in both the playlist and the festival lineup.
+
+       Args:
+           playlist_artists (list): 'Artist' objects from the Spotify playlist.
+           lineup_data (list): 'Artist' objects from the festival lineup.
+
+       Returns:
+           list: Matching 'Artist' objects with updated 'songs_num' values.
+    """
     matching_artists = []
     artist_map = {artist.name: artist for artist in lineup_data}
     for artist in playlist_artists:
@@ -97,11 +107,9 @@ def filtered_list(artists, weekend_number):
     return filtered_artists
 
 
-
-
 def extract_artists_from_tomorrowland_lineup():
     """
-    Extract artists' data from Tomorrowland (TML) festival JSON tomorrowland_lineup_weekend_json_files.
+    Extract artist data from Tomorrowland (TML) festival JSON lineup files.
 
     Returns:
         list: A list of 'Artist' objects containing the extracted data for the artists.
@@ -110,18 +118,15 @@ def extract_artists_from_tomorrowland_lineup():
 
     for file in tomorrowland_lineup_weekend_json_files:
         try:
+            # Construct the URL for the JSON data
             url = f'https://clashfinder.com/data/event/{file}'
 
-            # Try to open and read the JSON file, handle exceptions if it fails
-            try:
-                with open('json_lineup_files/' + file, 'r', encoding='utf-8') as json_file:
-                    data = json.load(json_file)
-            except FileNotFoundError:
-                print(f"Error: JSON file {file} not found.")
-                continue
-            except json.JSONDecodeError as e:
-                print(f"Error decoding JSON in {file}: {str(e)}")
-                continue
+            # Try to fetch JSON data from the URL
+            headers = {'User-Agent': 'My App 1.0'}
+            response = requests.get(url, headers=headers)
+
+            response.raise_for_status()
+            data = response.json()
 
             locations = data.get("locations")
 
@@ -137,18 +142,20 @@ def extract_artists_from_tomorrowland_lineup():
                     time = f'{start} to {end}'
                     artist = Artist(name=name, host_name_and_stage=host_name_and_stage, weekend=weekend, date=time)
 
-                    try:
-                        if any(a.name == name for a in artists):
-                            find_artist_and_update_new_data(artists, artist.name, 0, time, weekend, host_name_and_stage)
-                        else:
-                            artists.append(artist)
-                    except Exception as e:
-                        print(f"Error updating artist data: {str(e)}")
+                    # Check if the artist already exists in the list and update data
+                    matching_artists = [a for a in artists if a.name == artist.name]
+                    if matching_artists:
+                        find_artist_and_update_new_data(artists, artist.name, 0, time, weekend, host_name_and_stage)
+                    else:
+                        artists.append(artist)
 
-        except Exception as e:
+        except requests.RequestException as e:
             print(f"Error fetching data for {file}: {str(e)}")
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON in {file}: {str(e)}")
 
     return artists
+
 
 
 def messege_artists_to_user(call, artists):
