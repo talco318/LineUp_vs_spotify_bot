@@ -176,13 +176,17 @@ def handle_invalid_link(message):
 
 @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
 def handle_spotify_link(message):
+    """Handles incoming Spotify playlist links"""
+
     username = message.from_user.username
-    print(f'Username is: {username}, wrote:\n{str(message.text)}')
-    if not spotify_funcs.is_link_valid(str(message.text)):
+    logging.info(f'User {username} sent Spotify link: {message.text}')
+
+    if not spotify_funcs.is_link_valid(message.text):
         bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
-        print("Invalid link!")
+        logging.warning('Invalid Spotify link received')
         return
 
+    print(f'Username is: {username}, wrote:\n{str(message.text)}')
     new_link = spotify_funcs.cut_content_after_question_mark(message.text)
     global my_relevant
     my_relevant = get_lineup_artists_from_playlist(new_link)
@@ -197,14 +201,15 @@ def handle_spotify_link(message):
 
 
 
-
-
 @bot.callback_query_handler(func=lambda call: call.data)
 def handle_callback(call):
     if call.data == 'weekend1':
+        print('weekend 1 selected\n')
         process_weekend_data(call, 'weekend 1')
     elif call.data == 'weekend2':
+        print('weekend 2 selected\n')
         process_weekend_data(call, 'weekend 2')
+
 
     elif call.data == 'weekend_all':
         bot.send_message(call.message.chat.id, "*All artists:*\n", parse_mode='Markdown')
@@ -217,6 +222,7 @@ def handle_callback(call):
 
 
 bot.infinity_polling()
+
 
 
 
