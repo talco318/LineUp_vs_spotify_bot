@@ -1,12 +1,11 @@
-from telebot import types
-import spotify_funcs
 import telebot
-import json
-from artist import Artist
 import requests
-import random
-import APIs
+import json
 import logging
+
+import spotify_funcs
+from artist import Artist
+import APIs
 
 bot = telebot.TeleBot(APIs.telegram_Bot_API)
 
@@ -190,10 +189,10 @@ def handle_spotify_link(message):
     new_link = spotify_funcs.cut_content_after_question_mark(message.text)
     global my_relevant
     my_relevant = get_lineup_artists_from_playlist(new_link)
-    keyboard = types.InlineKeyboardMarkup()
-    weekend1_button = types.InlineKeyboardButton(text='Weekend 1', callback_data='weekend1')
-    weekend2_button = types.InlineKeyboardButton(text='Weekend 2', callback_data='weekend2')
-    all_button = types.InlineKeyboardButton(text='All', callback_data='weekend_all')
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    weekend1_button = telebot.types.InlineKeyboardButton(text='Weekend 1', callback_data='weekend1')
+    weekend2_button = telebot.types.InlineKeyboardButton(text='Weekend 2', callback_data='weekend2')
+    all_button = telebot.types.InlineKeyboardButton(text='All', callback_data='weekend_all')
 
     keyboard.add(weekend1_button, weekend2_button, all_button)
 
