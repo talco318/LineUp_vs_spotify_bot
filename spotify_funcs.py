@@ -18,10 +18,6 @@ def cut_content_after_question_mark(link):
     """
     Cuts the content after the question mark in a given link.
 
-    This function uses regular expression to find the question mark in the 'link' string
-    and extracts the content before it. If no question mark is found, the original link
-    is returned.
-
     Arguments:
         link (str): A string representing a link with or without a question mark.
 
@@ -29,23 +25,22 @@ def cut_content_after_question_mark(link):
         str: The content before the question mark, if it exists, otherwise the original link.
     """
     # Use regular expression to match the question mark and the content after it
-    match = re.search(r"(.*?)(\?.*)", link)
+    match = re.search(r"^(.*?)(\?.*)$", link)
 
     # If the match is found, return the content before the question mark
     if match:
         return match.group(1)
 
     # Otherwise, return the original link
-    else:
-        return link
+    return link
 
 
 def get_artists_from_spotify_playlist(playlist_link):
     """
-    Retrieves a list of artists from a Spotify playlist.
+    Retrieves a list of artists_list from a Spotify playlist.
 
     This function uses the Spotify API to fetch the playlist tracks from the given 'playlist_link'.
-    It then processes the tracks and extracts the unique artists' names along with the number of songs by each artist.
+    It then processes the tracks and extracts the unique artists_list' names along with the number of songs by each artist.
 
     Arguments:
         playlist_link (str): The link to the Spotify playlist.
@@ -66,7 +61,7 @@ def get_artists_from_spotify_playlist(playlist_link):
         results = sp.next(results)
         tracks.extend(results.get('items'))
 
-    artists = []
+    artists_list = []
     artist_song_count = {}
 
     for track in tracks:
@@ -82,9 +77,10 @@ def get_artists_from_spotify_playlist(playlist_link):
     for artist_name, songs_num in artist_song_count.items():
         new_artist = Artist(name=artist_name, host_name_and_stage='none', weekend='none', date='none')
         new_artist.songs_num = songs_num
-        artists.append(new_artist)
+        artists_list.append(new_artist)
 
-    return artists
+    return artists_list
+
 
 
 def is_link_valid(link):
