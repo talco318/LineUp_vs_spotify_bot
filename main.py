@@ -6,6 +6,7 @@ from artist import Artist
 import requests
 import random
 import APIs
+import logging
 
 bot = telebot.TeleBot(APIs.telegram_Bot_API)
 
@@ -13,52 +14,48 @@ my_relevant = []
 tomorrowland_lineup_weekend_json_files = ['tml2023w1.json', 'tml2023w2.json']
 
 
-def get_lineup_artists_from_playlist(link):
-    """
-    Get relevant artists from a Spotify playlist based on the extracted data from a festival lineup.
-
-    Arguments:
-        link (str): The link to the Spotify playlist.
-
-    Returns:
-        list: A list of 'Artist' objects representing relevant artists found both in the Spotify playlist and the festival lineup.
-    """
-    playlist_artists = spotify_funcs.get_artists_from_spotify_playlist(link)
-    lineup_data = extract_artists_from_tomorrowland_lineup()
+def get_matching_artists(playlist_artists, lineup_data):
     matching_artists = []
-
     artist_map = {artist.name: artist for artist in lineup_data}
     for artist in playlist_artists:
         if artist.name in artist_map:
             artist_obj = artist_map[artist.name]
             artist_obj.songs_num = artist.songs_num
             matching_artists.append(artist_obj)
-
     return matching_artists
 
-
-def find_artist_and_update_new_data(artists, artist_name, songs_num, new_date, weekend, host_name_and_stage):
+def get_lineup_artists_from_playlist(link):
     """
-    This function searches for the artist with the given 'artist_name' in the list of 'artists'.
-    If the artist is found, it updates the 'songs_num' attribute with the provided 'songs_num'.
-    It also calls the 'add_show' method of the artist to add a new show with the provided 'new_date',
-    'weekend', and 'host_name_and_stage' information.
+    Retrieve relevant artists from a Spotify playlist that match artists in a festival lineup.
 
     Arguments:
-        artists (list): A list of 'Artist' objects.
-        artist_name (str): The name of the artist to find.
-        songs_num (int): The number of songs attributed to the artist.
-        new_date (str): The date of the new show to add.
-        weekend (str): The weekend information for the new show.
-        host_name_and_stage (str): The name of the host and the stage for the new show.
+        link (str): The link to the Spotify playlist.
+
+    Returns:
+        list: A list of 'Artist' objects representing relevant artists found in both the Spotify playlist and the festival lineup.
+    """
+    try:
+        playlist_artists = spotify_funcs.get_artists_from_spotify_playlist(link)
+        lineup_data = extract_artists_from_tomorrowland_lineup()
+        matching_artists = get_matching_artists(playlist_artists, lineup_data)
+        return matching_artists
+    except Exception as e:
+        logging.error(f"An error occurred: {str(e)}")
+        raise
+
+
+
+def find_artist_and_update_new_data(artists_list, artist_name, songs_num, new_date, other_weekend, host_name_and_stage):
+    """
+    Search for an artist by name in the list of 'artists_list' and update their data of other show.
 
     Returns:
         None: The function does not return anything; it updates the attributes of the matching artist in the list.
     """
-    for artist in artists:
+    for artist in artists_list:
         if artist.name == artist_name:
             artist.songs_num = songs_num
-            artist.add_new_show(weekend, host_name_and_stage, new_date)
+            artist.add_new_show(other_weekend, host_name_and_stage, new_date)
             break
 
 
@@ -242,3 +239,6 @@ def handle_callback(call):
 
 
 bot.infinity_polling()
+
+
+
