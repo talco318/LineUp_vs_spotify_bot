@@ -152,19 +152,13 @@ def messege_artists_to_user(call, artists_list):
 
 
 def process_weekend_data(call, weekend_name):
-    filtered_artists = filtered_list(my_relevant, weekend_number=weekend_name)
+    filtered_artists = filter_artists_by_weekend(my_relevant, weekend_number=weekend_name)
     bot.send_message(call.message.chat.id, f"*{weekend_name} artists:*\n", parse_mode='Markdown')
     bot.send_message(call.message.chat.id,
                     f"*{len(filtered_artists)}* artists that have been found in {weekend_name}:",
                     parse_mode='Markdown')
     messege_artists_to_user(call, filtered_artists)
 
-
-# def process_weekend_data(call, weekend_name, artist_list):
-#         filtered_artists = filtered_list(my_relevant, weekend_number=call.data)
-#         bot.send_message(call.message.chat.id, f"*{weekend_name} artists:*\n", parse_mode='Markdown')
-#         bot.send_message(call.message.chat.id, f"*{len(filtered_artists)}* artists that have been found in {weekend_name}:", parse_mode='Markdown')
-#         messege_artists_to_user(call, filtered_artists)
 
 @bot.message_handler(commands=["start"])
 def start(message):
