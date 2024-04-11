@@ -13,7 +13,7 @@ JSON Database: The bot uses a JSON database to efficiently store and retrieve To
 
 ![image](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/627ac37e-cc10-4074-9f1d-7916ce6c1ae0)
 
-**V2 coming soon:**
+## V2 coming soon! 
 AI tools, arrange a custom lineup based on your data, etc! 
 
 ## How to Use: 
