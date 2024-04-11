@@ -10,43 +10,53 @@ import APIs
 bot = telebot.TeleBot(APIs.telegram_Bot_API)
 
 my_relevant = []
-tomorrowland_lineup_weekend_json_files = ['tml2023w1.json', 'tml2023w2.json']
-
+tomorrowland_lineup_weekend_json_files = ['tml2024w1.json', 'tml2024w2.json']
+weekend_names = ["weekend 1","weekend 2"]
 
 def get_matching_artists(playlist_artists, lineup_data):
     """
-       Finds and returns artists that appear in both the playlist and the festival lineup.
+    Finds and returns artists that appear in both the playlist and the festival lineup.
 
-       Args:
-           playlist_artists (list): 'Artist' objects from the Spotify playlist.
-           lineup_data (list): 'Artist' objects from the festival lineup.
+    Args:
+        playlist_artists (list): 'Artist' objects from the Spotify playlist.
+        lineup_data (list): 'Artist' objects from the festival lineup.
 
-       Returns:
-           list: Matching 'Artist' objects with updated 'songs_num' values.
+    Returns:
+        list: Matching 'Artist' objects with updated 'songs_num' values.
     """
+    # Create a dictionary to map artist names to their corresponding objects in the lineup data
+    lineup_artist_map = {artist.name: artist for artist in lineup_data}
+
+    # Iterate through the playlist artists and update the songs_num attribute for matching artists
     matching_artists = []
-    artist_map = {artist.name: artist for artist in lineup_data}
-    for artist in playlist_artists:
-        if artist.name in artist_map:
-            artist_obj = artist_map[artist.name]
-            artist_obj.songs_num = artist.songs_num
-            matching_artists.append(artist_obj)
+    for playlist_artist in playlist_artists:
+        if playlist_artist.name in lineup_artist_map:
+            lineup_artist = lineup_artist_map[playlist_artist.name]
+            lineup_artist.songs_num = playlist_artist.songs_num
+            matching_artists.append(lineup_artist)
+
     return matching_artists
 
 def get_lineup_artists_from_playlist(link):
     """
     Retrieve relevant artists from a Spotify playlist that match artists in a festival lineup.
 
-    Arguments:
+    Args:
         link (str): The link to the Spotify playlist.
 
     Returns:
         list: A list of 'Artist' objects representing relevant artists found in both the Spotify playlist and the festival lineup.
     """
     try:
+        # Retrieve artists from the Spotify playlist
         playlist_artists = spotify_funcs.get_artists_from_spotify_playlist(link)
+
+        # Retrieve artists from the festival lineup
         lineup_data = extract_artists_from_tomorrowland_lineup()
+
+        # Find the matching artists between the playlist and the lineup
         matching_artists = get_matching_artists(playlist_artists, lineup_data)
+
         return matching_artists
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
@@ -65,16 +75,15 @@ def find_artist_and_update_new_data(artists_list, artist_name, songs_num, new_da
         if artist.name == artist_name:
             artist.songs_num = songs_num
             artist.add_new_show(other_weekend, host_name_and_stage, new_date)
-            break
+            break  # Exit the loop once the artist is found and updated
 
-
-def filter_artists_by_weekend(artists_list, weekend_number):
+def filter_artists_by_weekend(artists_list, weekend_name):
     """
-    Filter the list of artists based on the provided weekend number.
+    Filter the list of artists based on the provided weekend name.
 
     Args:
         artists_list (list): A list of 'Artist' objects.
-        weekend_number (int): The weekend number to filter by.
+        weekend_name (str): The weekend number to filter by.
 
     Returns:
         list: A new list containing the 'Artist' objects with shows scheduled for the provided weekend number.
@@ -82,11 +91,11 @@ def filter_artists_by_weekend(artists_list, weekend_number):
     filtered_artists = []
 
     for artist in artists_list:
-        # Check if the artist's primary show matches the provided weekend number
-        if artist.show.weekend_number == weekend_number:
+        # Check if the artist's primary show is scheduled for the given weekend
+        if artist.show.weekend_number == weekend_name:
             filtered_artists.append(artist)
-        # Check if the artist's secondary show matches the provided weekend number (if available)
-        elif artist.show2 is not None and artist.show2.weekend_number == weekend_number:
+        # Check if the artist has a secondary show scheduled for the given weekend
+        elif artist.show2 is not None and artist.show2.weekend_number == weekend_name:
             filtered_artists.append(artist)
 
     return filtered_artists
@@ -94,7 +103,11 @@ def filter_artists_by_weekend(artists_list, weekend_number):
 
 def extract_artists_from_tomorrowland_lineup():
     """
-    Extract artist data from Tomorrowland (TML) festival JSON lineup files.
+    Extract artist data from the Tomorrowland (TML) festival JSON lineup files.
+
+    This function retrieves the artist data from the Tomorrowland festival lineup
+    JSON files, creates 'Artist' objects for each artist, and returns a list of
+    these objects.
 
     Returns:
         list: A list of 'Artist' objects containing the extracted data for the artists.
@@ -103,29 +116,29 @@ def extract_artists_from_tomorrowland_lineup():
 
     for file in tomorrowland_lineup_weekend_json_files:
         try:
-            # Starting URL of the JSON data
+            # Construct the URL for the JSON data
             url = f'https://clashfinder.com/data/event/{file}'
-            # Try to fetch JSON data from the URL
             headers = {'User-Agent': 'My App 1.0'}
+
+            # Fetch the JSON data and parse it
             response = requests.get(url, headers=headers)
             response.raise_for_status()
             data = response.json()
 
+            # Extract artist information from the JSON data
             locations = data.get("locations")
-
             for location in locations:
                 events = location.get("events")
-
                 for event in events:
                     name = event.get("name")
                     start = event.get("start")
                     end = event.get("end")
-                    weekend = 'weekend 1' if file == 'tml2023w1.json' else 'weekend 2'
+                    weekend = weekend_names[0] if file == 'tml2024w1.json' else weekend_names[1]
                     host_name_and_stage = location.get("name")
                     time = f'{start} to {end}'
-                    artist = Artist(name=name, host_name_and_stage=host_name_and_stage, weekend=weekend, date=time)
 
-                    # Check if the artist already exists in the list and update data
+                    # Create an 'Artist' object and update or add it to the artists list
+                    artist = Artist(name=name, host_name_and_stage=host_name_and_stage, weekend=weekend, date=time)
                     matching_artists = [a for a in artists if a.name == artist.name]
                     if matching_artists:
                         find_artist_and_update_new_data(artists, artist.name, 0, time, weekend, host_name_and_stage)
@@ -145,17 +158,33 @@ def messege_artists_to_user(call, artists_list):
     """
     Print and send messages for each item in the 'artists_list' list.
     """
-    for art in artists_list:
-        bot.send_message(call.message.chat.id, str(art), parse_mode='Markdown')
-        print(art, "\n")
+    for artist in artists_list:
+        bot.send_message(call.message.chat.id, str(artist), parse_mode='Markdown')
+        print(artist, "\n")
 
 
 def process_weekend_data(call, weekend_name):
-    filtered_artists = filter_artists_by_weekend(my_relevant, weekend_number=weekend_name)
-    bot.send_message(call.message.chat.id, f"*{weekend_name} artists:*\n", parse_mode='Markdown')
-    bot.send_message(call.message.chat.id,
-                    f"*{len(filtered_artists)}* artists that have been found in {weekend_name}:",
-                    parse_mode='Markdown')
+    """
+    Process the artist data for the specified weekend.
+
+    This function takes a Telegram `call` object and a weekend name, filters the
+    list of relevant artists based on the weekend, and sends messages to the user
+    with the filtered artist information.
+
+    Args:
+        call (telegram.CallbackQuery): The Telegram callback query object.
+        weekend_name (str): The name of the weekend to filter the artist data by.
+    """
+    # Filter the artists based on the specified weekend
+    filtered_artists = filter_artists_by_weekend(my_relevant, weekend_name=weekend_name)
+
+    # Send a message with the number of artists found for the weekend
+    bot.send_message(
+        call.message.chat.id,
+        f"*{weekend_name} artists:*\n*{len(filtered_artists)}* artists that have been found in {weekend_name}:",
+        parse_mode='Markdown'
+    )
+
     messege_artists_to_user(call, filtered_artists)
 
 
@@ -190,8 +219,8 @@ def handle_spotify_link(message):
     global my_relevant
     my_relevant = get_lineup_artists_from_playlist(new_link)
     keyboard = telebot.types.InlineKeyboardMarkup()
-    weekend1_button = telebot.types.InlineKeyboardButton(text='Weekend 1', callback_data='weekend1')
-    weekend2_button = telebot.types.InlineKeyboardButton(text='Weekend 2', callback_data='weekend2')
+    weekend1_button = telebot.types.InlineKeyboardButton(text=weekend_names[0], callback_data=weekend_names[0])
+    weekend2_button = telebot.types.InlineKeyboardButton(text=weekend_names[1], callback_data=weekend_names[1])
     all_button = telebot.types.InlineKeyboardButton(text='All', callback_data='weekend_all')
 
     keyboard.add(weekend1_button, weekend2_button, all_button)
@@ -202,12 +231,12 @@ def handle_spotify_link(message):
 
 @bot.callback_query_handler(func=lambda call: call.data)
 def handle_callback(call):
-    if call.data == 'weekend1':
+    if call.data == weekend_names[0]:
         print('weekend 1 selected\n')
-        process_weekend_data(call, 'weekend 1')
-    elif call.data == 'weekend2':
+        process_weekend_data(call, weekend_names[0])
+    elif call.data == weekend_names[1]:
         print('weekend 2 selected\n')
-        process_weekend_data(call, 'weekend 2')
+        process_weekend_data(call, weekend_names[1])
 
 
     elif call.data == 'weekend_all':
@@ -221,7 +250,6 @@ def handle_callback(call):
 
 
 bot.infinity_polling()
-
 
 
 

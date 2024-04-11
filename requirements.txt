@@ -7,3 +7,4 @@ telebot>=0.0.5
 spotipy>=2.23.0
 requests>=2.29.0
 beautifulsoup4>=4.12.2
+anthropic
