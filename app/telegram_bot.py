@@ -160,6 +160,20 @@ def extract_artists_from_tomorrowland_lineup():
 
     return artists
 
+def generate_and_print_ai_lineup(chatid, artists_str, selected_weekend):
+    # claude:
+    # response = claude.generate_response(artists_str, selected_weekend)
+    # print(response[0].text)
+
+    # Gemini:
+    bot.send_message(chat_id=chatid, text="Your lineup is in process, please wait a while.. ", parse_mode='Markdown')
+    bot.send_animation(chat_id=chatid, animation='https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW45bTBnaGRxbmF0a2wxbnJ0ajR6aDV6MHJ6eTltMnphY2xqZmdpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5zoxhCaYbdVHoJkmpf/giphy.gif')
+
+    response = Gemini.generate_response(artists_str, selected_weekend)
+    print(str(response))
+
+    bot.send_message(chat_id=chatid, text=str(response), parse_mode='Markdown')
+
 
 def message_artists_to_user(call, artists_list):
     """
@@ -177,15 +191,8 @@ def message_artists_to_user(call, artists_list):
     generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
 
 
-def generate_and_print_ai_lineup(chatid, artists_str, selected_weekend):
-    # claude:
-    # response = AI.generate_response(artists_str, selected_weekend)
-    # print(response[0].text)
 
-    # Gemini:
-    response = Gemini.generate_response(artists_str, selected_weekend)
-    print(response)
-    bot.send_message(chat_id=chatid, text=response, parse_mode='Markdown')
+
 
 
 def process_weekend_data(call, weekend_name):

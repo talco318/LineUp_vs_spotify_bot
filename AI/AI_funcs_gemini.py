@@ -10,7 +10,7 @@ from AI.prompts import prompt
 def generate_response(artists_output: str, weekend_input: str):
     full_prompt = prompt
     # TODO: solve the issue of the prompt while you click on "all weekends" button
-    full_prompt += f"\nTomorrowland Festival Lineup:\n" + artists_output + "\n" + str(weekend_input)
+    full_prompt += f"\nYou have to create a lineup for {weekend_input}.\n The Tomorrowland Festival Lineup for {str(weekend_input)} is:\n" + artists_output
     try:
         genai.configure(api_key=Gemini_api)
 
@@ -44,14 +44,12 @@ def generate_response(artists_output: str, weekend_input: str):
         model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest",
                                       # generation_config=generation_config,
                                       safety_settings=safety_settings)
-
         prompt_parts = [
             "input:" + full_prompt + " ",
             "output: "
         ]
         print("waiting for gemini response......")
 
-        response = model.generate_content(prompt_parts)
-        return response.text
+        return model.generate_content(prompt_parts).text
     except Exception as e:
         return str(e)
