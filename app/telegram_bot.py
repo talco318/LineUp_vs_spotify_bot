@@ -17,7 +17,18 @@ my_relevant = []
 tomorrowland_lineup_weekend_json_files = ['tml2024w1.json', 'tml2024w2.json']
 weekend_names = ["weekend 1", "weekend 2"]
 selected_weekend = ""
+artists_str = ""
 artists_to_print = []
+
+generate_lineup = telebot.types.InlineKeyboardButton("Generate AI Lineup",
+                                                     callback_data='generate_ai_lineup')
+no_lineup = telebot.types.InlineKeyboardButton("No, I'm done", callback_data='done')
+
+keyboard_lineup = [generate_lineup, no_lineup]
+reply_markup = telebot.types.InlineKeyboardMarkup([keyboard_lineup])
+
+
+
 
 
 def get_matching_artists(playlist_artists, lineup_data):
@@ -180,15 +191,15 @@ def message_artists_to_user(call, artists_list):
     Print and send messages for each item in the 'artists_list' list.
     """
     global artists_to_print
-
     global selected_weekend
+    global artists_str
     for artist in artists_list:
         bot.send_message(call.message.chat.id, str(artist), parse_mode='Markdown')
         # print(artist, "\n")
     artists_str = ", ".join(str(art) for art in artists_to_print)
     # print(artists_str)
+    # generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
 
-    generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
 
 
 
@@ -273,15 +284,40 @@ def handle_callback(call):
                              parse_mode='Markdown')
             message_artists_to_user(call, my_relevant)
 
-        else:
+        elif call.data == weekend_names[0] or call.data == weekend_names[1]:
             # its a regular week
             global selected_weekend
             selected_weekend = call.data
             print(selected_weekend + " selected\n")
             process_weekend_data(call, selected_weekend)
+
+
+
+
+            # ask the user if they want to generate an AI lineup
+            bot.send_message(call.message.chat.id, "Would you like to generate an AI lineup?",
+                             reply_markup=reply_markup)
+            print("--------------------------------------------------------------")
+            print("the call.data is: ", call.data, "\n")
+            print("--------------------------------------------------------------")
+        elif call.data == 'generate_ai_lineup':
+            generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
+        elif call.data == 'done':
+            bot.send_message(call.message.chat.id, "You have chosen not to generate an AI lineup. Goodbye!")
+
+    #
+    #
+    # else:
+    #     bot.send_message(call.message.chat.id, 'Invalid option selected!')
+    #     print("--------------------------------------------------------------")
+
+
+@bot.callback_query_handler(func=lambda call: call.data)
+def handle_callback(call):
+    if call.data != 'generate_ai_lineup':
+        generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
     else:
-        bot.send_message(call.message.chat.id, 'Invalid option selected!')
-        print("--------------------------------------------------------------")
+        bot.send_message(call.message.chat.id, "You have chosen not to generate an AI lineup. Goodbye!")
 
 
 bot.infinity_polling()
