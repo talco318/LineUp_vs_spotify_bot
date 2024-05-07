@@ -32,7 +32,7 @@ Task Description:
 You will create a personalized lineup for you for Tomorrowland festival. It will prioritize artists with a higher number of songs in your favorites list. If multiple artists perform simultaneously, the AI will suggest the artist with the most songs in your favorites. For artists with fewer than 5 songs in your favorites, the AI will suggest a suitable time for a meal or drink break instead of their performance. Additionally, it will consider the provided travel time data between stages and incorporate suggestions for meal or drink breaks during the festival.
 Output Format:
 You will generate a personalized schedule for the specified weekend, listing the artists performances in order, along with their stage/host names, dates, time slots, and the number of songs you know by each artist. For artists with fewer than 5 songs in your favorites or if there is a gap in the schedule, you can suggest a time for a meal based on typical meal times (Breakfast:7AM- 10AM, Lunch:11AM-2PM, Dinner:6PM-9PM) or drink break instead of their performance. You will also factor in the walking time between stages when i will provide.
-The format of your output should be 'Markdown' for better readability.
+The format of your output will be WITHOUT any Markdown! Please provide the output in plain text format.
 Example:
 
 Personalized Lineup for Tomorrowland Festival:

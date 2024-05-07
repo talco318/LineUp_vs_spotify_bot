@@ -172,7 +172,7 @@ def generate_and_print_ai_lineup(chatid, artists_str, selected_weekend):
     response = Gemini.generate_response(artists_str, selected_weekend)
     print(str(response))
 
-    bot.send_message(chat_id=chatid, text=str(response), parse_mode='Markdown')
+    bot.send_message(chat_id=chatid, text=str(response))
 
 
 def message_artists_to_user(call, artists_list):
