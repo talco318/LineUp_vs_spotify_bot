@@ -16,7 +16,7 @@ bot = telebot.TeleBot(APIs.telegram_Bot_API)
 my_relevant = []
 tomorrowland_lineup_weekend_json_files = ['tml2024w1.json', 'tml2024w2.json']
 weekend_names = ["weekend 1", "weekend 2"]
-selected_weekend = ""
+selected_weekend = "none"
 artists_str = ""
 artists_to_print = []
 
@@ -32,6 +32,8 @@ generate_lineup_button = telebot.types.InlineKeyboardButton("Generate AI Lineup"
 no_lineup_button = telebot.types.InlineKeyboardButton("No, I'm done", callback_data='done')
 generate_lineup_keyboard.add(generate_lineup_button, no_lineup_button)
 
+
+gif = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW45bTBnaGRxbmF0a2wxbnJ0ajR6aDV6MHJ6eTltMnphY2xqZmdpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5zoxhCaYbdVHoJkmpf/giphy.gif"
 
 def get_matching_artists(playlist_artists, lineup_data):
     """
@@ -66,7 +68,8 @@ def get_lineup_artists_from_playlist(link):
         link (str): The link to the Spotify playlist.
 
     Returns:
-        list: A list of 'Artist' objects representing relevant artists found in both the Spotify playlist and the festival lineup.
+        list: A list of 'Artist' objects representing relevant artists found in both the Spotify playlist and the
+        festival lineup.
     """
     try:
         # Retrieve artists from the Spotify playlist
@@ -174,20 +177,20 @@ def extract_artists_from_tomorrowland_lineup():
     return artists
 
 
-def generate_and_print_ai_lineup(chatid, artists_str, selected_weekend):
+# def generate_and_print_ai_lineup(chat_id, artists_str: str, selected_weekend: str):
+def generate_and_print_ai_lineup(chat_id):
+
     # claude:
     # response = claude.generate_response(artists_str, selected_weekend)
     # print(response[0].text)
 
     # Gemini:
-    bot.send_message(chat_id=chatid, text="Your lineup is in process, please wait a while.. ", parse_mode='Markdown')
-    bot.send_animation(chat_id=chatid,
-                       animation='https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW45bTBnaGRxbmF0a2wxbnJ0ajR6aDV6MHJ6eTltMnphY2xqZmdpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5zoxhCaYbdVHoJkmpf/giphy.gif')
-
+    bot.send_message(chat_id=chat_id, text="Your lineup is in process, please wait a while.. ", parse_mode='Markdown')
+    bot.send_animation(chat_id=chat_id, animation=gif)
     response = Gemini.generate_response(artists_str, selected_weekend)
     print(str(response))
 
-    bot.send_message(chat_id=chatid, text=str(response))
+    bot.send_message(chat_id=chat_id, text=str(response))
 
 
 def message_artists_to_user(call, artists_list):
@@ -291,10 +294,14 @@ def handle_callback(call):
             print("the call.data is: ", call.data, "\n")
             print("--------------------------------------------------------------")
         elif call.data == 'generate_ai_lineup':
-            generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
+            # generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
+            generate_and_print_ai_lineup(call.message.chat.id)
+
         elif call.data == 'done':
             bot.send_message(call.message.chat.id,
-                             "You have chosen not to generate an AI lineup. \nIf you want to generate an AI lineup, you can click the button again.\nIf you want to generate a lineup for a different playlist, send the playlist link again.\nGoodbye for now!")
+                             'You have chosen not to generate an AI lineup. \nIf you want to generate an AI lineup,'
+                             ' you can click the button again.\nIf you want to generate a lineup for a different '
+                             'playlist, send the playlist link again.\nGoodbye for now!')
 
     #
     #
