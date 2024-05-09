@@ -20,15 +20,17 @@ selected_weekend = ""
 artists_str = ""
 artists_to_print = []
 
-generate_lineup = telebot.types.InlineKeyboardButton("Generate AI Lineup",
-                                                     callback_data='generate_ai_lineup')
-no_lineup = telebot.types.InlineKeyboardButton("No, I'm done", callback_data='done')
+# keyboards (buttons):
+weekend_keyboard = telebot.types.InlineKeyboardMarkup()
+weekend1_button = telebot.types.InlineKeyboardButton(text=weekend_names[0], callback_data=weekend_names[0])
+weekend2_button = telebot.types.InlineKeyboardButton(text=weekend_names[1], callback_data=weekend_names[1])
+all_button = telebot.types.InlineKeyboardButton(text='All', callback_data='weekend_all')
+weekend_keyboard.add(weekend1_button, weekend2_button, all_button)
 
-keyboard_lineup = [generate_lineup, no_lineup]
-reply_markup = telebot.types.InlineKeyboardMarkup([keyboard_lineup])
-
-
-
+generate_lineup_keyboard = telebot.types.InlineKeyboardMarkup()
+generate_lineup_button = telebot.types.InlineKeyboardButton("Generate AI Lineup", callback_data='generate_ai_lineup')
+no_lineup_button = telebot.types.InlineKeyboardButton("No, I'm done", callback_data='done')
+generate_lineup_keyboard.add(generate_lineup_button, no_lineup_button)
 
 
 def get_matching_artists(playlist_artists, lineup_data):
@@ -171,6 +173,7 @@ def extract_artists_from_tomorrowland_lineup():
 
     return artists
 
+
 def generate_and_print_ai_lineup(chatid, artists_str, selected_weekend):
     # claude:
     # response = claude.generate_response(artists_str, selected_weekend)
@@ -178,7 +181,8 @@ def generate_and_print_ai_lineup(chatid, artists_str, selected_weekend):
 
     # Gemini:
     bot.send_message(chat_id=chatid, text="Your lineup is in process, please wait a while.. ", parse_mode='Markdown')
-    bot.send_animation(chat_id=chatid, animation='https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW45bTBnaGRxbmF0a2wxbnJ0ajR6aDV6MHJ6eTltMnphY2xqZmdpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5zoxhCaYbdVHoJkmpf/giphy.gif')
+    bot.send_animation(chat_id=chatid,
+                       animation='https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW45bTBnaGRxbmF0a2wxbnJ0ajR6aDV6MHJ6eTltMnphY2xqZmdpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5zoxhCaYbdVHoJkmpf/giphy.gif')
 
     response = Gemini.generate_response(artists_str, selected_weekend)
     print(str(response))
@@ -199,11 +203,6 @@ def message_artists_to_user(call, artists_list):
     artists_str = ", ".join(str(art) for art in artists_to_print)
     # print(artists_str)
     # generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
-
-
-
-
-
 
 
 def process_weekend_data(call, weekend_name):
@@ -263,14 +262,8 @@ def handle_spotify_link(message):
     new_link = spotify_funcs.cut_content_after_question_mark(message.text)
     global my_relevant
     my_relevant = get_lineup_artists_from_playlist(new_link)
-    keyboard = telebot.types.InlineKeyboardMarkup()
-    weekend1_button = telebot.types.InlineKeyboardButton(text=weekend_names[0], callback_data=weekend_names[0])
-    weekend2_button = telebot.types.InlineKeyboardButton(text=weekend_names[1], callback_data=weekend_names[1])
-    all_button = telebot.types.InlineKeyboardButton(text='All', callback_data='weekend_all')
 
-    keyboard.add(weekend1_button, weekend2_button, all_button)
-
-    bot.send_message(message.chat.id, 'Select a weekend:', reply_markup=keyboard)
+    bot.send_message(message.chat.id, 'Select a weekend:', reply_markup=weekend_keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: call.data)
@@ -291,33 +284,23 @@ def handle_callback(call):
             print(selected_weekend + " selected\n")
             process_weekend_data(call, selected_weekend)
 
-
-
-
             # ask the user if they want to generate an AI lineup
             bot.send_message(call.message.chat.id, "Would you like to generate an AI lineup?",
-                             reply_markup=reply_markup)
+                             reply_markup=generate_lineup_keyboard)
             print("--------------------------------------------------------------")
             print("the call.data is: ", call.data, "\n")
             print("--------------------------------------------------------------")
         elif call.data == 'generate_ai_lineup':
             generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
         elif call.data == 'done':
-            bot.send_message(call.message.chat.id, "You have chosen not to generate an AI lineup. Goodbye!")
+            bot.send_message(call.message.chat.id,
+                             "You have chosen not to generate an AI lineup. \nIf you want to generate an AI lineup, you can click the button again.\nIf you want to generate a lineup for a different playlist, send the playlist link again.\nGoodbye for now!")
 
     #
     #
     # else:
     #     bot.send_message(call.message.chat.id, 'Invalid option selected!')
     #     print("--------------------------------------------------------------")
-
-
-@bot.callback_query_handler(func=lambda call: call.data)
-def handle_callback(call):
-    if call.data != 'generate_ai_lineup':
-        generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
-    else:
-        bot.send_message(call.message.chat.id, "You have chosen not to generate an AI lineup. Goodbye!")
 
 
 bot.infinity_polling()
