@@ -18,7 +18,8 @@ tomorrowland_lineup_weekend_json_files = ['tml2024w1.json', 'tml2024w2.json']
 weekend_names = ["weekend 1", "weekend 2"]
 selected_weekend = "none"
 artists_str = ""
-artists_to_print = []
+artists_to_print_list = []
+playlist_links_list = []
 
 # keyboards (buttons):
 weekend_keyboard = telebot.types.InlineKeyboardMarkup()
@@ -60,7 +61,7 @@ def get_matching_artists(playlist_artists, lineup_data):
     return matching_artists
 
 
-def get_lineup_artists_from_playlist(link):
+def get_lineup_artists_from_playlist(link) -> list[Artist]:
     """
     Retrieve relevant artists from a Spotify playlist that match artists in a festival lineup.
 
@@ -197,13 +198,13 @@ def message_artists_to_user(call, artists_list):
     """
     Print and send messages for each item in the 'artists_list' list.
     """
-    global artists_to_print
+    global artists_to_print_list
     global selected_weekend
     global artists_str
     for artist in artists_list:
         bot.send_message(call.message.chat.id, str(artist), parse_mode='Markdown')
         # print(artist, "\n")
-    artists_str = ", ".join(str(art) for art in artists_to_print)
+    artists_str = ", ".join(str(art) for art in artists_to_print_list)
     # print(artists_str)
     # generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
 
@@ -222,8 +223,8 @@ def process_weekend_data(call, weekend_name):
     """
     # Filter the artists based on the specified weekend
     output_artists = filter_artists_by_weekend(my_relevant, weekend_name=weekend_name)
-    global artists_to_print
-    artists_to_print = output_artists
+    global artists_to_print_list
+    artists_to_print_list = output_artists
     # Send a message with the number of artists found for the weekend
     bot.send_message(
         call.message.chat.id,
@@ -247,6 +248,31 @@ def handle_invalid_link(message):
     bot.send_message(message.chat.id, "Please send a valid Spotify link!")
     username = message.from_user.username
     print(f'Username is: {username}, wrote:\n{str(message.text)}')
+
+
+# @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
+# def handle_spotify_link(message):
+#     """Handles incoming Spotify playlist links"""
+#     global my_relevant
+#
+#     username = message.from_user.username
+#     logging.info(f'User {username} sent Spotify link: {message.text}')
+#
+#     playlist_links_list = playlists_managment.public_funcs.split_links(message.text)
+#     for i, link in enumerate(playlist_links_list):
+#         playlist_links_list[i] = spotify_funcs.cut_content_after_question_mark(message.text)
+#         my_relevant.extend(get_lineup_artists_from_playlist(playlist_links_list[i]))
+#
+#     if not playlists_managment.public_funcs.is_link_valid(message.text):
+#         bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
+#         logging.warning('Invalid Spotify link received')
+#         return
+#
+#     print(f'Username is: {username}, wrote:\n{str(message.text)}')
+#
+#
+#     bot.send_message(message.chat.id, 'Select a weekend:', reply_markup=weekend_keyboard)
+
 
 
 @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
