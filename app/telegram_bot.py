@@ -1,27 +1,33 @@
 # ./app/telegram_bot.py
 import json
 import logging
+from typing import List
+
 import requests
 import telebot
 
 import APIs
 from AI import AI_funcs_gemini as Gemini
-
 from app.artist import Artist
-from playlists_managment import spotify_funcs
+import playlists_managment.spotify_funcs as spotify_funcs
 import playlists_managment.public_funcs
 
+# Setup logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Initialize Telegram bot
 bot = telebot.TeleBot(APIs.telegram_Bot_API)
 
-my_relevant = []
+# Global variables
+my_relevant: List[Artist] = []
 tomorrowland_lineup_weekend_json_files = ['tml2024w1.json', 'tml2024w2.json']
 weekend_names = ["weekend 1", "weekend 2"]
 selected_weekend = "none"
 artists_str = ""
-artists_to_print_list = []
-playlist_links_list = []
+artists_to_print_list: List[Artist] = []
+playlist_links_list: List[str] = []
 
-# keyboards (buttons):
+# Keyboards (buttons)
 weekend_keyboard = telebot.types.InlineKeyboardMarkup()
 weekend1_button = telebot.types.InlineKeyboardButton(text=weekend_names[0], callback_data=weekend_names[0])
 weekend2_button = telebot.types.InlineKeyboardButton(text=weekend_names[1], callback_data=weekend_names[1])
@@ -33,19 +39,19 @@ generate_lineup_button = telebot.types.InlineKeyboardButton("Generate AI Lineup"
 no_lineup_button = telebot.types.InlineKeyboardButton("No, I'm done", callback_data='done')
 generate_lineup_keyboard.add(generate_lineup_button, no_lineup_button)
 
-
 gif = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW45bTBnaGRxbmF0a2wxbnJ0ajR6aDV6MHJ6eTltMnphY2xqZmdpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5zoxhCaYbdVHoJkmpf/giphy.gif"
 
-def get_matching_artists(playlist_artists, lineup_data):
+
+def get_matching_artists(playlist_artists: List[Artist], lineup_data: List[Artist]) -> List[Artist]:
     """
     Finds and returns artists that appear in both the playlist and the festival lineup.
 
     Args:
-        playlist_artists (list): 'Artist' objects from the Spotify playlist.
-        lineup_data (list): 'Artist' objects from the festival lineup.
+        playlist_artists (List[Artist]): 'Artist' objects from the Spotify playlist.
+        lineup_data (List[Artist]): 'Artist' objects from the festival lineup.
 
     Returns:
-        list: Matching 'Artist' objects with updated 'songs_num' values.
+        List[Artist]: Matching 'Artist' objects with updated 'songs_num' values.
     """
     # Create a dictionary to map artist names to their corresponding objects in the lineup data
     lineup_artist_map = {artist.name: artist for artist in lineup_data}
@@ -61,7 +67,7 @@ def get_matching_artists(playlist_artists, lineup_data):
     return matching_artists
 
 
-def get_lineup_artists_from_playlist(link) -> list[Artist]:
+def get_lineup_artists_from_spotify_playlist(link: str) -> List[Artist]:
     """
     Retrieve relevant artists from a Spotify playlist that match artists in a festival lineup.
 
@@ -69,8 +75,8 @@ def get_lineup_artists_from_playlist(link) -> list[Artist]:
         link (str): The link to the Spotify playlist.
 
     Returns:
-        list: A list of 'Artist' objects representing relevant artists found in both the Spotify playlist and the
-        festival lineup.
+        List[Artist]: A list of 'Artist' objects representing relevant artists found in both the Spotify playlist and
+        the festival lineup.
     """
     try:
         # Retrieve artists from the Spotify playlist
@@ -88,30 +94,36 @@ def get_lineup_artists_from_playlist(link) -> list[Artist]:
         raise
 
 
-def find_artist_and_update_new_data(artists_list, artist_name, songs_num, new_date, other_weekend, host_name_and_stage):
+def find_artist_and_update_new_data(artists_list: List[Artist], artist_name: str, songs_num: int, new_date: str,
+                                    other_weekend: str, host_name_and_stage: str):
     """
     Search for an artist by name in the list of 'artists_list' and update their data of other show.
 
-    Returns:
-        None: The function does not return anything; it updates the attributes of the matching artist in the list.
+    Args:
+        artists_list (List[Artist]): The list of artists to search in.
+        artist_name (str): The name of the artist to find.
+        songs_num (int): The number of songs for the artist.
+        new_date (str): The new date for the other show.
+        other_weekend (str): The weekend number for the other show.
+        host_name_and_stage (str): The host name and stage for the other show.
     """
     for artist in artists_list:
         if artist.name == artist_name:
             artist.songs_num = songs_num
             artist.add_new_show(other_weekend, host_name_and_stage, new_date)
-            break  # Exit the loop once the artist is found and updated
+            break
 
 
-def filter_artists_by_weekend(artists_list, weekend_name):
+def filter_artists_by_weekend(artists_list: List[Artist], weekend_name: str) -> List[Artist]:
     """
     Filter the list of artists based on the provided weekend name.
 
     Args:
-        artists_list (list): A list of 'Artist' objects.
+        artists_list (List[Artist]): A list of 'Artist' objects.
         weekend_name (str): The weekend number to filter by.
 
     Returns:
-        list: A new list containing the 'Artist' objects with shows scheduled for the provided weekend number.
+        List[Artist]: A new list containing the 'Artist' objects with shows scheduled for the provided weekend number.
     """
     filtered_artists = []
 
@@ -126,18 +138,14 @@ def filter_artists_by_weekend(artists_list, weekend_name):
     return filtered_artists
 
 
-def extract_artists_from_tomorrowland_lineup():
+def extract_artists_from_tomorrowland_lineup() -> List[Artist]:
     """
     Extract artist data from the Tomorrowland (TML) festival JSON lineup files.
 
-    This function retrieves the artist data from the Tomorrowland festival lineup
-    JSON files, creates 'Artist' objects for each artist, and returns a list of
-    these objects.
-
     Returns:
-        list: A list of 'Artist' objects containing the extracted data for the artists.
+        List[Artist]: A list of 'Artist' objects containing the extracted data for the artists.
     """
-    artists = []
+    artists: List[Artist] = []
 
     for file in tomorrowland_lineup_weekend_json_files:
         try:
@@ -171,60 +179,66 @@ def extract_artists_from_tomorrowland_lineup():
                         artists.append(artist)
 
         except requests.RequestException as e:
-            print(f"Error fetching data for {file}: {str(e)}")
+            logging.error(f"Error fetching data for {file}: {str(e)}")
         except json.JSONDecodeError as e:
-            print(f"Error decoding JSON in {file}: {str(e)}")
+            logging.error(f"Error decoding JSON in {file}: {str(e)}")
 
     return artists
 
 
-# def generate_and_print_ai_lineup(chat_id, artists_str: str, selected_weekend: str):
-def generate_and_print_ai_lineup(chat_id):
 
-    # claude:
-    # response = claude.generate_response(artists_str, selected_weekend)
-    # print(response[0].text)
+def generate_and_print_ai_lineup(chat_id: str):
+    """
+    Generate and print the AI lineup.
 
-    # Gemini:
+    Args:
+        chat_id (str): The chat ID of the Telegram user.
+    """
+
     bot.send_message(chat_id=chat_id, text="Your lineup is in process, please wait a while.. ", parse_mode='Markdown')
     bot.send_animation(chat_id=chat_id, animation=gif)
+
+    #clude:
+    # response = Claude.generate_response(artists_str, selected_weekend)
+    # logging.info(f"AI response: {str(response)}")
+    # bot.send_message(chat_id=chat_id, text=str(response))
+
+    #gemini:
     response = Gemini.generate_response(artists_str, selected_weekend)
-    print(str(response))
+    logging.info(f"AI response: {str(response)}")
 
     bot.send_message(chat_id=chat_id, text=str(response))
 
 
-def message_artists_to_user(call, artists_list):
+def message_artists_to_user(call, artists_list: List[Artist]):
     """
     Print and send messages for each item in the 'artists_list' list.
+
+    Args:
+        call: The Telegram callback query object.
+        artists_list (List[Artist]): The list of artists to send messages for.
     """
     global artists_to_print_list
     global selected_weekend
     global artists_str
     for artist in artists_list:
         bot.send_message(call.message.chat.id, str(artist), parse_mode='Markdown')
-        # print(artist, "\n")
+
+    artists_to_print_list = artists_list
     artists_str = ", ".join(str(art) for art in artists_to_print_list)
-    # print(artists_str)
-    # generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
 
 
-def process_weekend_data(call, weekend_name):
+def process_weekend_data(call, weekend_name: str):
     """
     Process the artist data for the specified weekend.
 
-    This function takes a Telegram `call` object and a weekend name, filters the
-    list of relevant artists based on the weekend, and sends messages to the user
-    with the filtered artist information.
-
     Args:
-        call (telegram.CallbackQuery): The Telegram callback query object.
+        call: The Telegram callback query object.
         weekend_name (str): The name of the weekend to filter the artist data by.
     """
     # Filter the artists based on the specified weekend
     output_artists = filter_artists_by_weekend(my_relevant, weekend_name=weekend_name)
-    global artists_to_print_list
-    artists_to_print_list = output_artists
+
     # Send a message with the number of artists found for the weekend
     bot.send_message(
         call.message.chat.id,
@@ -237,17 +251,29 @@ def process_weekend_data(call, weekend_name):
 
 @bot.message_handler(commands=["start"])
 def start(message):
+    """
+    Handle the /start command.
+
+    Args:
+        message: The Telegram message object.
+    """
     bot.send_message(message.chat.id, "Hello! I am the Telegram bot.\nTo get started, send a playlist link:")
     username = message.from_user.username
-    print(f'Username is: {username}, wrote:\n{str(message.text)}')
+    logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
 
 
-# TODO: Add an option for apple music links.
 @bot.message_handler(func=lambda message: not message.text.startswith("https://open.spotify.com/playlist/"))
 def handle_invalid_link(message):
+    """
+    Handle invalid Spotify links.
+
+    Args:
+        message: The Telegram message object.
+    """
     bot.send_message(message.chat.id, "Please send a valid Spotify link!")
     username = message.from_user.username
-    print(f'Username is: {username}, wrote:\n{str(message.text)}')
+    logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
+
 
 
 # @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
@@ -277,28 +303,36 @@ def handle_invalid_link(message):
 
 @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
 def handle_spotify_link(message):
-    """Handles incoming Spotify playlist links"""
+    """
+    Handle incoming Spotify playlist links.
 
+    Args:
+        message: The Telegram message object.
+    """
     username = message.from_user.username
-    logging.info(f'User {username} sent Spotify link: {message.text}')
+    logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
 
     if not playlists_managment.public_funcs.is_link_valid(message.text):
         bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
         logging.warning('Invalid Spotify link received')
         return
 
-    print(f'Username is: {username}, wrote:\n{str(message.text)}')
     new_link = spotify_funcs.cut_content_after_question_mark(message.text)
     global my_relevant
-    my_relevant = get_lineup_artists_from_playlist(new_link)
+    my_relevant = get_lineup_artists_from_spotify_playlist(new_link)
 
     bot.send_message(message.chat.id, 'Select a weekend:', reply_markup=weekend_keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: call.data)
 def handle_callback(call):
-    if call.data != 'weekend_all' or call.data != weekend_names[0] or call.data != weekend_names[1]:
-        # its valid input
+    """
+    Handle callback queries from inline keyboard buttons.
+
+    Args:
+        call: The Telegram callback query object.
+    """
+    if call.data in ['weekend_all', weekend_names[0], weekend_names[1]]:
         if call.data == 'weekend_all':
             bot.send_message(call.message.chat.id, "*All artists:*\n", parse_mode='Markdown')
             bot.send_message(call.message.chat.id,
@@ -306,34 +340,34 @@ def handle_callback(call):
                              parse_mode='Markdown')
             message_artists_to_user(call, my_relevant)
 
-        elif call.data == weekend_names[0] or call.data == weekend_names[1]:
-            # its a regular week
+        elif call.data in [weekend_names[0], weekend_names[1]]:
             global selected_weekend
             selected_weekend = call.data
-            print(selected_weekend + " selected\n")
+            logging.info(f"{selected_weekend} selected")
             process_weekend_data(call, selected_weekend)
 
-            # ask the user if they want to generate an AI lineup
+            # Ask the user if they want to generate an AI lineup
             bot.send_message(call.message.chat.id, "Would you like to generate an AI lineup?",
                              reply_markup=generate_lineup_keyboard)
-            print("--------------------------------------------------------------")
-            print("the call.data is: ", call.data, "\n")
-            print("--------------------------------------------------------------")
-        elif call.data == 'generate_ai_lineup':
-            # generate_and_print_ai_lineup(call.message.chat.id, artists_str, selected_weekend)
-            generate_and_print_ai_lineup(call.message.chat.id)
+            logging.info(f"The call.data is: {call.data}")
 
-        elif call.data == 'done':
-            bot.send_message(call.message.chat.id,
-                             'You have chosen not to generate an AI lineup. \nIf you want to generate an AI lineup,'
-                             ' you can click the button again.\nIf you want to generate a lineup for a different '
-                             'playlist, send the playlist link again.\nGoodbye for now!')
+    elif call.data == 'generate_ai_lineup':
+        logging.info(f"{call.data} clicked ")
+        generate_and_print_ai_lineup(call.message.chat.id)
 
-    #
-    #
-    # else:
-    #     bot.send_message(call.message.chat.id, 'Invalid option selected!')
-    #     print("--------------------------------------------------------------")
+    elif call.data == 'done':
+        logging.info(f"{call.data} clicked ")
+        bot.send_message(call.message.chat.id,
+                        'You have chosen not to generate an AI lineup. \n'
+                        'If you want to generate an AI lineup, you can click the button again.\n'
+                        'If you want to generate a lineup for a different playlist, send the playlist link again.\n'
+                        'Goodbye for now!')
+
+    else:
+        bot.send_message(call.message.chat.id, 'Invalid option selected!')
+        logging.warning("Invalid option selected")
 
 
-bot.infinity_polling()
+# Start the bot and keep it running
+if __name__ == "__main__":
+    bot.infinity_polling()
