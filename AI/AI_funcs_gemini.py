@@ -1,4 +1,5 @@
 # ./AI/AI_funcs_gemini.py
+import logging
 
 import google.generativeai as genai
 
@@ -48,8 +49,7 @@ def generate_response(artists_output: str, weekend_input: str):
             "input:" + full_prompt + " ",
             "output: "
         ]
-        print("waiting for gemini response......")
-
+        logging.info("waiting for gemini response......")
         return model.generate_content(prompt_parts).text
     except Exception as e:
         return str(e)
