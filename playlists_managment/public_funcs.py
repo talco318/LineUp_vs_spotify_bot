@@ -17,7 +17,6 @@ def is_link_valid(link):
     try:
         response = requests.get(link)
         # Check if the request was successful.
-        print(response.status_code)
         return response.status_code == 200
     except requests.exceptions.HTTPError:
         # The link is not valid.
