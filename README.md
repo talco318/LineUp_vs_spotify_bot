@@ -11,7 +11,7 @@ User-Friendly: With a user-friendly interface on Telegram, it's easy for anyone 
 Powered by Spotify and Telegram APIs: This bot leverages the Spotify API to access playlist information and the Telegram Bot API for seamless communication.
 JSON Database: The bot uses a JSON database to efficiently store and retrieve Tomorrowland show details, ensuring speedy responses to user requests.
 
-![image](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/32d427be-67bd-47a3-a422-cb33a5be64dc)
+![Screenshot 2024-05-13 100509](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/168c2336-98f4-43bd-9afb-322673d66ba9)
 
 
 ## Upcoming Features in V2 (coming soon!):
