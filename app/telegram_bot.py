@@ -11,7 +11,7 @@ from AI import AI_funcs_gemini as Gemini
 from app.artist import Artist
 import playlists_managment.spotify_funcs as spotify_funcs
 import playlists_managment.public_funcs
-
+from TML_lineup_managment.public_funcs import extract_artists_from_tomorrowland_lineup
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -44,7 +44,7 @@ gif = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW45bTBnaGRxbmF0a2wxbnJ
 
 def get_matching_artists(playlist_artists: List[Artist], lineup_data: List[Artist]) -> List[Artist]:
     """
-    Finds and returns artists that appear in both the playlist and the festival lineup.
+    Finds and returns Artist list of artists that appear in both - playlist and the festival lineup.
 
     Args:
         playlist_artists (List[Artist]): 'Artist' objects from the Spotify playlist.
@@ -69,7 +69,9 @@ def get_matching_artists(playlist_artists: List[Artist], lineup_data: List[Artis
 
 def get_lineup_artists_from_spotify_playlist(link: str) -> List[Artist]:
     """
-    Retrieve relevant artists from a Spotify playlist that match artists in a festival lineup.
+    Retrieve relevant artists from a Spotify playlist,
+    Retrieve relevant artists from the Tomorrowland lineup,
+    Find the matching artists between the playlist and the lineup.
 
     Args:
         link (str): The link to the Spotify playlist.
@@ -82,7 +84,7 @@ def get_lineup_artists_from_spotify_playlist(link: str) -> List[Artist]:
         # Retrieve artists from the Spotify playlist
         playlist_artists = spotify_funcs.get_artists_from_spotify_playlist(link)
 
-        # Retrieve artists from the festival lineup
+        # Retrieve relevant artists from the Tomorrowland lineup
         lineup_data = extract_artists_from_tomorrowland_lineup()
 
         # Find the matching artists between the playlist and the lineup
@@ -92,26 +94,6 @@ def get_lineup_artists_from_spotify_playlist(link: str) -> List[Artist]:
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
         raise
-
-
-def find_artist_and_update_new_data(artists_list: List[Artist], artist_name: str, songs_num: int, new_date: str,
-                                    other_weekend: str, host_name_and_stage: str):
-    """
-    Search for an artist by name in the list of 'artists_list' and update their data of other show.
-
-    Args:
-        artists_list (List[Artist]): The list of artists to search in.
-        artist_name (str): The name of the artist to find.
-        songs_num (int): The number of songs for the artist.
-        new_date (str): The new date for the other show.
-        other_weekend (str): The weekend number for the other show.
-        host_name_and_stage (str): The host name and stage for the other show.
-    """
-    for artist in artists_list:
-        if artist.name == artist_name:
-            artist.songs_num = songs_num
-            artist.add_new_show(other_weekend, host_name_and_stage, new_date)
-            break
 
 
 def filter_artists_by_weekend(artists_list: List[Artist], weekend_name: str) -> List[Artist]:
@@ -136,54 +118,6 @@ def filter_artists_by_weekend(artists_list: List[Artist], weekend_name: str) -> 
             filtered_artists.append(artist)
 
     return filtered_artists
-
-
-def extract_artists_from_tomorrowland_lineup() -> List[Artist]:
-    """
-    Extract artist data from the Tomorrowland (TML) festival JSON lineup files.
-
-    Returns:
-        List[Artist]: A list of 'Artist' objects containing the extracted data for the artists.
-    """
-    artists: List[Artist] = []
-
-    for file in tomorrowland_lineup_weekend_json_files:
-        try:
-            # Construct the URL for the JSON data
-            url = f'https://clashfinder.com/data/event/{file}'
-            headers = {'User-Agent': 'My App 1.0'}
-
-            # Fetch the JSON data and parse it
-            response = requests.get(url, headers=headers)
-            response.raise_for_status()
-            data = response.json()
-
-            # Extract artist information from the JSON data
-            locations = data.get("locations")
-            for location in locations:
-                events = location.get("events")
-                for event in events:
-                    name = event.get("name")
-                    start = event.get("start")
-                    end = event.get("end")
-                    weekend = weekend_names[0] if file == 'tml2024w1.json' else weekend_names[1]
-                    host_name_and_stage = location.get("name")
-                    time = f'{start} to {end}'
-
-                    # Create an 'Artist' object and update or add it to the artists list
-                    artist = Artist(name=name, host_name_and_stage=host_name_and_stage, weekend=weekend, date=time)
-                    matching_artists = [a for a in artists if a.name == artist.name]
-                    if matching_artists:
-                        find_artist_and_update_new_data(artists, artist.name, 0, time, weekend, host_name_and_stage)
-                    else:
-                        artists.append(artist)
-
-        except requests.RequestException as e:
-            logging.error(f"Error fetching data for {file}: {str(e)}")
-        except json.JSONDecodeError as e:
-            logging.error(f"Error decoding JSON in {file}: {str(e)}")
-
-    return artists
 
 
 
@@ -230,7 +164,7 @@ def message_artists_to_user(call, artists_list: List[Artist]):
 
 def process_weekend_data(call, weekend_name: str):
     """
-    Process the artist data for the specified weekend.
+    Process the artist data for the specified weekend to the telegram chat.
 
     Args:
         call: The Telegram callback query object.
@@ -309,6 +243,7 @@ def handle_spotify_link(message):
     Args:
         message: The Telegram message object.
     """
+    bot.send_message(message.chat.id, "Great!\nNext step:", parse_mode='Markdown')
     username = message.from_user.username
     logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
 
@@ -321,7 +256,7 @@ def handle_spotify_link(message):
     global my_relevant
     my_relevant = get_lineup_artists_from_spotify_playlist(new_link)
 
-    bot.send_message(message.chat.id, 'Select a weekend:', reply_markup=weekend_keyboard)
+    bot.send_message(message.chat.id, 'Select the weekend you will attend the Tomorrowland festival:', reply_markup=weekend_keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: call.data)
