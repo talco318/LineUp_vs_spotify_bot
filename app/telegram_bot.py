@@ -209,54 +209,55 @@ def handle_invalid_link(message):
     logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
 
 
-
-# @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
-# def handle_spotify_link(message):
-#     """Handles incoming Spotify playlist links"""
-#     global my_relevant
-#
-#     username = message.from_user.username
-#     logging.info(f'User {username} sent Spotify link: {message.text}')
-#
-#     playlist_links_list = playlists_managment.public_funcs.split_links(message.text)
-#     for i, link in enumerate(playlist_links_list):
-#         playlist_links_list[i] = spotify_funcs.cut_content_after_question_mark(message.text)
-#         my_relevant.extend(get_lineup_artists_from_playlist(playlist_links_list[i]))
-#
-#     if not playlists_managment.public_funcs.is_link_valid(message.text):
-#         bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
-#         logging.warning('Invalid Spotify link received')
-#         return
-#
-#     print(f'Username is: {username}, wrote:\n{str(message.text)}')
-#
-#
-#     bot.send_message(message.chat.id, 'Select a weekend:', reply_markup=weekend_keyboard)
-
-
+# for multiple links:
 
 @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
 def handle_spotify_link(message):
-    """
-    Handle incoming Spotify playlist links.
+    """Handles incoming Spotify playlist links"""
+    global my_relevant
 
-    Args:
-        message: The Telegram message object.
-    """
-    bot.send_message(message.chat.id, "Great!\nNext step:", parse_mode='Markdown')
     username = message.from_user.username
-    logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
+    logging.info(f'User {username} sent Spotify link: {message.text}')
+
+    playlist_links_list = playlists_managment.public_funcs.split_links(message.text)
+    for i, link in enumerate(playlist_links_list):
+        playlist_links_list[i] = spotify_funcs.cut_content_after_question_mark(message.text)
+        my_relevant.extend(get_lineup_artists_from_spotify_playlist(playlist_links_list[i]))
 
     if not playlists_managment.public_funcs.is_link_valid(message.text):
         bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
         logging.warning('Invalid Spotify link received')
         return
 
-    new_link = spotify_funcs.cut_content_after_question_mark(message.text)
-    global my_relevant
-    my_relevant = get_lineup_artists_from_spotify_playlist(new_link)
 
-    bot.send_message(message.chat.id, 'Select the weekend you will attend the Tomorrowland festival:', reply_markup=weekend_keyboard)
+
+    bot.send_message(message.chat.id, 'Select a weekend:', reply_markup=weekend_keyboard)
+
+
+# for one links - the current version:
+
+# @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
+# def handle_spotify_link(message):
+#     """
+#     Handle incoming Spotify playlist links.
+#
+#     Args:
+#         message: The Telegram message object.
+#     """
+#     bot.send_message(message.chat.id, "Great!\nNext step:", parse_mode='Markdown')
+#     username = message.from_user.username
+#     logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
+#
+#     if not playlists_managment.public_funcs.is_link_valid(message.text):
+#         bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
+#         logging.warning('Invalid Spotify link received')
+#         return
+#
+#     new_link = spotify_funcs.cut_content_after_question_mark(message.text)
+#     global my_relevant
+#     my_relevant = get_lineup_artists_from_spotify_playlist(new_link)
+#
+#     bot.send_message(message.chat.id, 'Select the weekend you will attend the Tomorrowland festival:', reply_markup=weekend_keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: call.data)
