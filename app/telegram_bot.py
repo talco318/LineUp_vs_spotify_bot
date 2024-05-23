@@ -41,6 +41,13 @@ generate_lineup_keyboard.add(generate_lineup_button, no_lineup_button)
 
 gif = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW45bTBnaGRxbmF0a2wxbnJ0ajR6aDV6MHJ6eTltMnphY2xqZmdpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5zoxhCaYbdVHoJkmpf/giphy.gif"
 
+def clear_all():
+    my_relevant.clear()
+    selected_weekend = "none"
+    artists_str = ""
+    artists_to_print_list.clear()
+    playlist_links_list.clear()
+    logging.info("All data has been cleared")
 
 def get_matching_artists(playlist_artists: List[Artist], lineup_data: List[Artist]) -> List[Artist]:
     """
@@ -161,7 +168,6 @@ def generate_and_print_ai_lineup(chat_id: str):
 #     artists_to_print_list = artists_list
 #     artists_str = ", ".join(str(art) for art in artists_to_print_list)
 
-
 def message_artists_to_user(call, artists_list: List[Artist]):
     """
     Print and send messages for each item in the 'artists_list' list.
@@ -174,11 +180,12 @@ def message_artists_to_user(call, artists_list: List[Artist]):
     global selected_weekend
     global artists_str
 
-    artists_chunks = [artists_list[i:i+12] for i in range(0, len(artists_list), 13)]
+    artists_chunks = [artists_list[i:i+12] for i in range(0, len(artists_list), 12)]
 
     for chunk in artists_chunks:
+        chunk_str = ""
         for artist in chunk:
-            chunk_str += str(artist) + "\n\n------------------------------------------\n\n"
+            chunk_str += str(artist) + "\n\n__________________________________________________\n\n"
         bot.send_message(call.message.chat.id, chunk_str, parse_mode='Markdown')
 
     artists_to_print_list = artists_list
@@ -242,10 +249,10 @@ def handle_invalid_link(message):
 def handle_spotify_link(message):
     """Handles incoming Spotify playlist links"""
     global my_relevant
-
+    bot.send_message(message.chat.id, "Great!\nNext step:", parse_mode='Markdown')
     username = message.from_user.username
     logging.info(f'User {username} sent Spotify link: {message.text}')
-    bot.send_message(message.chat.id, "Great! Hold on", parse_mode='Markdown')
+
     playlist_links_list = playlists_managment.public_funcs.split_links(message.text)
     for i, link in enumerate(playlist_links_list):
         playlist_links_list[i] = spotify_funcs.cut_content_after_question_mark(message.text)
@@ -258,7 +265,8 @@ def handle_spotify_link(message):
 
 
 
-    bot.send_message(message.chat.id, 'Select a weekend:', reply_markup=weekend_keyboard)
+    bot.send_message(message.chat.id, 'If you want to add one more weekend, just send the link.\n'
+                                      'If not - select your weekend:', reply_markup=weekend_keyboard)
 
 
 # for one links - the current version:
@@ -319,6 +327,7 @@ def handle_callback(call):
         generate_and_print_ai_lineup(call.message.chat.id)
 
     elif call.data == 'done':
+        clear_all()
         logging.info(f"{call.data} clicked ")
         bot.send_message(call.message.chat.id,
                         'You have chosen not to generate an AI lineup. \n'
