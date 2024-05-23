@@ -144,6 +144,24 @@ def generate_and_print_ai_lineup(chat_id: str):
     bot.send_message(chat_id=chat_id, text=str(response))
 
 
+# def message_artists_to_user(call, artists_list: List[Artist]):
+#     """
+#     Print and send messages for each item in the 'artists_list' list.
+#
+#     Args:
+#         call: The Telegram callback query object.
+#         artists_list (List[Artist]): The list of artists to send messages for.
+#     """
+#     global artists_to_print_list
+#     global selected_weekend
+#     global artists_str
+#     for artist in artists_list:
+#         bot.send_message(call.message.chat.id, str(artist), parse_mode='Markdown')
+#
+#     artists_to_print_list = artists_list
+#     artists_str = ", ".join(str(art) for art in artists_to_print_list)
+
+
 def message_artists_to_user(call, artists_list: List[Artist]):
     """
     Print and send messages for each item in the 'artists_list' list.
@@ -155,11 +173,17 @@ def message_artists_to_user(call, artists_list: List[Artist]):
     global artists_to_print_list
     global selected_weekend
     global artists_str
-    for artist in artists_list:
-        bot.send_message(call.message.chat.id, str(artist), parse_mode='Markdown')
+
+    artists_chunks = [artists_list[i:i+12] for i in range(0, len(artists_list), 13)]
+
+    for chunk in artists_chunks:
+        for artist in chunk:
+            chunk_str += str(artist) + "\n\n------------------------------------------\n\n"
+        bot.send_message(call.message.chat.id, chunk_str, parse_mode='Markdown')
 
     artists_to_print_list = artists_list
     artists_str = ", ".join(str(art) for art in artists_to_print_list)
+
 
 
 def process_weekend_data(call, weekend_name: str):
@@ -191,7 +215,10 @@ def start(message):
     Args:
         message: The Telegram message object.
     """
-    bot.send_message(message.chat.id, "Hello! I am the Telegram bot.\nTo get started, send a playlist link:")
+    first_message = "Hello! I am the Telegram bot.\nTo get started, send a playlist link:\nNotes:\nIf you want to use " \
+                    "your liked songs playlist, you have to copy it to a new playlist (as mentioned " \
+                    "<a href='https://community.spotify.com/t5/Your-Library/Create-a-Playlist-from-Liked-Songs/td-p/4998474'>here</a>)."
+    bot.send_message(message.chat.id, first_message, parse_mode='HTML', disable_web_page_preview=True)
     username = message.from_user.username
     logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
 
@@ -218,7 +245,7 @@ def handle_spotify_link(message):
 
     username = message.from_user.username
     logging.info(f'User {username} sent Spotify link: {message.text}')
-
+    bot.send_message(message.chat.id, "Great! Hold on", parse_mode='Markdown')
     playlist_links_list = playlists_managment.public_funcs.split_links(message.text)
     for i, link in enumerate(playlist_links_list):
         playlist_links_list[i] = spotify_funcs.cut_content_after_question_mark(message.text)
