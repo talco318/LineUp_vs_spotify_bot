@@ -185,7 +185,7 @@ def message_artists_to_user(call, artists_list: List[Artist]):
     for chunk in artists_chunks:
         chunk_str = ""
         for artist in chunk:
-            chunk_str += str(artist) + "\n\n__________________________________________________\n\n"
+            chunk_str += str(artist) + "\n\n--------------------------------\n\n"
         bot.send_message(call.message.chat.id, chunk_str, parse_mode='Markdown')
 
     artists_to_print_list = artists_list
