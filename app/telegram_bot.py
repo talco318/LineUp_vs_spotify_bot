@@ -218,10 +218,13 @@ def handle_spotify_link(message):
     username = message.from_user.username
     logging.info(f'User {username} sent Spotify link: {message.text}')
     checked_link = spotify_funcs.cut_content_after_question_mark(message.text)
+    # Check if the link is already in the list
     if checked_link not in user_session.playlist_links_list:
+        # Add the link to the list of playlist links
         user_session.playlist_links_list.append(playlists_managment.public_funcs.split_links(checked_link))
         for i, link in enumerate(user_session.playlist_links_list):
             user_session.playlist_links_list[i] = spotify_funcs.cut_content_after_question_mark(checked_link)
+            # Get the artists from the new playlist - and add them to the relevant artists list
             user_session.my_relevant.extend(get_lineup_artists_from_spotify_playlist(user_session, user_session.playlist_links_list[i]))
 
     if not playlists_managment.public_funcs.is_link_valid(checked_link):
