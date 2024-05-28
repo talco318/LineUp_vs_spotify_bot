@@ -217,13 +217,14 @@ def handle_spotify_link(message):
     bot.send_message(message.chat.id, "Great!\nNext step:", parse_mode='Markdown')
     username = message.from_user.username
     logging.info(f'User {username} sent Spotify link: {message.text}')
+    checked_link = spotify_funcs.cut_content_after_question_mark(message.text)
+    if checked_link not in user_session.playlist_links_list:
+        user_session.playlist_links_list.append(playlists_managment.public_funcs.split_links(checked_link))
+        for i, link in enumerate(user_session.playlist_links_list):
+            user_session.playlist_links_list[i] = spotify_funcs.cut_content_after_question_mark(checked_link)
+            user_session.my_relevant.extend(get_lineup_artists_from_spotify_playlist(user_session, user_session.playlist_links_list[i]))
 
-    playlist_links_list = playlists_managment.public_funcs.split_links(message.text)
-    for i, link in enumerate(playlist_links_list):
-        playlist_links_list[i] = spotify_funcs.cut_content_after_question_mark(message.text)
-        user_session.my_relevant.extend(get_lineup_artists_from_spotify_playlist(user_session, playlist_links_list[i]))
-
-    if not playlists_managment.public_funcs.is_link_valid(message.text):
+    if not playlists_managment.public_funcs.is_link_valid(checked_link):
         bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
         logging.warning('Invalid Spotify link received')
         return
