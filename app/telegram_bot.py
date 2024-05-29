@@ -41,7 +41,12 @@ no_lineup_button = telebot.types.InlineKeyboardButton("No, I'm done", callback_d
 generate_lineup_keyboard.add(generate_lineup_button, no_lineup_button)
 
 
-def get_matching_artists(user_session: UserSession, playlist_artists: List[Artist], lineup_data: List[Artist]) -> List[Artist]:
+def typing_action(bot, chat_id):
+    bot.send_chat_action(chat_id=chat_id, action='typing')
+
+
+def get_matching_artists(user_session: UserSession, playlist_artists: List[Artist], lineup_data: List[Artist]) -> List[
+    Artist]:
     """
     Find and return a list of artists that appear in both the provided Spotify playlist and festival lineup.
 
@@ -62,7 +67,8 @@ def get_matching_artists(user_session: UserSession, playlist_artists: List[Artis
             try:
                 if playlist_artist.name in lineup_artist_names:
                     # Find the matching artist object from the lineup data
-                    lineup_artist = next((artist for artist in lineup_data if artist.name == playlist_artist.name), None)
+                    lineup_artist = next((artist for artist in lineup_data if artist.name == playlist_artist.name),
+                                         None)
                     if lineup_artist:
                         lineup_artist.songs_num = playlist_artist.songs_num
                         matching_artists.append(lineup_artist)
@@ -144,16 +150,21 @@ def generate_and_print_ai_lineup(user_session: UserSession, chat_id: str):
         chat_id (str): The chat ID of the Telegram user.
     """
     try:
-        bot.send_message(chat_id=chat_id, text="Your lineup is in process, please wait a while.. ", parse_mode='Markdown')
+        typing_action(bot, chat_id)
+        bot.send_message(chat_id=chat_id, text="Your lineup is in process, please wait a while.. ",
+                         parse_mode='Markdown')
         bot.send_animation(chat_id=chat_id, animation=gif)
-
+        bot.send_chat_action(chat_id=chat_id, action='typing')
+        typing_action(bot, chat_id)
         response = Gemini.generate_response(user_session.artists_str, user_session.selected_weekend)
         logging.info(f"AI response: {str(response)}")
-
+        typing_action(bot, chat_id)
         bot.send_message(chat_id=chat_id, text=str(response))
     except Exception as e:
         logging.error(f"Error generating and printing AI lineup: {str(e)}")
-        bot.send_message(chat_id=chat_id, text="An error occurred while generating the AI lineup. Please try again later.")
+        typing_action(bot, chat_id)
+        bot.send_message(chat_id=chat_id,
+                         text="An error occurred while generating the AI lineup. Please try again later.")
 
 
 def message_artists_to_user(call, user_session: UserSession):
@@ -168,8 +179,8 @@ def message_artists_to_user(call, user_session: UserSession):
         artists_list = user_session.my_relevant
 
         # Split the artists list into chunks of 12 artists
-        artists_chunks = [artists_list[i:i+12] for i in range(0, len(artists_list), 12)]
-
+        artists_chunks = [artists_list[i:i + 12] for i in range(0, len(artists_list), 12)]
+        typing_action(bot, call.message.chat.id)
         for chunk in artists_chunks:
             chunk_str = ""
             for artist in chunk:
@@ -180,7 +191,8 @@ def message_artists_to_user(call, user_session: UserSession):
         user_session.artists_str = ", ".join(str(art) for art in user_session.artists_to_print_list)
     except Exception as e:
         logging.error(f"Error messaging artists to user: {str(e)}")
-        bot.send_message(call.message.chat.id, "An error occurred while processing the artist list. Please try again later.")
+        bot.send_message(call.message.chat.id,
+                         "An error occurred while processing the artist list. Please try again later.")
 
 
 def process_weekend_data(call, user_session: UserSession, weekend_name: str):
@@ -195,11 +207,11 @@ def process_weekend_data(call, user_session: UserSession, weekend_name: str):
     # Filter the artists based on the specified weekend
     output_artists = filter_artists_by_weekend(user_session, weekend_name=weekend_name)
     # Send a message with the number of artists found for the weekend
+    typing_action(bot, call.message.chat.id)
     bot.send_message(
         call.message.chat.id,
         f"*{weekend_name} artists:*\n*{len(output_artists)}* artists that have been found in {weekend_name}:",
-        parse_mode='Markdown'
-    )
+        parse_mode='Markdown')
 
     message_artists_to_user(call, user_session)
 
@@ -219,6 +231,8 @@ def start(message):
     first_message = "Hello! I am the Telegram bot.\nTo get started, send a playlist link:\nNotes:\nIf you want to use " \
                     "your liked songs playlist, you have to copy it to a new playlist (as mentioned " \
                     "<a href='https://community.spotify.com/t5/Your-Library/Create-a-Playlist-from-Liked-Songs/td-p/4998474'>here</a>)."
+    typing_action(bot, message.chat.id)
+
     bot.send_message(message.chat.id, first_message, parse_mode='HTML', disable_web_page_preview=True)
     username = message.from_user.username
     logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
@@ -232,6 +246,7 @@ def handle_invalid_link(message):
     Args:
         message: The Telegram message object.
     """
+    typing_action(bot, message.chat.id)
     bot.send_message(message.chat.id, "Please send a valid Spotify link!")
     username = message.from_user.username
     logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
@@ -250,6 +265,7 @@ def handle_spotify_link(message):
         user_sessions[chat_id] = UserSession()
     user_session = user_sessions[chat_id]
     bot.send_message(message.chat.id, "Great!\nNext step:", parse_mode='Markdown')
+    typing_action(bot, message.chat.id)
     username = message.from_user.username
     logging.info(f'User {username} sent Spotify link: {message.text}')
     checked_link = spotify_funcs.cut_content_after_question_mark(message.text)
@@ -260,12 +276,15 @@ def handle_spotify_link(message):
         for i, link in enumerate(user_session.playlist_links_list):
             user_session.playlist_links_list[i] = spotify_funcs.cut_content_after_question_mark(checked_link)
             # Get the artists from the new playlist - and add them to the relevant artists list
-            user_session.my_relevant.extend(get_lineup_artists_from_spotify_playlist(user_session, user_session.playlist_links_list[i]))
+            user_session.my_relevant.extend(
+                get_lineup_artists_from_spotify_playlist(user_session, user_session.playlist_links_list[i]))
 
     if not playlists_managment.public_funcs.is_link_valid(checked_link):
         bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
         logging.warning('Invalid Spotify link received')
         return
+
+    typing_action(bot, message.chat.id)
 
     bot.send_message(message.chat.id, 'If you want to add one more weekend, just send the link.\n'
                                       'If not - select your weekend:', reply_markup=weekend_keyboard)
