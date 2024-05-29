@@ -53,18 +53,26 @@ def get_matching_artists(user_session, playlist_artists, lineup_data):
     Returns:
         List[Artist]: Matching 'Artist' objects with updated 'songs_num' values.
     """
-    # Create a dictionary to map artist names to their corresponding objects in the lineup data
-    lineup_artist_map = {artist.name: artist for artist in lineup_data}
+    try:
+        # Create a dictionary to map artist names to their corresponding objects in the lineup data
+        lineup_artist_map = {artist.name: artist for artist in lineup_data}
 
-    # Iterate through the playlist artists and update the songs_num attribute for matching artists
-    matching_artists = []
-    for playlist_artist in playlist_artists:
-        if playlist_artist.name in lineup_artist_map:
-            lineup_artist = lineup_artist_map[playlist_artist.name]
-            lineup_artist.songs_num = playlist_artist.songs_num
-            matching_artists.append(lineup_artist)
+        # Iterate through the playlist artists and update the songs_num attribute for matching artists
+        matching_artists = []
+        for playlist_artist in playlist_artists:
+            try:
+                if playlist_artist.name in lineup_artist_map:
+                    lineup_artist = lineup_artist_map[playlist_artist.name]
+                    lineup_artist.songs_num = playlist_artist.songs_num
+                    matching_artists.append(lineup_artist)
+            except Exception as e:
+                logging.error(f"Error processing artist {playlist_artist.name}: {str(e)}")
+                continue
 
-    return matching_artists
+        return matching_artists
+    except Exception as e:
+        logging.error(f"Error in get_matching_artists: {str(e)}")
+        return []
 
 def get_lineup_artists_from_spotify_playlist(user_session, link):
     """
@@ -106,17 +114,25 @@ def filter_artists_by_weekend(user_session, weekend_name):
     Returns:
         List[Artist]: A new list containing the 'Artist' objects with shows scheduled for the provided weekend number.
     """
-    filtered_artists = []
+    try:
+        filtered_artists = []
 
-    for artist in user_session.my_relevant:
-        # Check if the artist's primary show is scheduled for the given weekend
-        if artist.show.weekend_number == weekend_name:
-            filtered_artists.append(artist)
-        # Check if the artist has a secondary show scheduled for the given weekend
-        elif artist.show2 is not None and artist.show2.weekend_number == weekend_name:
-            filtered_artists.append(artist)
+        for artist in user_session.my_relevant:
+            try:
+                # Check if the artist's primary show is scheduled for the given weekend
+                if artist.show.weekend_number == weekend_name:
+                    filtered_artists.append(artist)
+                # Check if the artist has a secondary show scheduled for the given weekend
+                elif artist.show2 is not None and artist.show2.weekend_number == weekend_name:
+                    filtered_artists.append(artist)
+            except Exception as e:
+                logging.error(f"Error processing artist {artist.name}: {str(e)}")
+                continue
 
-    return filtered_artists
+        return filtered_artists
+    except Exception as e:
+        logging.error(f"Error in filter_artists_by_weekend: {str(e)}")
+        return []
 
 def generate_and_print_ai_lineup(user_session, chat_id):
     """
@@ -126,14 +142,17 @@ def generate_and_print_ai_lineup(user_session, chat_id):
         user_session (UserSession): The user session object.
         chat_id (str): The chat ID of the Telegram user.
     """
+    try:
+        bot.send_message(chat_id=chat_id, text="Your lineup is in process, please wait a while.. ", parse_mode='Markdown')
+        bot.send_animation(chat_id=chat_id, animation=gif)
 
-    bot.send_message(chat_id=chat_id, text="Your lineup is in process, please wait a while.. ", parse_mode='Markdown')
-    bot.send_animation(chat_id=chat_id, animation=gif)
+        response = Gemini.generate_response(user_session.artists_str, user_session.selected_weekend)
+        logging.info(f"AI response: {str(response)}")
 
-    response = Gemini.generate_response(user_session.artists_str, user_session.selected_weekend)
-    logging.info(f"AI response: {str(response)}")
-
-    bot.send_message(chat_id=chat_id, text=str(response))
+        bot.send_message(chat_id=chat_id, text=str(response))
+    except Exception as e:
+        logging.error(f"Error generating and printing AI lineup: {str(e)}")
+        bot.send_message(chat_id=chat_id, text="An error occurred while generating the AI lineup. Please try again later.")
 
 def message_artists_to_user(call, user_session):
     """
@@ -143,18 +162,22 @@ def message_artists_to_user(call, user_session):
         call: The Telegram callback query object.
         user_session (UserSession): The user session object.
     """
-    artists_list = user_session.my_relevant
+    try:
+        artists_list = user_session.my_relevant
 
-    artists_chunks = [artists_list[i:i+12] for i in range(0, len(artists_list), 12)]
+        artists_chunks = [artists_list[i:i+12] for i in range(0, len(artists_list), 12)]
 
-    for chunk in artists_chunks:
-        chunk_str = ""
-        for artist in chunk:
-            chunk_str += str(artist) + "\n\n--------------------------------\n\n"
-        bot.send_message(call.message.chat.id, chunk_str, parse_mode='Markdown')
+        for chunk in artists_chunks:
+            chunk_str = ""
+            for artist in chunk:
+                chunk_str += str(artist) + "\n\n--------------------------------\n\n"
+            bot.send_message(call.message.chat.id, chunk_str, parse_mode='Markdown')
 
-    user_session.artists_to_print_list = artists_list
-    user_session.artists_str = ", ".join(str(art) for art in user_session.artists_to_print_list)
+        user_session.artists_to_print_list = artists_list
+        user_session.artists_str = ", ".join(str(art) for art in user_session.artists_to_print_list)
+    except Exception as e:
+        logging.error(f"Error messaging artists to user: {str(e)}")
+        bot.send_message(call.message.chat.id, "An error occurred while processing the artist list. Please try again later.")
 
 def process_weekend_data(call, user_session, weekend_name):
     """
