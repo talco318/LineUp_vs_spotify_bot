@@ -41,17 +41,17 @@ no_lineup_button = telebot.types.InlineKeyboardButton("No, I'm done", callback_d
 generate_lineup_keyboard.add(generate_lineup_button, no_lineup_button)
 
 
-def get_matching_artists(user_session, playlist_artists, lineup_data):
+def get_matching_artists(user_session: UserSession, playlist_artists: List[Artist], lineup_data: List[Artist]) -> List[Artist]:
     """
-    Finds and returns Artist list of artists that appear in both - playlist and the festival lineup.
+    Find and return a list of artists that appear in both the provided Spotify playlist and festival lineup.
 
     Args:
         user_session (UserSession): The user session object.
-        playlist_artists (List[Artist]): 'Artist' objects from the Spotify playlist.
-        lineup_data (List[Artist]): 'Artist' objects from the festival lineup.
+        playlist_artists (List[Artist]): A list of 'Artist' objects from the Spotify playlist.
+        lineup_data (List[Artist]): A list of 'Artist' objects from the festival lineup.
 
     Returns:
-        List[Artist]: Matching 'Artist' objects with updated 'songs_num' values.
+        List[Artist]: A list of 'Artist' objects that match between the playlist and lineup, with updated 'songs_num' values.
     """
     try:
         # Create a dictionary to map artist names to their corresponding objects in the lineup data
@@ -74,19 +74,17 @@ def get_matching_artists(user_session, playlist_artists, lineup_data):
         logging.error(f"Error in get_matching_artists: {str(e)}")
         return []
 
-def get_lineup_artists_from_spotify_playlist(user_session, link):
+
+def get_lineup_artists_from_spotify_playlist(user_session: UserSession, link: str) -> List[Artist]:
     """
-    Retrieve relevant artists from a Spotify playlist,
-    Retrieve relevant artists from the Tomorrowland lineup,
-    Find the matching artists between the playlist and the lineup.
+    Retrieve relevant artists from a Spotify playlist and the Tomorrowland lineup, and find the matching artists between them.
 
     Args:
         user_session (UserSession): The user session object.
         link (str): The link to the Spotify playlist.
 
     Returns:
-        List[Artist]: A list of 'Artist' objects representing relevant artists found in both the Spotify playlist and
-        the festival lineup.
+        List[Artist]: A list of 'Artist' objects representing relevant artists found in both the Spotify playlist and the festival lineup.
     """
     try:
         # Retrieve artists from the Spotify playlist
@@ -103,7 +101,8 @@ def get_lineup_artists_from_spotify_playlist(user_session, link):
         logging.error(f"An error occurred: {str(e)}")
         raise
 
-def filter_artists_by_weekend(user_session, weekend_name):
+
+def filter_artists_by_weekend(user_session: UserSession, weekend_name: str) -> List[Artist]:
     """
     Filter the list of artists based on the provided weekend name.
 
@@ -134,9 +133,10 @@ def filter_artists_by_weekend(user_session, weekend_name):
         logging.error(f"Error in filter_artists_by_weekend: {str(e)}")
         return []
 
-def generate_and_print_ai_lineup(user_session, chat_id):
+
+def generate_and_print_ai_lineup(user_session: UserSession, chat_id: str):
     """
-    Generate and print the AI lineup.
+    Generate an AI lineup based on the user's input and send it to the specified chat.
 
     Args:
         user_session (UserSession): The user session object.
@@ -154,9 +154,10 @@ def generate_and_print_ai_lineup(user_session, chat_id):
         logging.error(f"Error generating and printing AI lineup: {str(e)}")
         bot.send_message(chat_id=chat_id, text="An error occurred while generating the AI lineup. Please try again later.")
 
-def message_artists_to_user(call, user_session):
+
+def message_artists_to_user(call, user_session: UserSession):
     """
-    Print and send messages for each item in the 'artists_list' list.
+    Send messages to the user containing information about the artists in the 'artists_list'.
 
     Args:
         call: The Telegram callback query object.
@@ -165,6 +166,7 @@ def message_artists_to_user(call, user_session):
     try:
         artists_list = user_session.my_relevant
 
+        # Split the artists list into chunks of 12 artists
         artists_chunks = [artists_list[i:i+12] for i in range(0, len(artists_list), 12)]
 
         for chunk in artists_chunks:
@@ -179,9 +181,10 @@ def message_artists_to_user(call, user_session):
         logging.error(f"Error messaging artists to user: {str(e)}")
         bot.send_message(call.message.chat.id, "An error occurred while processing the artist list. Please try again later.")
 
-def process_weekend_data(call, user_session, weekend_name):
+
+def process_weekend_data(call, user_session: UserSession, weekend_name: str):
     """
-    Process the artist data for the specified weekend to the telegram chat.
+    Process the artist data for the specified weekend and send it to the Telegram chat.
 
     Args:
         call: The Telegram callback query object.
@@ -199,39 +202,47 @@ def process_weekend_data(call, user_session, weekend_name):
 
     message_artists_to_user(call, user_session)
 
+
 @bot.message_handler(commands=["start"])
 def start(message):
-        """
-        Handle the /start command.
-        Args:
-            message: The Telegram message object.
-        """
-        chat_id = message.chat.id
-        if chat_id not in user_sessions:
-            user_sessions[chat_id] = UserSession()
+    """
+    Handle the /start command.
 
-        first_message = "Hello! I am the Telegram bot.\nTo get started, send a playlist link:\nNotes:\nIf you want to use " \
-                        "your liked songs playlist, you have to copy it to a new playlist (as mentioned " \
-                        "<a href='https://community.spotify.com/t5/Your-Library/Create-a-Playlist-from-Liked-Songs/td-p/4998474'>here</a>)."
-        bot.send_message(message.chat.id, first_message, parse_mode='HTML', disable_web_page_preview=True)
-        username = message.from_user.username
-        logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
+    Args:
+        message: The Telegram message object.
+    """
+    chat_id = message.chat.id
+    if chat_id not in user_sessions:
+        user_sessions[chat_id] = UserSession()
+
+    first_message = "Hello! I am the Telegram bot.\nTo get started, send a playlist link:\nNotes:\nIf you want to use " \
+                    "your liked songs playlist, you have to copy it to a new playlist (as mentioned " \
+                    "<a href='https://community.spotify.com/t5/Your-Library/Create-a-Playlist-from-Liked-Songs/td-p/4998474'>here</a>)."
+    bot.send_message(message.chat.id, first_message, parse_mode='HTML', disable_web_page_preview=True)
+    username = message.from_user.username
+    logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
+
 
 @bot.message_handler(func=lambda message: not message.text.startswith("https://open.spotify.com/playlist/"))
 def handle_invalid_link(message):
     """
     Handle invalid Spotify links.
+
     Args:
-    message: The Telegram message object.
+        message: The Telegram message object.
     """
     bot.send_message(message.chat.id, "Please send a valid Spotify link!")
     username = message.from_user.username
     logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
 
+
 @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
 def handle_spotify_link(message):
     """
-    Handles incoming Spotify playlist links
+    Handle incoming Spotify playlist links.
+
+    Args:
+        message: The Telegram message object.
     """
     chat_id = message.chat.id
     if chat_id not in user_sessions:
@@ -258,12 +269,14 @@ def handle_spotify_link(message):
     bot.send_message(message.chat.id, 'If you want to add one more weekend, just send the link.\n'
                                       'If not - select your weekend:', reply_markup=weekend_keyboard)
 
+
 @bot.callback_query_handler(func=lambda call: call.data)
 def handle_callback(call):
     """
     Handle callback queries from inline keyboard buttons.
+
     Args:
-    call: The Telegram callback query object.
+        call: The Telegram callback query object.
     """
     chat_id = call.message.chat.id
     if chat_id not in user_sessions:
@@ -274,8 +287,8 @@ def handle_callback(call):
         if call.data == 'weekend_all':
             bot.send_message(call.message.chat.id, "*All artists:*\n", parse_mode='Markdown')
             bot.send_message(call.message.chat.id,
-                                 f" *{len(user_session.my_relevant)}* artists that have been found in both weekends: ",
-                                 parse_mode='Markdown')
+                             f" *{len(user_session.my_relevant)}* artists that have been found in both weekends: ",
+                             parse_mode='Markdown')
             message_artists_to_user(call, user_session)
 
         elif call.data in [weekend_names[0], weekend_names[1]]:
@@ -285,7 +298,7 @@ def handle_callback(call):
 
             # Ask the user if they want to generate an AI lineup
             bot.send_message(call.message.chat.id, "Would you like to generate an AI lineup?",
-                                 reply_markup=generate_lineup_keyboard)
+                             reply_markup=generate_lineup_keyboard)
             logging.info(f"The call.data is: {call.data}")
 
     elif call.data == 'generate_ai_lineup':
@@ -296,15 +309,14 @@ def handle_callback(call):
         user_session.clear_all()
         logging.info(f"{call.data} clicked ")
         bot.send_message(call.message.chat.id,
-                             'You have chosen not to generate an AI lineup. \n'
-                             'If you want to generate an AI lineup, you can click the button again.\n'
-                             'If you want to generate a lineup for a different playlist, send the playlist link again.\n'
-                             'Goodbye for now!')
+                         'You have chosen not to generate an AI lineup. \n'
+                         'If you want to generate an AI lineup, you can click the button again.\n'
+                         'If you want to generate a lineup for a different playlist, send the playlist link again.\n'
+                         'Goodbye for now!')
 
     else:
         bot.send_message(call.message.chat.id, 'Invalid option selected!')
         logging.warning("Invalid option selected")
-
 
 
 # Start the bot and keep it running
