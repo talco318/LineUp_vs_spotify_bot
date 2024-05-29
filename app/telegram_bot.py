@@ -54,17 +54,18 @@ def get_matching_artists(user_session: UserSession, playlist_artists: List[Artis
         List[Artist]: A list of 'Artist' objects that match between the playlist and lineup, with updated 'songs_num' values.
     """
     try:
-        # Create a dictionary to map artist names to their corresponding objects in the lineup data
-        lineup_artist_map = {artist.name: artist for artist in lineup_data}
+        # Create a set of artist names from the lineup data for faster lookup
+        lineup_artist_names = set(artist.name for artist in lineup_data)
 
-        # Iterate through the playlist artists and update the songs_num attribute for matching artists
         matching_artists = []
         for playlist_artist in playlist_artists:
             try:
-                if playlist_artist.name in lineup_artist_map:
-                    lineup_artist = lineup_artist_map[playlist_artist.name]
-                    lineup_artist.songs_num = playlist_artist.songs_num
-                    matching_artists.append(lineup_artist)
+                if playlist_artist.name in lineup_artist_names:
+                    # Find the matching artist object from the lineup data
+                    lineup_artist = next((artist for artist in lineup_data if artist.name == playlist_artist.name), None)
+                    if lineup_artist:
+                        lineup_artist.songs_num = playlist_artist.songs_num
+                        matching_artists.append(lineup_artist)
             except Exception as e:
                 logging.error(f"Error processing artist {playlist_artist.name}: {str(e)}")
                 continue
