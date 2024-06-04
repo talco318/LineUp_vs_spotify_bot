@@ -1,6 +1,7 @@
 import json
 import logging
 from typing import List
+from typing import Union
 
 import requests
 import telebot
@@ -9,10 +10,11 @@ import APIs
 from AI import AI_funcs_gemini as Gemini
 from app.artist import Artist
 import playlists_managment.spotify_funcs as spotify_funcs
+import playlists_managment.youtube_funcs as youtube_funcs
 import playlists_managment.public_funcs
 from TML_lineup_managment.public_funcs import extract_artists_from_tomorrowland_lineup
 from UserSession import UserSession
-
+from playlist import Playlist
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -82,20 +84,29 @@ def get_matching_artists(user_session: UserSession, playlist_artists: List[Artis
         return []
 
 
-def get_lineup_artists_from_spotify_playlist(user_session: UserSession, link: str) -> List[Artist]:
+def get_lineup_artists_from_playlist(user_session: UserSession, playlist: Union[Playlist, str]) -> List[Artist]:
     """
     Retrieve relevant artists from a Spotify playlist and the Tomorrowland lineup, and find the matching artists between them.
 
     Args:
         user_session (UserSession): The user session object.
-        link (str): The link to the Spotify playlist.
+        playlist (Union[Playlist, str]): The Playlist object or the link to the playlist.
 
     Returns:
         List[Artist]: A list of 'Artist' objects representing relevant artists found in both the Spotify playlist and the festival lineup.
     """
     try:
-        # Retrieve artists from the Spotify playlist
-        playlist_artists = spotify_funcs.get_artists_from_spotify_playlist(link)
+        playlist_artists = []
+        if isinstance(playlist, str):
+            if "spotify.com" in playlist:
+                playlist_artists = spotify_funcs.get_artists_from_spotify_playlist(playlist)
+            else:
+                playlist_artists = youtube_funcs.get_artists_from_youtube_playlist(playlist)
+        else:
+            if playlist.link.find("spotify.com") != -1:
+                playlist_artists = spotify_funcs.get_artists_from_spotify_playlist(playlist.link)
+            else:
+                playlist_artists = youtube_funcs.get_artists_from_youtube_playlist(playlist.link)
 
         # Retrieve relevant artists from the Tomorrowland lineup
         lineup_data = extract_artists_from_tomorrowland_lineup()
@@ -106,7 +117,7 @@ def get_lineup_artists_from_spotify_playlist(user_session: UserSession, link: st
         return matching_artists
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
-        raise
+        raise e
 
 
 def filter_artists_by_weekend(user_session: UserSession, weekend_name: str) -> List[Artist]:
@@ -195,6 +206,7 @@ def message_artists_to_user(call, user_session: UserSession):
                          "An error occurred while processing the artist list. Please try again later.")
 
 
+
 def process_weekend_data(call, user_session: UserSession, weekend_name: str):
     """
     Process the artist data for the specified weekend and send it to the Telegram chat.
@@ -215,6 +227,10 @@ def process_weekend_data(call, user_session: UserSession, weekend_name: str):
 
     message_artists_to_user(call, user_session)
 
+def check_sessions(chat_id):
+    global user_sessions
+    if chat_id not in user_sessions:
+        user_sessions[chat_id] = UserSession()
 
 @bot.message_handler(commands=["start"])
 def start(message):
@@ -238,7 +254,7 @@ def start(message):
     logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
 
 
-@bot.message_handler(func=lambda message: not message.text.startswith("https://open.spotify.com/playlist/"))
+@bot.message_handler(func=lambda message: not message.text.startswith("https://open.spotify.com/playlist/") and not message.text.startswith("https://music.youtube.com"))
 def handle_invalid_link(message):
     """
     Handle invalid Spotify links.
@@ -247,47 +263,76 @@ def handle_invalid_link(message):
         message: The Telegram message object.
     """
     typing_action(bot, message.chat.id)
-    bot.send_message(message.chat.id, "Please send a valid Spotify link!")
+    bot.send_message(message.chat.id, "Please send a valid Spotify or Youtube music link!")
     username = message.from_user.username
     logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
 
 
-@bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
-def handle_spotify_link(message):
+def handle_music_link(message, platform_name, link_checker, playlist_class, extract_artists_func):
     """
-    Handle incoming Spotify playlist links.
+    Handle incoming music playlist links.
 
     Args:
         message: The Telegram message object.
+        platform_name: Name of the music platform (e.g., 'Spotify', 'YouTube Music').
+        link_checker: Function to check if the link is valid.
+        playlist_class: Class to instantiate a playlist object.
+        extract_artists_func: Function to extract artists from the playlist.
     """
+    global user_sessions
     chat_id = message.chat.id
+
     if chat_id not in user_sessions:
         user_sessions[chat_id] = UserSession()
-    user_session = user_sessions[chat_id]
-    bot.send_message(message.chat.id, "Great!\nNext step:", parse_mode='Markdown')
-    typing_action(bot, message.chat.id)
-    username = message.from_user.username
-    logging.info(f'User {username} sent Spotify link: {message.text}')
-    checked_link = spotify_funcs.cut_content_after_question_mark(message.text)
-    # Check if the link is already in the list
-    if checked_link not in user_session.playlist_links_list:
-        # Add the link to the list of playlist links
-        user_session.playlist_links_list.append(playlists_managment.public_funcs.split_links(checked_link))
-        for i, link in enumerate(user_session.playlist_links_list):
-            user_session.playlist_links_list[i] = spotify_funcs.cut_content_after_question_mark(checked_link)
-            # Get the artists from the new playlist - and add them to the relevant artists list
-            user_session.my_relevant.extend(
-                get_lineup_artists_from_spotify_playlist(user_session, user_session.playlist_links_list[i]))
 
-    if not playlists_managment.public_funcs.is_link_valid(checked_link):
-        bot.send_message(message.chat.id, "Invalid link!", parse_mode='Markdown')
-        logging.warning('Invalid Spotify link received')
+    user_session = user_sessions[chat_id]
+
+    bot.send_message(chat_id, f"Great! Next step:", parse_mode='Markdown')
+    typing_action(bot, chat_id)
+    username = message.from_user.username
+    logging.info(f'User {username} sent {platform_name} link: {message.text}')
+    curr_playlist = Playlist(platform=platform_name, link=message.text)
+    if curr_playlist.platform == "Unknown":
+        bot.send_message(chat_id, "Invalid link!", parse_mode='Markdown')
+        logging.warning(f'Invalid {platform_name} link received')
         return
 
-    typing_action(bot, message.chat.id)
+    if curr_playlist.link not in user_session.playlist_links_list:
 
-    bot.send_message(message.chat.id, 'If you want to add one more weekend, just send the link.\n'
-                                      'If not - select your weekend:', reply_markup=weekend_keyboard)
+        user_session.playlist_links_list.append(curr_playlist)
+        for i, curr_playlist in enumerate(user_session.playlist_links_list):
+            user_session.my_relevant.extend(extract_artists_func(user_session, user_session.playlist_links_list[i]))
+
+    if not link_checker(curr_playlist.link):
+        bot.send_message(chat_id, "Invalid link!", parse_mode='Markdown')
+        logging.warning(f'Invalid {platform_name} link received')
+        return
+
+    typing_action(bot, chat_id)
+    bot.send_message(chat_id, 'If you want to add one more weekend, just send the link.\n'
+                              'If not - select your weekend:', reply_markup=weekend_keyboard)
+
+
+
+@bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
+def handle_spotify_link(message):
+    handle_music_link(
+        message,
+        platform_name="Spotify",
+        link_checker=playlists_managment.public_funcs.is_link_valid,
+        playlist_class=Playlist,
+        extract_artists_func=get_lineup_artists_from_playlist
+    )
+
+@bot.message_handler(func=lambda message: message.text.startswith("https://music.youtube.com/playlist?"))
+def handle_youtube_music_link(message):
+    handle_music_link(
+        message,
+        platform_name="YouTube",
+        link_checker=playlists_managment.public_funcs.is_link_valid,
+        playlist_class=Playlist,  # Assuming you have a similar Playlist class for YouTube Music
+        extract_artists_func=get_lineup_artists_from_playlist
+    )
 
 
 @bot.callback_query_handler(func=lambda call: call.data)
@@ -317,9 +362,10 @@ def handle_callback(call):
             process_weekend_data(call, user_session, user_session.selected_weekend)
 
             # Ask the user if they want to generate an AI lineup
-            bot.send_message(call.message.chat.id, "Would you like to generate an AI lineup?",
+            if len(user_session.my_relevant) > 0:
+                bot.send_message(call.message.chat.id, "Would you like to generate an AI lineup?",
                              reply_markup=generate_lineup_keyboard)
-            logging.info(f"The call.data is: {call.data}")
+                logging.info(f"The call.data is: {call.data}")
 
     elif call.data == 'generate_ai_lineup':
         logging.info(f"{call.data} clicked ")
