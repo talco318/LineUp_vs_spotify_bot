@@ -50,9 +50,9 @@ def get_artists_from_spotify_playlist(playlist_link):
     Returns:
         list: A list of 'Artist' objects representing each unique artist in the playlist.
     """
-
+    playlist = cut_content_after_question_mark(playlist_link)
     # Extract the playlist ID from the link
-    playlist_id = playlist_link.split('/')[-1]
+    playlist_id = playlist.split('/')[-1]
 
     # Get the playlist tracks
     results = sp.playlist_items(playlist_id)
