@@ -1,10 +1,13 @@
+import logging
+import re
+from app.artist import Artist
 from googleapiclient.discovery import build
 
 # Replace with your own YouTube Data API key
 import APIs
 API_KEY = APIs.youtube_API
 
-def get_artists_from_youtube_playlist(playlist_id):
+def get_artists_from_youtube_playlist(playlist_link):
     """
     Retrieves a list of artists from a YouTube/YouTube Music playlist.
 
@@ -14,6 +17,8 @@ def get_artists_from_youtube_playlist(playlist_id):
     Returns:
         list: A list of unique artist names in the playlist.
     """
+
+    playlist_id = cut_content_after_equal_mark(playlist_link)
     youtube = build('youtube', 'v3', developerKey=API_KEY)
 
     artists = set()
@@ -32,8 +37,11 @@ def get_artists_from_youtube_playlist(playlist_id):
         for item in response['items']:
             video_title = item['snippet']['title']
             artist = extract_artist_from_title(video_title)
-            if artist:
-                artists.add(artist)
+            # TODO: (fix) Add the artist to the 'artists' set if it is not already present
+            #  and update songs_num for existing artists
+            if artist not in artists and artist is not None:
+                new_artist = Artist(name=artist, host_name_and_stage='none', weekend='none', date='none')
+                artists.add(new_artist)
 
         # Check if there are more pages of results
         next_page_token = response.get('nextPageToken')
@@ -41,6 +49,28 @@ def get_artists_from_youtube_playlist(playlist_id):
             break
 
     return list(artists)
+
+
+def cut_content_after_equal_mark(link):
+    """
+    Cuts the content after the equal sign in a given link.
+
+    Arguments:
+        link (str): A string representing a link with or without an equal sign.
+
+    Returns:
+        str: The content before the equal sign, if it exists, otherwise the original link.
+    """
+    # Use regular expression to match the equal sign and the content after it
+    match = re.search(r"=(.*)$", link)
+
+    # If the match is found, return the content before the equal sign
+    if match:
+        return match.group(1)
+
+    # Otherwise, return the original link
+    return link
+
 
 def extract_artist_from_title(title):
     """
