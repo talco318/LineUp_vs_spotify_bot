@@ -7,7 +7,7 @@ import requests
 import telebot
 
 import APIs
-from AI import AI_funcs_gemini as Gemini
+import AI.AI_funcs_gemini as Gemini
 from app.artist import Artist
 import playlists_managment.spotify_funcs as spotify_funcs
 import playlists_managment.youtube_funcs as youtube_funcs
@@ -206,7 +206,6 @@ def message_artists_to_user(call, user_session: UserSession):
                          "An error occurred while processing the artist list. Please try again later.")
 
 
-
 def process_weekend_data(call, user_session: UserSession, weekend_name: str):
     """
     Process the artist data for the specified weekend and send it to the Telegram chat.
@@ -227,10 +226,12 @@ def process_weekend_data(call, user_session: UserSession, weekend_name: str):
 
     message_artists_to_user(call, user_session)
 
+
 def check_sessions(chat_id):
     global user_sessions
     if chat_id not in user_sessions:
         user_sessions[chat_id] = UserSession()
+
 
 @bot.message_handler(commands=["start"])
 def start(message):
@@ -254,7 +255,8 @@ def start(message):
     logging.info(f'Username is: {username}, wrote:\n{str(message.text)}')
 
 
-@bot.message_handler(func=lambda message: not message.text.startswith("https://open.spotify.com/playlist/") and not message.text.startswith("https://music.youtube.com"))
+@bot.message_handler(func=lambda message: not message.text.startswith(
+    "https://open.spotify.com/playlist/") and not message.text.startswith("https://music.youtube.com"))
 def handle_invalid_link(message):
     """
     Handle invalid Spotify links.
@@ -313,7 +315,6 @@ def handle_music_link(message, platform_name, link_checker, playlist_class, extr
                               'If not - select your weekend:', reply_markup=weekend_keyboard)
 
 
-
 @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
 def handle_spotify_link(message):
     handle_music_link(
@@ -324,15 +325,17 @@ def handle_spotify_link(message):
         extract_artists_func=get_lineup_artists_from_playlist
     )
 
-@bot.message_handler(func=lambda message: message.text.startswith("https://music.youtube.com/playlist?"))
+
+@bot.message_handler(func=lambda message: message.text.startswith("https://music.youtube.com/"))
 def handle_youtube_music_link(message):
-    handle_music_link(
-        message,
-        platform_name="YouTube",
-        link_checker=playlists_managment.public_funcs.is_link_valid,
-        playlist_class=Playlist,  # Assuming you have a similar Playlist class for YouTube Music
-        extract_artists_func=get_lineup_artists_from_playlist
-    )
+    # handle_music_link(
+    #     message,
+    #     platform_name="YouTube",
+    #     link_checker=playlists_managment.public_funcs.is_link_valid,
+    #     playlist_class=Playlist,
+    #     extract_artists_func=get_lineup_artists_from_playlist
+    # )
+    bot.send_message(message.chat.id, "Youtube music isnt supporting yet. ", parse_mode='Markdown')
 
 
 @bot.callback_query_handler(func=lambda call: call.data)
@@ -364,7 +367,7 @@ def handle_callback(call):
             # Ask the user if they want to generate an AI lineup
             if len(user_session.my_relevant) > 0:
                 bot.send_message(call.message.chat.id, "Would you like to generate an AI lineup?",
-                             reply_markup=generate_lineup_keyboard)
+                                 reply_markup=generate_lineup_keyboard)
                 logging.info(f"The call.data is: {call.data}")
 
     elif call.data == 'generate_ai_lineup':
