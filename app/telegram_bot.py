@@ -372,6 +372,10 @@ def handle_callback(call):
 
     elif call.data == 'generate_ai_lineup':
         logging.info(f"{call.data} clicked ")
+        if len(user_session.my_relevant) == 0:
+            bot.send_message(call.message.chat.id, "No artists found for the selected weekend! Please try again.")
+            logging.warning("No artists found for the selected weekend, he cant generate an AI lineup.")
+            return
         generate_and_print_ai_lineup(user_session, call.message.chat.id)
 
     elif call.data == 'done':
