@@ -29,7 +29,7 @@ Input Parameters:
 """
 
 with open('../walking_time.csv', 'r') as csvfile:
-  walking_time_to_stages = csvfile.read()
+    walking_time_to_stages = csvfile.read()
 
 prompt_part2 = """
 Task Description:
@@ -90,6 +90,4 @@ Additional Constraints and Considerations:
 The travel time between stages should be factored into the personalized schedule to allow sufficient time for moving between performances.
 """
 
-
 prompt = prompt_part1 + walking_time_to_stages + prompt_part2
-
