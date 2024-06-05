@@ -21,7 +21,7 @@ def get_artists_from_youtube_playlist(playlist_link):
     playlist_id = cut_content_after_equal_mark(playlist_link)
     youtube = build('youtube', 'v3', developerKey=API_KEY)
 
-    artists = set()
+    artists_list = []
     next_page_token = None
 
     while True:
@@ -33,22 +33,30 @@ def get_artists_from_youtube_playlist(playlist_link):
             pageToken=next_page_token
         ).execute()
 
+        artist_song_count = {}
+
         # Extract the artist names from the video titles
         for item in response['items']:
             video_title = item['snippet']['title']
-            artist = extract_artist_from_title(video_title)
+            artist_name = extract_artist_from_title(video_title)
             # TODO: (fix) Add the artist to the 'artists' set if it is not already present
             #  and update songs_num for existing artists
-            if artist not in artists and artist is not None:
-                new_artist = Artist(name=artist, host_name_and_stage='none', weekend='none', date='none')
-                artists.add(new_artist)
+            if artist_name in artist_song_count:
+                artist_song_count[artist_name] += 1
+            else:
+                artist_song_count[artist_name] = 1
 
         # Check if there are more pages of results
         next_page_token = response.get('nextPageToken')
         if not next_page_token:
             break
 
-    return list(artists)
+    for artist_name, songs_num in artist_song_count.items():
+        new_artist = Artist(name=artist_name, host_name_and_stage='none', weekend='none', date='none')
+        new_artist.songs_num = songs_num
+        artists_list.append(new_artist)
+
+    return artists_list
 
 
 def cut_content_after_equal_mark(link):
