@@ -1,13 +1,18 @@
-import json
 import logging
 from typing import List
 from typing import Union
 
-import requests
 import telebot
 
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+
 import APIs
-import AI.AI_funcs_gemini as Gemini
+from AI import AI_funcs_gemini as Gemini
 from app.artist import Artist
 import playlists_managment.spotify_funcs as spotify_funcs
 import playlists_managment.youtube_funcs as youtube_funcs
