@@ -5,10 +5,11 @@ from typing import Union
 import telebot
 
 
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
+import sys
+
+# setting path
+sys.path.append('../../LineUp_vs_spotify_bot')
 
 
 import APIs
