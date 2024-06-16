@@ -231,6 +231,11 @@ def process_weekend_data(call, user_session: UserSession):
 
     message_artists_to_user(call, user_session)
 
+def add_artists_from_new_playlist(current_artists, new_artists):
+    for artist in new_artists:
+        if all(artist.name != existing_artist.name or artist.show.date != existing_artist.show.date for existing_artist in current_artists):
+            current_artists.append(artist)
+    return current_artists
 
 def check_sessions(chat_id):
     global user_sessions
@@ -308,7 +313,7 @@ def handle_music_link(message, platform_name, link_checker, playlist_class, extr
 
         user_session.playlist_links_list.append(curr_playlist)
         for i, curr_playlist in enumerate(user_session.playlist_links_list):
-            user_session.my_relevant.extend(extract_artists_func(user_session, user_session.playlist_links_list[i]))
+            user_session.my_relevant = add_artists_from_new_playlist(current_artists= user_session.my_relevant, new_artists= extract_artists_func(user_session, user_session.playlist_links_list[i]))
 
     if not link_checker(curr_playlist.link):
         bot.send_message(chat_id, "Invalid link!", parse_mode='Markdown')
@@ -316,7 +321,7 @@ def handle_music_link(message, platform_name, link_checker, playlist_class, extr
         return
 
     typing_action(bot, chat_id)
-    bot.send_message(chat_id, 'If you want to add one more weekend, just send the link.\n'
+    bot.send_message(chat_id, 'If you want to add one more playlist, just send the link.\n'
                               'If not - select your weekend:', reply_markup=weekend_keyboard)
 
 
@@ -368,11 +373,12 @@ def handle_callback(call):
             user_session.selected_weekend = call.data
             logging.info(f"{user_session.selected_weekend} selected")
             process_weekend_data(call, user_session)
-            print(user_session.artists_by_weekend)
-
             # Ask the user if they want to generate an AI lineup
             if len(user_session.artists_by_weekend) > 0:
-                bot.send_message(call.message.chat.id, "Would you like to generate an AI lineup?",
+                bot.send_message(call.message.chat.id, "If you want to add one more playlist, just send the link.",
+                                 parse_mode='Markdown')
+                bot.send_message(call.message.chat.id,
+                                 "Or would you like to generate an AI lineup? Let me do it for you! Its highly recommended!",
                                  reply_markup=generate_lineup_keyboard)
                 logging.info(f"The call.data is: {call.data}")
 
