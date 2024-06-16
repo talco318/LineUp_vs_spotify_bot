@@ -70,7 +70,7 @@ Example:
   Day 2:
 
     Yves V (2 songs): Placeholder Stage 15, 20/7, 16:00 to 17:00
-    Suggestion: This could be a great time for lunch (11AM-2PM).
+    Suggestion: This could be a great time for lunch (1PM-5PM).
     Martin Jensen (1 song): Placeholder Stage 9, 20/7, 18:00 to 19:00
     [Travel Time: y minutes]
     Yves V (2 songs): Placeholder Stage 15, 20/7, 19:00 to 20:00
