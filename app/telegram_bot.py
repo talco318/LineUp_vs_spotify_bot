@@ -143,10 +143,10 @@ def filter_artists_by_weekend(user_session: UserSession, weekend_name: str) -> L
         for artist in user_session.my_relevant:
             try:
                 # Check if the artist's primary show is scheduled for the given weekend
-                if artist.show.weekend_number == weekend_name:
+                if artist.show.weekend_number.lower() == weekend_name.lower():
                     filtered_artists.append(artist)
                 # Check if the artist has a secondary show scheduled for the given weekend
-                elif artist.show2 is not None and artist.show2.weekend_number == weekend_name:
+                elif artist.show2 is not None and artist.show2.weekend_number.lower() == weekend_name.lower():
                     filtered_artists.append(artist)
             except Exception as e:
                 logging.error(f"Error processing artist {artist.name}: {str(e)}")
@@ -193,7 +193,7 @@ def message_artists_to_user(call, user_session: UserSession):
         user_session (UserSession): The user session object.
     """
     try:
-        artists_list = user_session.my_relevant
+        artists_list = user_session.artists_by_weekend
 
         # Split the artists list into chunks of 12 artists
         artists_chunks = [artists_list[i:i + 12] for i in range(0, len(artists_list), 12)]
@@ -204,15 +204,14 @@ def message_artists_to_user(call, user_session: UserSession):
                 chunk_str += str(artist) + "\n\n--------------------------------\n\n"
             bot.send_message(call.message.chat.id, chunk_str, parse_mode='Markdown')
 
-        user_session.artists_to_print_list = artists_list
-        user_session.artists_str = ", ".join(str(art) for art in user_session.artists_to_print_list)
+        user_session.artists_str = ", ".join(str(art) for art in user_session.artists_by_weekend)
     except Exception as e:
         logging.error(f"Error messaging artists to user: {str(e)}")
         bot.send_message(call.message.chat.id,
                          "An error occurred while processing the artist list. Please try again later.")
 
 
-def process_weekend_data(call, user_session: UserSession, weekend_name: str):
+def process_weekend_data(call, user_session: UserSession):
     """
     Process the artist data for the specified weekend and send it to the Telegram chat.
 
@@ -222,12 +221,12 @@ def process_weekend_data(call, user_session: UserSession, weekend_name: str):
         weekend_name (str): The name of the weekend to filter the artist data by.
     """
     # Filter the artists based on the specified weekend
-    output_artists = filter_artists_by_weekend(user_session, weekend_name=weekend_name)
+    user_session.artists_by_weekend = filter_artists_by_weekend(user_session, weekend_name=user_session.selected_weekend.lower())
     # Send a message with the number of artists found for the weekend
     typing_action(bot, call.message.chat.id)
     bot.send_message(
         call.message.chat.id,
-        f"*{weekend_name} artists:*\n*{len(output_artists)}* artists that have been found in {weekend_name}:",
+        f"*{user_session.selected_weekend} artists:*\n*{len(user_session.artists_by_weekend)}* artists that have been found in {user_session.selected_weekend}:",
         parse_mode='Markdown')
 
     message_artists_to_user(call, user_session)
@@ -357,7 +356,7 @@ def handle_callback(call):
         user_sessions[chat_id] = UserSession()
     user_session = user_sessions[chat_id]
 
-    if call.data in ['weekend_all', weekend_names[0], weekend_names[1]]:
+    if call.data in ['weekend_all', weekend_names[0].lower(), weekend_names[1].lower()]:
         if call.data == 'weekend_all':
             bot.send_message(call.message.chat.id, "*All artists:*\n", parse_mode='Markdown')
             bot.send_message(call.message.chat.id,
@@ -368,10 +367,11 @@ def handle_callback(call):
         elif call.data in [weekend_names[0], weekend_names[1]]:
             user_session.selected_weekend = call.data
             logging.info(f"{user_session.selected_weekend} selected")
-            process_weekend_data(call, user_session, user_session.selected_weekend)
+            process_weekend_data(call, user_session)
+            print(user_session.artists_by_weekend)
 
             # Ask the user if they want to generate an AI lineup
-            if len(user_session.my_relevant) > 0:
+            if len(user_session.artists_by_weekend) > 0:
                 bot.send_message(call.message.chat.id, "Would you like to generate an AI lineup?",
                                  reply_markup=generate_lineup_keyboard)
                 logging.info(f"The call.data is: {call.data}")
