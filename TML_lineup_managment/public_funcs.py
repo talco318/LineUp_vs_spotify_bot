@@ -74,3 +74,55 @@ def extract_artists_from_tomorrowland_lineup() -> list[Artist]:
             logging.error(f"Error decoding JSON in {file}: {str(e)}")
 
     return artists
+
+
+
+#for python anywhere:
+# import json
+# import os
+#
+# def extract_artists_from_tomorrowland_lineup() -> list[Artist]:
+#     """
+#     Extract artist data from local Tomorrowland (TML) festival JSON files in the parent directory.
+#
+#     Returns:
+#         List[Artist]: A list of 'Artist' objects containing the extracted data for the artists.
+#     """
+#     artists: list[Artist] = []
+#     weekend_names = ["Weekend 1", "Weekend 2"]  # Assuming weekend names are the same
+#
+#     parent_dir = os.path.abspath(os.path.join(os.getcwd(), ".."))  # Get parent directory path
+#
+#     for filename in ["tml2024w1.json", "tml2024w2.json"]:  # Assuming specific filenames
+#         filepath = os.path.join(parent_dir, filename)
+#         try:
+#             # Open the JSON file
+#             with open(filepath, "r", encoding="utf-8") as jsonfile:
+#                 data = json.load(jsonfile)
+#
+#                 # Extract artist information from the JSON data
+#                 locations = data.get("locations")
+#                 for location in locations:
+#                     events = location.get("events")
+#                     for event in events:
+#                         name = event.get("name")
+#                         start = event.get("start")
+#                         end = event.get("end")
+#                         weekend = weekend_names[0] if filename == "tml2024w1.json" else weekend_names[1]
+#                         host_name_and_stage = location.get("name")
+#                         time = f"{start} to {end}"
+#
+#                         # Create an 'Artist' object and update or add it to the artists list
+#                         artist = Artist(name=name, host_name_and_stage=host_name_and_stage, weekend=weekend, date=time)
+#                         matching_artists = [a for a in artists if a.name == artist.name]
+#                         if matching_artists:
+#                             find_artist_and_update_new_data(artists, artist.name, 0, time, weekend, host_name_and_stage)
+#                         else:
+#                             artists.append(artist)
+#
+#         except FileNotFoundError as e:
+#             logging.error(f"Error: File not found - {filepath}")
+#         except json.JSONDecodeError as e:
+#             logging.error(f"Error decoding JSON in {filepath}: {str(e)}")
+#
+#     return artists
