@@ -6,7 +6,7 @@ import telebot
 import sys
 
 # setting path
-sys.path.append('../LineUp_vs_spotify_bot')
+sys.path.append('../../LineUp_vs_spotify_bot')
 
 import APIs
 from AI import AI_funcs_gemini as Gemini
