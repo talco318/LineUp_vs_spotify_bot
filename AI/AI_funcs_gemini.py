@@ -10,7 +10,6 @@ from AI.prompts import prompt
 # Create a function to generate responses using Chat GPT API
 def generate_response(artists_output: str, weekend_input: str):
     full_prompt = prompt
-    # TODO: solve the issue of the prompt while you click on "all weekends" button
     full_prompt += f"\nYou have to create a lineup for {weekend_input}.\n The Tomorrowland Festival Lineup for {str(weekend_input)} is:\n" + artists_output
     try:
         genai.configure(api_key=Gemini_api)
