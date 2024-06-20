@@ -186,7 +186,7 @@ def message_artists_to_user(call, user_session: UserSession):
         for chunk in artists_chunks:
             chunk_str = "\n\n--------------------------------\n\n".join(
                 str(artist.__str__(user_session.selected_weekend)) for artist in chunk)
-            bot.send_message(call.message.chat.id, chunk_str, parse_mode='Markdown')
+            bot.send_message(call.message.chat.id, chunk_str, parse_mode='HTML', disable_web_page_preview=True)
 
         user_session.artists_str = ", ".join(str(art.__str__(user_session.selected_weekend)) for art in user_session.artists_by_weekend)
     except Exception as e:
