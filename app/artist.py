@@ -3,11 +3,12 @@ from typing import Optional
 from app.show import Show
 
 class Artist:
-    def __init__(self, name: str, host_name_and_stage: str, weekend: str, date: str, songs_num: int = 0):
+    def __init__(self, name: str, host_name_and_stage: str, weekend: str, date: str, songs_num: int = 0, img: str = ""):
         self.name = name
         self.songs_num = songs_num
         self.show = Show(weekend, host_name_and_stage, date)
         self.show2: Optional[Show] = None
+        self.img = img
 
     def add_new_show(self, weekend: str, host_name_and_stage: str, date: str) -> None:
         """
@@ -24,7 +25,9 @@ class Artist:
         self.show2 = Show(weekend, host_name_and_stage, date)
 
     def __str__(self, selected_weekend: str = "") -> str:
-        output = f"*{self.name}*- Songs number: {self.songs_num}\n"
+        art_with_img = f'<a href="{self.img}">{self.name}</a>' if self.img else self.name
+        print(art_with_img+ "," + self.img)
+        output = f"{art_with_img}- Songs number: {self.songs_num}\n"
         show_string = self.get_show_string(selected_weekend)
         output += show_string
         return output
