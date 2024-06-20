@@ -26,7 +26,6 @@ class Artist:
 
     def __str__(self, selected_weekend: str = "") -> str:
         art_with_img = f'<a href="{self.img}">{self.name}</a>' if self.img else self.name
-        print(art_with_img+ "," + self.img)
         output = f"{art_with_img}- Songs number: {self.songs_num}\n"
         show_string = self.get_show_string(selected_weekend)
         output += show_string
