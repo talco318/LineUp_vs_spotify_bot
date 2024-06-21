@@ -3,6 +3,7 @@ import logging
 
 class UserSession:
     def __init__(self):
+        self.username = ""
         self.my_relevant = []
         self.selected_weekend = "none"
         self.artists_str = ""
