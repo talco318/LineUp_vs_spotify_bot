@@ -5,7 +5,7 @@ from googleapiclient.discovery import build
 
 # Replace with your own YouTube Data API key
 import APIs
-API_KEY = APIs.youtube_API
+API_KEY = APIs.YOUTUBE_API
 
 def get_artists_from_youtube_playlist(playlist_link):
     """
