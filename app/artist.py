@@ -2,6 +2,7 @@
 from typing import Optional
 from app.show import Show
 
+
 class Artist:
     def __init__(self, name: str, host_name_and_stage: str, weekend: str, date: str, songs_num: int = 0, img: str = ""):
         self.name = name
@@ -41,7 +42,7 @@ class Artist:
         Returns:
             str: The string representation of the show(s) for the selected weekend.
         """
-        if not selected_weekend:
+        if not selected_weekend or selected_weekend.lower() == "both":
             show_string = f"Show:\n{self.show}"
             if self.show2:
                 show_string += f"\nShow2:\n{self.show2}"
