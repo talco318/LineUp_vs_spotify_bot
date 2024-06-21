@@ -11,7 +11,7 @@ sys.path.append('../../LineUp_vs_spotify_bot')
 import APIs
 from AI import AI_funcs_gemini as Gemini
 from app.artist import Artist
-import playlists_managment.spotify_funcs as spotify_funcs
+from playlists_managment.spotify_funcs import SpotifyManager
 import playlists_managment.youtube_funcs as youtube_funcs
 import playlists_managment.public_funcs
 from TML_lineup_managment.public_funcs import extract_artists_from_tomorrowland_lineup
@@ -31,6 +31,8 @@ gif = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW45bTBnaGRxbmF0a2wxbnJ
 
 # Store user sessions
 user_sessions = {}
+
+spotify_manager = SpotifyManager(APIs.spotify_client_id_API, APIs.spotify_client_secret_API)
 
 # Keyboards (buttons)
 weekend_keyboard = telebot.types.InlineKeyboardMarkup()
@@ -104,12 +106,12 @@ def get_lineup_artists_from_playlist(user_session: UserSession, playlist: Union[
     try:
         if isinstance(playlist, str):
             if "spotify.com" in playlist:
-                playlist_artists = spotify_funcs.get_artists_from_spotify_playlist(playlist)
+                playlist_artists = spotify_manager.get_artists_from_spotify_playlist(playlist)
             else:
                 playlist_artists = youtube_funcs.get_artists_from_youtube_playlist(playlist)
         else:
             playlist_artists = (
-                spotify_funcs.get_artists_from_spotify_playlist(playlist.link)
+                spotify_manager.get_artists_from_spotify_playlist(playlist.link)
                 if "spotify.com" in playlist.link
                 else youtube_funcs.get_artists_from_youtube_playlist(playlist.link)
             )
