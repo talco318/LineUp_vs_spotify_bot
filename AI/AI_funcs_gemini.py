@@ -3,7 +3,7 @@ import logging
 
 import google.generativeai as genai
 
-from APIs import Gemini_api
+from APIs import GEMINI_API
 from AI.prompts import prompt
 
 
@@ -12,7 +12,7 @@ def generate_response(artists_output: str, weekend_input: str):
     full_prompt = prompt
     full_prompt += f"\nYou have to create a lineup for {weekend_input}.\n The Tomorrowland Festival Lineup for {str(weekend_input)} is:\n" + artists_output
     try:
-        genai.configure(api_key=Gemini_api)
+        genai.configure(api_key=GEMINI_API)
 
         # Set up the model
         generation_config = {

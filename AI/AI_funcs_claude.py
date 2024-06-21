@@ -1,6 +1,6 @@
 # ./AI/AI_funcs_claude.py
 import anthropic
-from APIs import Claude_api
+from APIs import CLAUDE_API
 
 from prompts import prompt
 
@@ -14,7 +14,7 @@ def generate_response(artists_output: str, weekend_input: str):
 
         client = anthropic.Anthropic(
             # defaults to os.environ.get("ANTHROPIC_API_KEY")
-            api_key=Claude_api,
+            api_key=CLAUDE_API,
         )
         message = client.messages.create(
             model="claude-3-opus-20240229",
