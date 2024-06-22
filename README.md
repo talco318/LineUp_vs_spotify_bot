@@ -4,16 +4,17 @@
 Are you a music enthusiast gearing up for the next Tomorrowland festival? Look no further! The Tomorrowland Playlist Analyzer Bot is your ultimate companion for making the most of this epic music event.
 
 
-## Features: 
-- **Playlist Analysis**: Send the bot your Spotify playlist links, and it will analyze your playlists to identify all the artists set to perform at Tomorrowland.
-- **Detailed Show Information**: The bot provides comprehensive details about each artist's show at the festival, including set times, stage locations, and other essential information. It also includes links to the Spotify pages of each artist.
-- **User-Friendly**: With a user-friendly interface on Telegram, it's easy for anyone to use, whether you're a tech whiz or a festival newbie.
-- **Powered by Spotify and Telegram APIs**: This bot leverages the Spotify API to access playlist information and the Telegram Bot API for seamless communication.
-- **Tomorrowland API**: The bot uses the Tomorrowland API for real-time updates, ensuring the most accurate and up-to-date information.
-- **AI-Powered Lineup Creation (Gemini API)**: The bot can create a custom lineup based on the details it provides, including walking time between stages, set times, and artist preferences.
-- **Meal Suggestions**: The bot can recommend nearby food options and estimate walking times to food vendors, ensuring you don't miss a beat while fueling up.
-- **Personalized Recommendations**: Leveraging machine learning algorithms, the bot can suggest artists and shows based on your music preferences and past festival experiences.
-- **Weekend Selection Filter**: Users can filter the output by selecting their preferred weekend, ensuring they get the most relevant information for their visit.
+### **Features:**
+
+- **Playlist Analysis:** Send the bot your Spotify playlist links, and it will analyze your playlists (V2- Multiple playlist support added!) to identify all the artists set to perform at Tomorrowland.
+- **Weekend Selection Filter:** Users can filter the output by selecting their preferred weekend, ensuring they get the most relevant information for their visit.
+- **Detailed Show Information:** The bot provides comprehensive details about each artist's show at the festival, including set times, stage locations, and other essential information. It also includes links to the Spotify pages of each artist (V2).
+- **User-Friendly:** With a user-friendly interface on Telegram, it's easy for anyone to use, whether you're a tech whiz or a festival newbie.
+- Powered by Spotify and Telegram APIs: This bot leverages the Spotify API to access playlist information and the Telegram Bot API for seamless communication.
+- **Tomorrowland API (V2):** The bot uses the Tomorrowland API for real-time updates, ensuring the most accurate and up-to-date information.
+- **AI-Powered Lineup Creation (New in V2! Gemini API):** The bot can create a custom lineup based on the details it provides, including walking time between stages, set times, and artist preferences.
+- **Meal Suggestions (V2):** The bot can recommend nearby food options and estimate walking times to food vendors, ensuring you don't miss a beat while fueling up.
+- **Personalized Recommendations (V2):** Leveraging machine learning algorithms, the bot can suggest artists and shows based on your music preferences and past festival experiences.
 
 ![image](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/964751cd-0878-47cb-82f8-d4d39b3c2d25)
 ![image](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/df367686-971f-46c1-9574-0703672dcfbb)
