@@ -89,5 +89,3 @@ Additional Constraints and Considerations:
 """
 
 prompt = prompt_part1 + walking_time_to_stages + prompt_part2
-
-

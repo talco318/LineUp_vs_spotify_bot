@@ -37,6 +37,7 @@ spotify_manager = SpotifyManager(APIs.SPOTIFY_CLIENT_ID_API, APIs.SPOTIFY_CLIENT
 # Store user sessions
 user_sessions: dict[int, UserSession] = {}
 
+
 # Keyboard layouts
 def create_weekend_keyboard() -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup()
@@ -47,6 +48,7 @@ def create_weekend_keyboard() -> InlineKeyboardMarkup:
     keyboard.row(InlineKeyboardButton(text='All', callback_data='weekend_all'))
     return keyboard
 
+
 def create_generate_lineup_keyboard() -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup()
     keyboard.row(
@@ -55,14 +57,17 @@ def create_generate_lineup_keyboard() -> InlineKeyboardMarkup:
     )
     return keyboard
 
+
 def create_finish_keyboard() -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup()
     keyboard.row(InlineKeyboardButton("Start again!", callback_data='start_again'))
     return keyboard
 
+
 # Helper functions
 def typing_action(chat_id: int) -> None:
     bot.send_chat_action(chat_id=chat_id, action='typing')
+
 
 def get_matching_artists(playlist_artists: List[Artist], lineup_data: List[Artist]) -> List[Artist]:
     matching_artists = [
@@ -78,6 +83,7 @@ def get_matching_artists(playlist_artists: List[Artist], lineup_data: List[Artis
         )
 
     return matching_artists
+
 
 def get_lineup_artists_from_playlist(playlist: Union[Playlist, str]) -> List[Artist]:
     try:
@@ -97,10 +103,12 @@ def get_lineup_artists_from_playlist(playlist: Union[Playlist, str]) -> List[Art
         logger.error(f"An error occurred in get_lineup_artists_from_playlist: {str(e)}")
         raise
 
+
 def update_spotify_link(user_session: UserSession) -> None:
     for artist in user_session.my_relevant:
         if not artist.spotify_link:
             artist.spotify_link = get_spotify_artist_link(spotify_manager=spotify_manager, artist_name=artist.name)
+
 
 def filter_artists_by_weekend(artists: List[Artist], weekend_name: str) -> List[Artist]:
     return [
@@ -109,10 +117,12 @@ def filter_artists_by_weekend(artists: List[Artist], weekend_name: str) -> List[
            (artist.show2 is not None and artist.show2.weekend_number.lower() == weekend_name.lower())
     ]
 
+
 def generate_and_print_ai_lineup(user_session: UserSession, chat_id: int) -> None:
     try:
         typing_action(chat_id)
-        bot.send_message(chat_id=chat_id, text="Your lineup is in process, please wait a while.. ", parse_mode='Markdown')
+        bot.send_message(chat_id=chat_id, text="Your lineup is in process, please wait a while.. ",
+                         parse_mode='Markdown')
         bot.send_animation(chat_id=chat_id, animation=GIF_URL)
         typing_action(chat_id)
         response = Gemini.generate_response(user_session.artists_str, user_session.selected_weekend)
@@ -122,27 +132,33 @@ def generate_and_print_ai_lineup(user_session: UserSession, chat_id: int) -> Non
     except Exception as e:
         logger.error(f"Username is: {user_session.username}, Error generating and printing AI lineup: {str(e)}")
         typing_action(chat_id)
-        bot.send_message(chat_id=chat_id, text="An error occurred while generating the AI lineup. Please try again later.")
+        bot.send_message(chat_id=chat_id,
+                         text="An error occurred while generating the AI lineup. Please try again later.")
+
 
 def message_artists_to_user(chat_id: int, user_session: UserSession) -> None:
     try:
         if len(user_session.artists_by_weekend) == 0:
             artists_chunks = [user_session.my_relevant[i:i + 12] for i in range(0, len(user_session.my_relevant), 12)]
         else:
-            artists_chunks = [user_session.artists_by_weekend[i:i + 12] for i in range(0, len(user_session.artists_by_weekend), 12)]
+            artists_chunks = [user_session.artists_by_weekend[i:i + 12] for i in
+                              range(0, len(user_session.artists_by_weekend), 12)]
         typing_action(chat_id)
         for chunk in artists_chunks:
             chunk_str = "\n\n--------------------------------\n\n".join(
                 str(artist.__str__(user_session.selected_weekend)) for artist in chunk)
             bot.send_message(chat_id, chunk_str, parse_mode='HTML', disable_web_page_preview=True)
 
-        user_session.artists_str = ", ".join(str(art.__str__(user_session.selected_weekend)) for art in user_session.artists_by_weekend)
+        user_session.artists_str = ", ".join(
+            str(art.__str__(user_session.selected_weekend)) for art in user_session.artists_by_weekend)
     except Exception as e:
         logger.error(f"Username is: {user_session.username}, Error messaging artists to user: {str(e)}")
         bot.send_message(chat_id, "An error occurred while processing the artist list. Please try again later.")
 
+
 def process_weekend_data(chat_id: int, user_session: UserSession) -> None:
-    user_session.artists_by_weekend = filter_artists_by_weekend(user_session.my_relevant, user_session.selected_weekend.lower())
+    user_session.artists_by_weekend = filter_artists_by_weekend(user_session.my_relevant,
+                                                                user_session.selected_weekend.lower())
     typing_action(chat_id)
     bot.send_message(chat_id,
                      f"*{user_session.selected_weekend} artists:*\n"
@@ -151,6 +167,7 @@ def process_weekend_data(chat_id: int, user_session: UserSession) -> None:
 
     message_artists_to_user(chat_id, user_session)
 
+
 def add_artists_from_new_playlist(current_artists: List[Artist], new_artists: List[Artist]) -> List[Artist]:
     return current_artists + [
         artist for artist in new_artists
@@ -158,10 +175,12 @@ def add_artists_from_new_playlist(current_artists: List[Artist], new_artists: Li
                for existing_artist in current_artists)
     ]
 
+
 def get_or_create_session(chat_id: int) -> UserSession:
     if chat_id not in user_sessions:
         user_sessions[chat_id] = UserSession()
     return user_sessions[chat_id]
+
 
 # Message handlers
 @bot.message_handler(commands=["start"])
@@ -179,11 +198,14 @@ def start(message: telebot.types.Message) -> None:
     bot.send_message(chat_id, first_message, parse_mode='HTML', disable_web_page_preview=True)
     logger.info(f'Username is: {user_session.username}, wrote:\n{str(message.text)}')
 
-@bot.message_handler(func=lambda message: not message.text.startswith("https://open.spotify.com/playlist/") and not message.text.startswith("https://music.youtube.com"))
+
+@bot.message_handler(func=lambda message: not message.text.startswith(
+    "https://open.spotify.com/playlist/") and not message.text.startswith("https://music.youtube.com"))
 def handle_invalid_link(message: telebot.types.Message) -> None:
     typing_action(message.chat.id)
     bot.send_message(message.chat.id, "Please send a valid Spotify or YouTube music link!")
     logger.info(f'Username is: {user_session.username}, wrote:\n{str(message.text)}')
+
 
 def handle_music_link(message: telebot.types.Message, platform_name: str, link_checker: Callable[[str], bool]) -> None:
     chat_id = message.chat.id
@@ -218,6 +240,7 @@ def handle_music_link(message: telebot.types.Message, platform_name: str, link_c
                      'If you want to add one more playlist, just send the link.\nIf not - select your weekend:',
                      reply_markup=create_weekend_keyboard())
 
+
 @bot.message_handler(func=lambda message: message.text.startswith("https://open.spotify.com/playlist/"))
 def handle_spotify_link(message: telebot.types.Message) -> None:
     handle_music_link(
@@ -226,9 +249,11 @@ def handle_spotify_link(message: telebot.types.Message) -> None:
         link_checker=public_funcs.is_link_valid
     )
 
+
 @bot.message_handler(func=lambda message: message.text.startswith("https://music.youtube.com"))
 def handle_youtube_music_link(message: telebot.types.Message) -> None:
     bot.send_message(message.chat.id, "YouTube music isn't supported yet.", parse_mode='Markdown')
+
 
 # Callback query handler
 @bot.callback_query_handler(func=lambda call: True)
@@ -265,7 +290,8 @@ def handle_callback(call: telebot.types.CallbackQuery) -> None:
         logger.info(f"Username is: {user_session.username}, {call.data} clicked")
         if len(user_session.my_relevant) == 0:
             bot.send_message(chat_id, "No artists found for the selected weekend! Please try again.")
-            logger.warning(f"Username is: {user_session.username}, No artists found for the selected weekend, he can't generate an AI lineup.")
+            logger.warning(
+                f"Username is: {user_session.username}, No artists found for the selected weekend, he can't generate an AI lineup.")
             return
         generate_and_print_ai_lineup(user_session, chat_id)
         bot.send_message(chat_id,
@@ -287,6 +313,7 @@ def handle_callback(call: telebot.types.CallbackQuery) -> None:
     else:
         bot.send_message(chat_id, 'Invalid option selected!')
         logger.warning(f"Username is: {user_session.username}, Invalid option selected")
+
 
 if __name__ == "__main__":
     bot.infinity_polling()

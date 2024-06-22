@@ -34,7 +34,6 @@ def split_links(links: str) -> list[str]:
         list[str]: A list of individual links.
     """
     links_list = links.split("\n")  # Split by newline characters
-    valid_links = [link.strip() for link in links_list if is_link_valid(link)]  # Filter valid links and remove leading/trailing spaces
+    valid_links = [link.strip() for link in links_list if
+                   is_link_valid(link)]  # Filter valid links and remove leading/trailing spaces
     return valid_links
-
-

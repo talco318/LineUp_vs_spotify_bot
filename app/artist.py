@@ -4,7 +4,8 @@ from app.show import Show
 
 
 class Artist:
-    def __init__(self, name: str, host_name_and_stage: str, weekend: str, date: str, songs_num: int = 0, spotify_link: str = ""):
+    def __init__(self, name: str, host_name_and_stage: str, weekend: str, date: str, songs_num: int = 0,
+                 spotify_link: str = ""):
         self.name = name
         self.songs_num = songs_num
         self.show = Show(weekend, host_name_and_stage, date)

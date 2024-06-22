@@ -5,7 +5,9 @@ from googleapiclient.discovery import build
 
 # Replace with your own YouTube Data API key
 import APIs
+
 API_KEY = APIs.YOUTUBE_API
+
 
 def get_artists_from_youtube_playlist(playlist_link):
     """
@@ -98,8 +100,6 @@ def extract_artist_from_title(title):
             artist, _ = title.split(separator, 1)
             return artist.strip()
     return None
-
-
 
 # playlist_id = 'PLnKVD11LThZQL-r7h1vQ1bDJ-QFkGwbJe'
 # artists = get_artists_from_youtube_playlist(playlist_id)
