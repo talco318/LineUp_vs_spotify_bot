@@ -16,7 +16,7 @@ from playlists_managment.spotify_funcs import SpotifyManager
 from playlists_managment.spotify_funcs import get_spotify_artist_link
 import playlists_managment.youtube_funcs as youtube_funcs
 import playlists_managment.public_funcs as public_funcs
-from TML_lineup_managment.public_funcs import extract_artists_from_tomorrowland_lineup
+from tomorrowland_lineup_managment.public_funcs import extract_artists_from_tomorrowland_lineup
 from UserSession import UserSession
 from playlist import Playlist
 
