@@ -4,12 +4,12 @@ from app.show import Show
 
 
 class Artist:
-    def __init__(self, name: str, host_name_and_stage: str, weekend: str, date: str, songs_num: int = 0, img: str = ""):
+    def __init__(self, name: str, host_name_and_stage: str, weekend: str, date: str, songs_num: int = 0, spotify_link: str = ""):
         self.name = name
         self.songs_num = songs_num
         self.show = Show(weekend, host_name_and_stage, date)
         self.show2: Optional[Show] = None
-        self.img = img
+        self.spotify_link = spotify_link
 
     def add_new_show(self, weekend: str, host_name_and_stage: str, date: str) -> None:
         """
@@ -26,8 +26,8 @@ class Artist:
         self.show2 = Show(weekend, host_name_and_stage, date)
 
     def __str__(self, selected_weekend: str = "") -> str:
-        art_with_img = f'<a href="{self.img}">{self.name}</a>' if self.img else self.name
-        output = f"{art_with_img}- Songs number: {self.songs_num}\n"
+        art_with_spotify = f'<a href="{self.spotify_link}">{self.name}</a>' if self.spotify_link else self.name
+        output = f"{art_with_spotify}- Songs number: {self.songs_num}\n"
         show_string = self.get_show_string(selected_weekend)
         output += show_string
         return output
