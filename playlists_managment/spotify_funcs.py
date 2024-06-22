@@ -1,4 +1,3 @@
-# ./playlists_managment/spotify_funcs.py
 import re
 from typing import List
 from urllib.parse import parse_qs
@@ -44,6 +43,35 @@ class SpotifyManager:
             tracks = self._fetch_all_playlist_tracks(playlist_id)
             artist_song_count = self._count_artist_songs(tracks)
             return self._create_artists(artist_song_count)
+        except SpotifyException as e:
+            logger.error(f"Spotify API error: {str(e)}")
+            raise
+        except Exception as e:
+            logger.error(f"Unexpected error: {str(e)}")
+            raise
+
+    def get_spotify_artist_link(self, artist_name: str) -> str:
+        """
+        Retrieves the Spotify artist page link for a given artist name.
+
+        Args:
+            artist_name (str): The name of the artist to search for.
+
+        Returns:
+            str: The Spotify URL for the artist's page, or "Artist not found" if not found.
+
+        Raises:
+            SpotifyException: If there's an error communicating with the Spotify API.
+        """
+        try:
+            results = self.sp.search(q='artist:' + artist_name, type='artist')
+            items = results['artists']['items']
+
+            if len(items) > 0:
+                artist = items[0]
+                return artist['external_urls']['spotify']
+            else:
+                return "Artist not found"
         except SpotifyException as e:
             logger.error(f"Spotify API error: {str(e)}")
             raise
@@ -147,18 +175,18 @@ class SpotifyManager:
         ]
 
 
-def get_artists_from_spotify_playlist(playlist_link: str) -> List[Artist]:
+def get_spotify_artist_link(spotify_manager: SpotifyManager, artist_name: str) -> str:
     """
-    Wrapper function to get artists from a Spotify playlist.
+    Wrapper function to get the Spotify artist page link.
 
     Args:
-        playlist_link (str): The link to the Spotify playlist.
+        spotify_manager:
+        artist_name (str): The name of the artist to search for.
 
     Returns:
-        List[Artist]: A list of Artist objects.
+        str: The Spotify URL for the artist's page, or "Artist not found" if not found.
 
     Raises:
-        ValueError: If the playlist link is invalid.
         SpotifyException: If there's an error communicating with the Spotify API.
     """
-    return get_artists_from_spotify_playlist(playlist_link)
+    return spotify_manager.get_spotify_artist_link(artist_name)
