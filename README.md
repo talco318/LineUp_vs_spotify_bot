@@ -15,7 +15,9 @@ Are you a music enthusiast gearing up for the next Tomorrowland festival? Look n
 - **Personalized Recommendations**: Leveraging machine learning algorithms, the bot can suggest artists and shows based on your music preferences and past festival experiences.
 - **Weekend Selection Filter**: Users can filter the output by selecting their preferred weekend, ensuring they get the most relevant information for their visit.
 
-![Screenshot 2024-05-13 100509](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/168c2336-98f4-43bd-9afb-322673d66ba9)
+![image](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/964751cd-0878-47cb-82f8-d4d39b3c2d25)
+![image](https://github.com/talco318/LineUp_vs_spotify_bot/assets/12784722/df367686-971f-46c1-9574-0703672dcfbb)
+
 
 ## How to Use:
 * Start a chat with the [LineUp_vs_spotify_bot](https://t.me/TML_lineup_vs_spotify_bot) on Telegram.
