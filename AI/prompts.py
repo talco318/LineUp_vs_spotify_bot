@@ -53,7 +53,7 @@ Generate a personalized schedule for the specified weekend, listing the artists'
 - Travel time between stages (when applicable)
 - Suggestion for meal, drink, or snack breaks (only when sufficient time is available, including the exact calculated gap time)
 
-The format of the output should be plain text without any Markdown.
+The format of the output should be plain text WITHOUT any Markdown.
 
 Example Output:
 Personalized Lineup for Tomorrowland Festival:

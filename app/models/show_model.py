@@ -1,7 +1,5 @@
-# ./app/show.py
-
 class Show:
-    def __init__(self, weekend_number,host_name_and_stage, date):
+    def __init__(self, weekend_number, host_name_and_stage, date):
         self.weekend_number = weekend_number
         self.host_name_and_stage = host_name_and_stage
         self.date = date

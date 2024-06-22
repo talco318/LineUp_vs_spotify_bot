@@ -1,6 +1,6 @@
 import logging
 import re
-from app.artist import Artist
+from app.models.artist_model import Artist
 from googleapiclient.discovery import build
 
 # Replace with your own YouTube Data API key

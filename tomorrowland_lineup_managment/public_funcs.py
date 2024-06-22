@@ -4,7 +4,7 @@ from urllib import response
 
 import requests
 import types
-from app.artist import Artist
+from app.models.artist_model import Artist
 import csv
 import os
 

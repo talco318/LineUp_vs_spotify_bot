@@ -6,7 +6,7 @@ import spotipy
 from httpx._urlparse import urlparse
 from spotipy import SpotifyException
 from spotipy.oauth2 import SpotifyClientCredentials, logger
-from app.artist import Artist
+from app.models.artist_model import Artist
 
 
 class SpotifyManager:
