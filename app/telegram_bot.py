@@ -5,10 +5,6 @@ from pathlib import Path
 import APIs
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-# Add project root to Python path
-sys.path.append(str(Path(__file__).resolve().parents[2]))
-
 from AI import AI_funcs_gemini as Gemini
 from app.models.artist_model import Artist
 from app.utils.spotify_funcs import SpotifyManager
@@ -18,6 +14,9 @@ import app.utils.public_funcs as public_funcs
 from tomorrowland_lineup_managment.public_funcs import extract_artists_from_tomorrowland_lineup
 from UserSession import UserSession
 from app.models.playlist_model import Playlist
+
+# Add project root to Python path
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -39,6 +38,12 @@ user_sessions: dict[int, UserSession] = {}
 
 # Keyboard layouts
 def create_weekend_keyboard() -> InlineKeyboardMarkup:
+    """
+    Create a keyboard layout for selecting weekends.
+
+    Returns:
+        InlineKeyboardMarkup: Keyboard layout with options for Weekend 1, Weekend 2, and All.
+    """
     keyboard = InlineKeyboardMarkup()
     keyboard.row(
         InlineKeyboardButton(text=WEEKEND_NAMES[0], callback_data=WEEKEND_NAMES[0]),
@@ -49,6 +54,12 @@ def create_weekend_keyboard() -> InlineKeyboardMarkup:
 
 
 def create_generate_lineup_keyboard() -> InlineKeyboardMarkup:
+    """
+    Create a keyboard layout for generating an AI lineup.
+
+    Returns:
+        InlineKeyboardMarkup: Keyboard layout with options to generate AI Lineup or to indicate completion.
+    """
     keyboard = InlineKeyboardMarkup()
     keyboard.row(
         InlineKeyboardButton("Generate AI Lineup", callback_data='generate_ai_lineup'),
@@ -58,17 +69,38 @@ def create_generate_lineup_keyboard() -> InlineKeyboardMarkup:
 
 
 def create_finish_keyboard() -> InlineKeyboardMarkup:
+    """
+    Create a keyboard layout for restarting the process.
+
+    Returns:
+        InlineKeyboardMarkup: Keyboard layout with an option to start again.
+    """
     keyboard = InlineKeyboardMarkup()
     keyboard.row(InlineKeyboardButton("Start again!", callback_data='start_again'))
     return keyboard
 
 
-# Helper functions
 def typing_action(chat_id: int) -> None:
+    """
+    Send a 'typing' action to the chat to indicate that the bot is processing.
+
+    Args:
+        chat_id (int): The ID of the chat where the typing action should be sent.
+    """
     bot.send_chat_action(chat_id=chat_id, action='typing')
 
 
 def get_matching_artists(playlist_artists: List[Artist], lineup_data: List[Artist]) -> List[Artist]:
+    """
+    Get a list of artists from the playlist that match the lineup data.
+
+    Args:
+        playlist_artists (List[Artist]): List of artists from the playlist.
+        lineup_data (List[Artist]): List of artists from the lineup.
+
+    Returns:
+        List[Artist]: List of matching artists with updated song numbers.
+    """
     matching_artists = [
         lineup_artist for playlist_artist in playlist_artists
         for lineup_artist in lineup_data
@@ -85,6 +117,18 @@ def get_matching_artists(playlist_artists: List[Artist], lineup_data: List[Artis
 
 
 def get_lineup_artists_from_playlist(playlist: Union[Playlist, str]) -> List[Artist]:
+    """
+    Get a list of lineup artists from a given playlist.
+
+    Args:
+        playlist (Union[Playlist, str]): Playlist object or a playlist link.
+
+    Returns:
+        List[Artist]: List of lineup artists from the playlist.
+
+    Raises:
+        Exception: If an error occurs while fetching artists from the playlist.
+    """
     try:
         if isinstance(playlist, str):
             playlist_link = playlist
@@ -104,12 +148,28 @@ def get_lineup_artists_from_playlist(playlist: Union[Playlist, str]) -> List[Art
 
 
 def update_spotify_link(user_session: UserSession) -> None:
+    """
+    Update the Spotify links for artists in the user session.
+
+    Args:
+        user_session (UserSession): The current user session.
+    """
     for artist in user_session.my_relevant:
         if not artist.spotify_link:
             artist.spotify_link = get_spotify_artist_link(spotify_manager=spotify_manager, artist_name=artist.name)
 
 
 def filter_artists_by_weekend(artists: List[Artist], weekend_name: str) -> List[Artist]:
+    """
+    Filter artists by the selected weekend.
+
+    Args:
+        artists (List[Artist]): List of artists.
+        weekend_name (str): Name of the weekend to filter by.
+
+    Returns:
+        List[Artist]: List of artists performing on the selected weekend.
+    """
     return [
         artist for artist in artists
         if (artist.show.weekend_number.lower() == weekend_name.lower()) or
@@ -118,6 +178,13 @@ def filter_artists_by_weekend(artists: List[Artist], weekend_name: str) -> List[
 
 
 def generate_and_print_ai_lineup(user_session: UserSession, chat_id: int) -> None:
+    """
+    Generate and print an AI lineup for the user.
+
+    Args:
+        user_session (UserSession): The current user session.
+        chat_id (int): The ID of the chat where the AI lineup should be printed.
+    """
     try:
         typing_action(chat_id)
         bot.send_message(chat_id=chat_id, text="Your lineup is in process, please wait a while.. ",
@@ -136,6 +203,13 @@ def generate_and_print_ai_lineup(user_session: UserSession, chat_id: int) -> Non
 
 
 def message_artists_to_user(chat_id: int, user_session: UserSession) -> None:
+    """
+    Send a message to the user with the list of artists.
+
+    Args:
+        chat_id (int): The ID of the chat where the artists should be messaged.
+        user_session (UserSession): The current user session.
+    """
     try:
         if len(user_session.artists_by_weekend) == 0:
             # It means that the user chose 'both' weekends
@@ -160,10 +234,18 @@ def message_artists_to_user(chat_id: int, user_session: UserSession) -> None:
 
 
 def process_weekend_data(chat_id: int, user_session: UserSession) -> None:
+    """
+    Process the data for the selected weekend and send a message to the user.
+
+    Args:
+        chat_id (int): The ID of the chat where the data should be processed.
+        user_session (UserSession): The current user session.
+    """
     user_session.artists_by_weekend = filter_artists_by_weekend(user_session.my_relevant,
                                                                 user_session.selected_weekend.lower())
     typing_action(chat_id)
-    list_len = len(user_session.artists_by_weekend if user_session.selected_weekend != 'both' else user_session.my_relevant)
+    list_len = len(
+        user_session.artists_by_weekend if user_session.selected_weekend != 'both' else user_session.my_relevant)
     bot.send_message(chat_id,
                      f"*{user_session.selected_weekend} artists:*\n"
                      f"*{list_len}* artists that have been found in {user_session.selected_weekend}:",
@@ -173,6 +255,16 @@ def process_weekend_data(chat_id: int, user_session: UserSession) -> None:
 
 
 def add_artists_from_new_playlist(current_artists: List[Artist], new_artists: List[Artist]) -> List[Artist]:
+    """
+    Add new artists from a new playlist to the current list of artists.
+
+    Args:
+        current_artists (List[Artist]): List of current artists.
+        new_artists (List[Artist]): List of new artists.
+
+    Returns:
+        List[Artist]: Updated list of artists with new artists added.
+    """
     artist_dict = {artist.name: artist for artist in current_artists}
 
     for new_artist in new_artists:
@@ -185,6 +277,15 @@ def add_artists_from_new_playlist(current_artists: List[Artist], new_artists: Li
 
 
 def get_or_create_session(chat_id: int) -> UserSession:
+    """
+    Get or create a user session for the given chat ID.
+
+    Args:
+        chat_id (int): The ID of the chat.
+
+    Returns:
+        UserSession: The existing or newly created user session.
+    """
     if chat_id not in user_sessions:
         user_sessions[chat_id] = UserSession()
     return user_sessions[chat_id]
@@ -217,10 +318,6 @@ def handle_invalid_link(message: telebot.types.Message) -> None:
 def handle_music_link(message: telebot.types.Message, platform_name: str) -> None:
     chat_id = message.chat.id
     user_session = get_or_create_session(chat_id)
-    # if len(user_session.my_relevant) != 0:
-    #     typing_action(chat_id)
-    #     bot.send_message(chat_id, "Would you like to start? Select your weekend. If you want to add a new playlist, just send it now. ",
-    #                      reply_markup=create_weekend_keyboard())
 
     try:
         bot.send_message(chat_id,
