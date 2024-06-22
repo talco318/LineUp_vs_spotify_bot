@@ -1,6 +1,7 @@
 from typing import Optional
 from app.models.show_model import Show
 
+
 class Artist:
     def __init__(self, name: str, host_name_and_stage: str, weekend: str, date: str, songs_num: int = 0,
                  spotify_link: str = ""):

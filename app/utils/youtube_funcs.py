@@ -14,7 +14,7 @@ def get_artists_from_youtube_playlist(playlist_link):
     Retrieves a list of artists from a YouTube/YouTube Music playlist.
 
     Args:
-        playlist_id (str): The ID of the YouTube/YouTube Music playlist.
+        playlist_link (str): The ID of the YouTube/YouTube Music playlist.
 
     Returns:
         list: A list of unique artist names in the playlist.
