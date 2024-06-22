@@ -64,7 +64,7 @@ def extract_artists_from_tomorrowland_lineup() -> list[Artist]:
                 time = f"{day} {start_time} - {end_time}"
                 # Extract additional artist information if available
                 artist_info = performance.get("artists", [{}])[0]
-                image = artist_info.get("image", "")
+                spotify_link = artist_info.get("spotify", "")
 
                 weekend = weekend_names[0] if url == url_w1 else weekend_names[1]
                 artist = Artist(
@@ -72,7 +72,7 @@ def extract_artists_from_tomorrowland_lineup() -> list[Artist]:
                     host_name_and_stage=stage,
                     weekend=weekend,
                     date=time,
-                    img=image if image else "",
+                    spotify_link=spotify_link if spotify_link else "",
 
                 )
                 matching_artists = [a for a in artists if a.name == artist.name]
