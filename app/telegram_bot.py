@@ -13,6 +13,7 @@ from config import Config
 from AI import AI_funcs_gemini as Gemini
 from app.artist import Artist
 from playlists_managment.spotify_funcs import SpotifyManager
+from playlists_managment.spotify_funcs import get_spotify_artist_link
 import playlists_managment.youtube_funcs as youtube_funcs
 import playlists_managment.public_funcs as public_funcs
 from TML_lineup_managment.public_funcs import extract_artists_from_tomorrowland_lineup
@@ -96,6 +97,11 @@ def get_lineup_artists_from_playlist(playlist: Union[Playlist, str]) -> List[Art
         logger.error(f"An error occurred in get_lineup_artists_from_playlist: {str(e)}")
         raise
 
+def update_spotify_link(user_session: UserSession) -> None:
+    for artist in user_session.my_relevant:
+        if not artist.spotify_link:
+            artist.spotify_link = get_spotify_artist_link(spotify_manager=spotify_manager, artist_name=artist.name)
+
 def filter_artists_by_weekend(artists: List[Artist], weekend_name: str) -> List[Artist]:
     return [
         artist for artist in artists
@@ -112,7 +118,7 @@ def generate_and_print_ai_lineup(user_session: UserSession, chat_id: int) -> Non
         response = Gemini.generate_response(user_session.artists_str, user_session.selected_weekend)
         logger.info(f"Username is: {user_session.username}, AI response: {str(response)}")
         typing_action(chat_id)
-        bot.send_message(chat_id=chat_id, text=str(response))
+        bot.send_message(chat_id=chat_id, text=str(response), parse_mode='Markdown')
     except Exception as e:
         logger.error(f"Username is: {user_session.username}, Error generating and printing AI lineup: {str(e)}")
         typing_action(chat_id)
@@ -229,7 +235,11 @@ def handle_youtube_music_link(message: telebot.types.Message) -> None:
 def handle_callback(call: telebot.types.CallbackQuery) -> None:
     chat_id = call.message.chat.id
     user_session = get_or_create_session(chat_id)
-
+    bot.send_message(chat_id,
+                     " No problem, working on it! Please wait a moment..",
+                     parse_mode='Markdown')
+    typing_action(chat_id)
+    update_spotify_link(user_session)
     if call.data in ['weekend_all'] + WEEKEND_NAMES:
         if call.data == 'weekend_all':
             user_session.selected_weekend = "both"
