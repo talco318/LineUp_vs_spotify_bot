@@ -173,11 +173,15 @@ def process_weekend_data(chat_id: int, user_session: UserSession) -> None:
 
 
 def add_artists_from_new_playlist(current_artists: List[Artist], new_artists: List[Artist]) -> List[Artist]:
-    return current_artists + [
-        artist for artist in new_artists
-        if all(artist.name != existing_artist.name or artist.show.date != existing_artist.show.date
-               for existing_artist in current_artists)
-    ]
+    artist_dict = {artist.name: artist for artist in current_artists}
+
+    for new_artist in new_artists:
+        if new_artist.name in artist_dict:
+            artist_dict[new_artist.name].songs_num += new_artist.songs_num
+        else:
+            artist_dict[new_artist.name] = new_artist
+
+    return list(artist_dict.values())
 
 
 def get_or_create_session(chat_id: int) -> UserSession:
@@ -213,34 +217,39 @@ def handle_invalid_link(message: telebot.types.Message) -> None:
 def handle_music_link(message: telebot.types.Message, platform_name: str) -> None:
     chat_id = message.chat.id
     user_session = get_or_create_session(chat_id)
-
-    if len(user_session.my_relevant) != 0:
-        typing_action(chat_id)
-        bot.send_message(chat_id, "Would you like to add to the current playlist or start fresh?",
-                         reply_markup=create_weekend_keyboard())
-        return
+    # if len(user_session.my_relevant) != 0:
+    #     typing_action(chat_id)
+    #     bot.send_message(chat_id, "Would you like to start? Select your weekend. If you want to add a new playlist, just send it now. ",
+    #                      reply_markup=create_weekend_keyboard())
 
     try:
-        user_session.clear_all()
-        user_session.chat_id = chat_id
-        user_session.username = message.chat.username
         bot.send_message(chat_id,
                          "Great! Please wait a moment while I process the playlist...")
         typing_action(chat_id)
-        user_session.playlist = Playlist(platform_name, message.text)
+        curr_playlist = Playlist(platform=platform_name, link=message.text)
         typing_action(chat_id)
-        artists = get_lineup_artists_from_playlist(user_session.playlist)
-        typing_action(chat_id)
-        user_session.my_relevant = artists
+        if curr_playlist.platform == "Unknown":
+            bot.send_message(chat_id, "Invalid link!", parse_mode='Markdown')
+            logger.warning(f'Username is: {user_session.username} Invalid {platform_name} link received')
+            return
+        if curr_playlist.link not in [playlist.link for playlist in user_session.playlist_links_list]:
+            user_session.playlist_links_list.append(curr_playlist)
 
-        if len(artists) == 0:
+        new_artists = get_lineup_artists_from_playlist(curr_playlist)
+        user_session.my_relevant = add_artists_from_new_playlist(user_session.my_relevant, new_artists)
+
+        typing_action(chat_id)
+
+        if len(user_session.my_relevant) == 0:
             bot.send_message(chat_id,
                              "No matching artists found in the playlist. Please try a different playlist link.")
         else:
             update_spotify_link(user_session)
             typing_action(chat_id)
             bot.send_message(chat_id,
-                             f"Playlist contains {len(artists)} relevant artists. Please select a weekend:",
+                             f"Playlist contains {len(user_session.my_relevant)} relevant artists. "
+                             f"If you want to add a new playlist, just send it now. "
+                             f"If not - please select your weekend:",
                              reply_markup=create_weekend_keyboard())
     except Exception as e:
         logger.error(f"Username is: {user_session.username}, Error in handle_music_link: {str(e)}")
@@ -295,6 +304,8 @@ def handle_generate_ai_lineup(call: telebot.types.CallbackQuery) -> None:
 @bot.callback_query_handler(func=lambda call: call.data == 'done')
 def handle_done(call: telebot.types.CallbackQuery) -> None:
     chat_id = call.message.chat.id
+    user_session = get_or_create_session(chat_id)
+    user_session.clear_all()
     bot.answer_callback_query(call.id)
     typing_action(chat_id)
     bot.send_message(chat_id, "Thank you for using the bot!")
