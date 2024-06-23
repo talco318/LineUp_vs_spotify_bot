@@ -5,4 +5,4 @@ class Show:
         self.date = date
 
     def __str__(self):
-        return f"*{self.weekend_number}*\nStage and host name: {self.host_name_and_stage}\nDate: {self.date}"
+        return f"{self.weekend_number}:\n\nStage and host name: {self.host_name_and_stage}\nDate: {self.date}"

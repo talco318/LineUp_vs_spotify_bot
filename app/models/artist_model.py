@@ -23,13 +23,13 @@ class Artist:
 
     def get_show_string(self, selected_weekend: str) -> str:
         if not selected_weekend or selected_weekend.lower() == "both":
-            show_string = f"Show:\n{self.show}"
+            show_string = f"{self.show}"
             if self.show2:
-                show_string += f"\nShow2:\n{self.show2}"
+                show_string += f"{self.show2}"
         elif self.show.weekend_number.lower() == selected_weekend.lower():
-            show_string = f"Show:\n{self.show}"
+            show_string = f"{self.show}"
         elif self.show2 and self.show2.weekend_number.lower() == selected_weekend.lower():
-            show_string = f"Show2:\n{self.show2}"
+            show_string = f"{self.show2}"
         else:
             show_string = "No show for the selected weekend."
         return show_string
