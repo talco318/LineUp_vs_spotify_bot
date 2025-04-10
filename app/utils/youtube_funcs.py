@@ -2,11 +2,14 @@ import logging
 import re
 from app.models.artist_model import Artist
 from googleapiclient.discovery import build
+from dotenv import load_dotenv
+import os
 
-# Replace with your own YouTube Data API key
-import APIs
+# Load environment variables from .env file
+load_dotenv()
 
-API_KEY = APIs.YOUTUBE_API
+# Access environment variables
+youtube_api = os.getenv("YOUTUBE_API")
 
 
 def get_artists_from_youtube_playlist(playlist_link):
@@ -21,7 +24,7 @@ def get_artists_from_youtube_playlist(playlist_link):
     """
 
     playlist_id = cut_content_after_equal_mark(playlist_link)
-    youtube = build('youtube', 'v3', developerKey=API_KEY)
+    youtube = build('youtube', 'v3', developerKey=youtube_api)
 
     artists_list = []
     next_page_token = None

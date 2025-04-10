@@ -1,4 +1,6 @@
-# LineUp_vs_spotify_bot
+# ![image](https://github.com/user-attachments/assets/13331f96-4ae2-4d6e-b63e-a73ec2c9f83d) LineUp_vs_spotify_bot ![image](https://github.com/user-attachments/assets/13331f96-4ae2-4d6e-b63e-a73ec2c9f83d)
+
+
  
 ## Description:
 Are you a music enthusiast gearing up for the next Tomorrowland festival? Look no further! The Tomorrowland Playlist Analyzer Bot is your ultimate companion for making the most of this epic music event.

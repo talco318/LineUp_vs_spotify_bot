@@ -2,9 +2,16 @@
 import logging
 
 import google.generativeai as genai
-
-from APIs import GEMINI_API
 from AI.prompts import prompt
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Access environment variables
+gemini_api = os.getenv("GEMINI_API")
+
 
 
 # Create a function to generate responses using Chat GPT API
@@ -12,7 +19,7 @@ def generate_response(artists_output: str, weekend_input: str):
     full_prompt = prompt
     full_prompt += f"\nYou have to create a lineup for {weekend_input}.\n The Tomorrowland Festival Lineup for {str(weekend_input)} is:\n" + artists_output
     try:
-        genai.configure(api_key=GEMINI_API)
+        genai.configure(api_key=gemini_api)
 
         # Set up the model
         generation_config = {

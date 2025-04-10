@@ -2,7 +2,7 @@ import logging
 from typing import List, Union, Callable
 import sys
 from pathlib import Path
-import APIs
+# import APIs
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from AI import AI_funcs_gemini as Gemini
@@ -14,6 +14,18 @@ import app.utils.public_funcs as public_funcs
 from tomorrowland_lineup_managment.public_funcs import extract_artists_from_tomorrowland_lineup
 from UserSession import UserSession
 from app.models.playlist_model import Playlist
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Access environment variables
+telegram_bot_api = os.getenv("TELEGRAM_BOT_API")
+spotify_client_secret_api = os.getenv("SPOTIFY_CLIENT_SECRET_API")
+spotify_client_id_api = os.getenv("SPOTIFY_CLIENT_ID_API")
+
+
 
 # Add project root to Python path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
@@ -23,14 +35,14 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # Initialize Telegram bot
-bot = telebot.TeleBot(APIs.TELEGRAM_BOT_API)
+bot = telebot.TeleBot(telegram_bot_api)
 
 # Constants
 WEEKEND_NAMES = ["Weekend 1", "Weekend 2"]
 GIF_URL = "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExNW45bTBnaGRxbmF0a2wxbnJ0ajR6aDV6MHJ6eTltMnphY2xqZmdpeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5zoxhCaYbdVHoJkmpf/giphy.gif"
 
 # Initialize SpotifyManager
-spotify_manager = SpotifyManager(APIs.SPOTIFY_CLIENT_ID_API, APIs.SPOTIFY_CLIENT_SECRET_API)
+spotify_manager = SpotifyManager(spotify_client_id_api, spotify_client_secret_api)
 
 # Store user sessions
 user_sessions: dict[int, UserSession] = {}
@@ -295,7 +307,9 @@ def get_or_create_session(chat_id: int) -> UserSession:
 @bot.message_handler(commands=["start"])
 def start(message: telebot.types.Message) -> None:
     chat_id = message.chat.id
+    username = message.chat.username
     user_session = get_or_create_session(chat_id)
+    user_session.username = username
     user_session.clear_all()
     first_message = (
         "Hello! I am the Telegram bot.\nTo get started, send a playlist link:\n"

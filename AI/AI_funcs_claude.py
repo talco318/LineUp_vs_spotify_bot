@@ -1,8 +1,14 @@
 # ./AI/AI_funcs_claude.py
 import anthropic
-from APIs import CLAUDE_API
-
 from prompts import prompt
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Access environment variables
+claude_api = os.getenv("CLAUDE_API")
 
 
 # Create a function to generate responses using Chat GPT API
@@ -14,7 +20,7 @@ def generate_response(artists_output: str, weekend_input: str):
 
         client = anthropic.Anthropic(
             # defaults to os.environ.get("ANTHROPIC_API_KEY")
-            api_key=CLAUDE_API,
+            api_key=claude_api,
         )
         message = client.messages.create(
             model="claude-3-opus-20240229",
