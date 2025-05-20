@@ -48,7 +48,7 @@ def generate_response(artists_output: str, weekend_input: str):
             },
         ]
 
-        model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest",
+        model = genai.GenerativeModel(model_name="gemini-2.0-flash",
                                       # generation_config=generation_config,
                                       safety_settings=safety_settings)
         prompt_parts = [
