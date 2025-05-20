@@ -5,6 +5,7 @@ from telegram_bot import (
     filter_artists_by_weekend
 )
 import AI.AI_funcs_gemini as Gemini
+from tomorrowland_lineup_managment.public_funcs import extract_artists_from_tomorrowland_lineup  # Your existing function
 
 app = Flask(__name__)
 CORS(app)  # This allows the React frontend to call the API
@@ -116,6 +117,32 @@ def get_artists_by_weekend():
             'success': False,
             'error': str(e)
         }), 400
+
+@app.route('/api/get-artist-by-name', methods=['POST'])
+def get_artist_by_name():
+    data = request.json
+    artist_name = data.get('artist_name', '')
+
+    if not artist_name:
+        return jsonify({'success': False, 'error': 'Artist name is required'}), 400
+
+    try:
+        artists = extract_artists_from_tomorrowland_lineup()
+        for artist in artists:
+            if artist.name.lower() == artist_name.lower():
+                artist_dict = {
+                    'name': artist.name,
+                    'spotify_link': artist.spotify_link,
+                    'songs_num': artist.songs_num,
+                    'show': artist.show.__dict__ if artist.show else None,
+                    'show2': artist.show2.__dict__ if artist.show2 else None
+                }
+                return jsonify({'success': True, 'artist': artist_dict})
+        return jsonify({'success': False, 'error': 'Artist not found'}), 404
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
 
 
 if __name__ == '__main__':
