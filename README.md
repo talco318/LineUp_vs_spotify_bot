@@ -39,3 +39,73 @@ Contributions and feedback are highly welcome! If you'd like to contribute to th
 
 ## Connect with Me: 
 Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/talco318/ "Tal Cohen in LinkedIn") or through the Telegram bot. Let's share our passion for music and Tomorrowland! 🚀🎪🎉
+
+## Running the Full Stack Application
+
+This project includes a Flask backend and a React frontend. Follow these steps to run the application locally:
+
+### 1. Prerequisites
+* Python 3.x installed
+* Node.js and npm installed
+* Git (for cloning the repository)
+
+### 2. Clone the Repository
+If you haven't already, clone the repository to your local machine:
+```bash
+git clone <repository-url>
+cd <repository-directory> # Navigate to the root directory of the project
+```
+
+### 3. Backend Setup (Flask)
+The backend server provides the API endpoints for the application.
+
+   a.  **Navigate to the root directory of the project.**
+       If you're not already there, ensure your terminal is in the project's root directory.
+
+   b.  **Install backend dependencies:**
+       It's recommended to use a virtual environment.
+       ```bash
+       python -m venv venv
+       source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+       pip install -r requirements.txt
+       ```
+
+   c.  **Run the Flask backend server:**
+       The main Flask application file might be `app/api.py` or similar (please verify the exact file name in your project structure).
+       Assuming the main file is `api.py` inside an `app` directory:
+       ```bash
+       python app/api.py 
+       ```
+       By default, the Flask server will run on `http://localhost:5000`. You should see output in the terminal indicating the server is running.
+
+### 4. Frontend Setup (React)
+The frontend is a React application that consumes the backend APIs.
+
+   d.  **Navigate to the `frontend` directory:**
+       From the root directory of the project, change to the frontend directory:
+       ```bash
+       cd frontend
+       ```
+
+   e.  **Install frontend dependencies:**
+       ```bash
+       npm install
+       ```
+
+   f.  **Run the React development server:**
+       ```bash
+       npm start
+       ```
+       This command will start the React development server, typically on `http://localhost:3000`. It should automatically open the application in your default web browser.
+
+### 5. Accessing the Application
+   g.  Once both the backend and frontend servers are running, open your web browser and navigate to:
+       ```
+       http://localhost:3000
+       ```
+       You should see the React application, which will make requests to the Flask backend running on port 5000.
+
+### Stopping the Servers
+*   To stop the React development server, go to the terminal where it's running and press `Ctrl+C`.
+*   To stop the Flask backend server, go to its terminal and press `Ctrl+C`.
+*   If you used a Python virtual environment, you can deactivate it by typing `deactivate`.
