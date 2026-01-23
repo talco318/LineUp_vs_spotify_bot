@@ -358,7 +358,6 @@
             cursor: not-allowed;
             transform: none;
         }
-        }
 
         .input-icon {
             position: absolute;
@@ -1208,18 +1207,479 @@
             background: var(--primary);
         }
 
+        /* Header Navigation */
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            padding: 8px 16px;
+            background: var(--surface-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-btn:hover {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Spotify Connect Button */
+        .spotify-connect-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(29, 185, 84, 0.1);
+            border-radius: 12px;
+            border: 1px dashed rgba(29, 185, 84, 0.3);
+        }
+
+        .spotify-connect-btn {
+            padding: 10px 20px;
+            background: var(--spotify);
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spotify-connect-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        .spotify-connect-btn.connected {
+            background: var(--surface-light);
+            border: 2px solid var(--spotify);
+        }
+
+        .spotify-or-divider {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Playlist Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 1rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .playlists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .playlist-item {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .playlist-item:hover {
+            background: var(--surface-hover);
+            transform: translateY(-3px);
+        }
+
+        .playlist-item img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .playlist-item .playlist-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .playlist-item .playlist-tracks {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Favorite Button */
+        .favorite-btn {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            padding: 5px;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .favorite-btn.active {
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            animation: starPulse 0.5s ease;
+        }
+
+        @keyframes starPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+            100% { transform: scale(1); }
+        }
+
+        .favorite-badge {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        /* Calendar Dropdown */
+        .calendar-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .calendar-btn {
+            background: var(--surface-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 6px 12px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-btn:hover {
+            background: var(--surface-hover);
+            color: var(--primary);
+        }
+
+        .calendar-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.5rem;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 50;
+        }
+
+        .calendar-dropdown:hover .calendar-menu,
+        .calendar-menu.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(5px);
+        }
+
+        .calendar-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .calendar-option:hover {
+            background: var(--surface-light);
+        }
+
+        .calendar-option i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .calendar-option.google i { color: #4285F4; }
+        .calendar-option.apple i { color: #A3AAAE; }
+        .calendar-option.ics i { color: var(--primary); }
+
+        /* Festival Map */
+        .map-section {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: none;
+        }
+
+        .map-section.visible {
+            display: block;
+        }
+
+        .map-container {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .map-header h2 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .map-svg-container {
+            background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .festival-map-svg {
+            width: 100%;
+            height: auto;
+            min-height: 400px;
+        }
+
+        .stage-marker {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .stage-marker:hover {
+            transform: scale(1.15);
+        }
+
+        .stage-marker.selected .stage-dot {
+            stroke: white;
+            stroke-width: 3;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .map-legend {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.large { width: 16px; height: 16px; }
+        .legend-dot.medium { width: 12px; height: 12px; }
+        .legend-dot.small { width: 8px; height: 8px; }
+
+        .map-route-info {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .map-route-info.visible {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .route-stages {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .route-stage {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .route-arrow {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .route-time {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Filter Toggle for Favorites */
+        .filter-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: var(--surface-light);
+            border-radius: 25px;
+            margin-bottom: 1rem;
+        }
+
+        .filter-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .filter-toggle label {
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .favorites-count {
+            background: #FFD700;
+            color: #000;
+            padding: 2px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
         /* Footer */
         .footer {
             text-align: center;
-            padding: 3rem 2rem;
-            color: var(--text-muted);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 4rem;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
         }
 
         .footer a {
             color: var(--primary);
             text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
 
         /* Responsive */
@@ -1320,6 +1780,15 @@
                 </button>
             </div>
 
+            <!-- Spotify Connect Section -->
+            <div class="spotify-connect-section" id="spotifyConnectSection">
+                <button class="spotify-connect-btn" id="spotifyConnectBtn" onclick="handleSpotifyConnect()">
+                    <i class="fab fa-spotify"></i>
+                    <span data-he="התחבר לספוטיפיי" data-en="Connect to Spotify">התחבר לספוטיפיי</span>
+                </button>
+                <span class="spotify-or-divider" data-he="או הדבק קישור למטה" data-en="or paste a link below">או הדבק קישור למטה</span>
+            </div>
+
             <div class="input-wrapper">
                 <input type="url" class="input-field" id="playlistUrl"
                        placeholder="https://open.spotify.com/playlist/..."
@@ -1410,6 +1879,21 @@
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
+    <!-- Spotify Playlist Modal -->
+    <div class="modal-overlay" id="playlistModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fab fa-spotify" style="color: var(--spotify);"></i> <span data-he="הפלייליסטים שלך" data-en="Your Playlists">הפלייליסטים שלך</span></h3>
+                <button class="modal-close" onclick="closePlaylistModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="playlists-grid" id="playlistsGrid">
+                    <!-- Playlists will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // State
         let currentPlatform = 'spotify';
@@ -1417,6 +1901,243 @@
         let selectedWeekend = 'both';
         let currentLang = 'he';
         let i18n = {}; // Will hold loaded translations
+        let spotifyConnected = false;
+        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+        // ============== SPOTIFY CONNECT ==============
+
+        // Check Spotify connection on page load
+        async function checkSpotifyConnection() {
+            try {
+                const response = await fetch('/spotify/status');
+                const data = await response.json();
+                spotifyConnected = data.connected;
+                updateSpotifyButton();
+
+                // Check URL params for connection status
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('spotify') === 'connected') {
+                    showToast(t('messages.spotifyConnected'), 'success');
+                    // Clean URL
+                    window.history.replaceState({}, document.title, '/');
+                    // Load playlists
+                    loadSpotifyPlaylists();
+                }
+                if (urlParams.get('spotify_error')) {
+                    showToast(t('messages.error') + ': ' + urlParams.get('spotify_error'), 'error');
+                    window.history.replaceState({}, document.title, '/');
+                }
+            } catch (e) {
+                console.error('Error checking Spotify status:', e);
+            }
+        }
+
+        // Update Spotify button based on connection status
+        function updateSpotifyButton() {
+            const btn = document.getElementById('spotifyConnectBtn');
+            const section = document.getElementById('spotifyConnectSection');
+
+            if (spotifyConnected) {
+                btn.classList.add('connected');
+                btn.innerHTML = `
+                    <i class="fab fa-spotify"></i>
+                    <span>${t('spotify.connected')}</span>
+                `;
+                btn.onclick = openPlaylistModal;
+            } else {
+                btn.classList.remove('connected');
+                btn.innerHTML = `
+                    <i class="fab fa-spotify"></i>
+                    <span>${t('spotify.connect')}</span>
+                `;
+                btn.onclick = handleSpotifyConnect;
+            }
+        }
+
+        // Handle Spotify connect button click
+        function handleSpotifyConnect() {
+            if (spotifyConnected) {
+                openPlaylistModal();
+            } else {
+                // Redirect to Spotify login
+                window.location.href = '/spotify/login';
+            }
+        }
+
+        // Load Spotify playlists
+        async function loadSpotifyPlaylists() {
+            try {
+                const response = await fetch('/spotify/playlists');
+                const data = await response.json();
+
+                if (data.ok) {
+                    showPlaylistModal(data.playlists);
+                } else if (response.status === 401) {
+                    // Token expired
+                    spotifyConnected = false;
+                    updateSpotifyButton();
+                    showToast(t('messages.error'), 'error');
+                }
+            } catch (e) {
+                console.error('Error loading playlists:', e);
+                showToast(t('messages.error'), 'error');
+            }
+        }
+
+        // Open playlist modal
+        function openPlaylistModal() {
+            document.getElementById('playlistModal').classList.add('visible');
+            loadSpotifyPlaylists();
+        }
+
+        // Close playlist modal
+        function closePlaylistModal() {
+            document.getElementById('playlistModal').classList.remove('visible');
+        }
+
+        // Show playlists in modal
+        function showPlaylistModal(playlists) {
+            const grid = document.getElementById('playlistsGrid');
+
+            if (playlists.length === 0) {
+                grid.innerHTML = `<div class="empty-day"><i class="fas fa-music"></i><p>${t('spotify.noPlaylists')}</p></div>`;
+                return;
+            }
+
+            grid.innerHTML = playlists.map(p => `
+                <div class="playlist-item" onclick="selectSpotifyPlaylist('${p.id}', '${p.name.replace(/'/g, "\\'")}')">
+                    <img src="${p.image || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23333%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2260%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2240%22>🎵</text></svg>'}" alt="${p.name}">
+                    <div class="playlist-name">${p.name}</div>
+                    <div class="playlist-tracks">${p.tracks} ${t('spotify.tracks')}</div>
+                </div>
+            `).join('');
+        }
+
+        // Select a Spotify playlist from modal
+        async function selectSpotifyPlaylist(playlistId, playlistName) {
+            closePlaylistModal();
+            showLoading(true, t('loading.searchingArtists'));
+
+            try {
+                const response = await fetch(`/spotify/playlist/${playlistId}/analyze`);
+                const data = await response.json();
+
+                if (data.ok) {
+                    currentArtists = data.artists;
+
+                    if (currentArtists.length === 0) {
+                        showToast(t('messages.noArtistsFound'), 'error');
+                    } else {
+                        showToast(t('messages.artistsFound', { count: currentArtists.length }), 'success');
+                        document.getElementById('actionRow').style.display = 'flex';
+                        displayArtists(currentArtists);
+                    }
+                } else {
+                    showToast(data.error || t('messages.error'), 'error');
+                }
+            } catch (e) {
+                console.error('Error analyzing playlist:', e);
+                showToast(t('messages.error'), 'error');
+            }
+
+            showLoading(false);
+        }
+
+        // Disconnect from Spotify
+        async function disconnectSpotify() {
+            try {
+                await fetch('/spotify/logout');
+                spotifyConnected = false;
+                updateSpotifyButton();
+                showToast(t('messages.spotifyDisconnected'), 'success');
+            } catch (e) {
+                console.error('Error disconnecting:', e);
+            }
+        }
+
+        // ============== FAVORITES ==============
+
+        // Toggle favorite status for an artist
+        function toggleFavorite(artistName) {
+            const index = favorites.indexOf(artistName);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showToast(t('messages.favoriteRemoved'), 'info');
+            } else {
+                favorites.push(artistName);
+                showToast(t('messages.favoriteAdded'), 'success');
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoriteButtons();
+        }
+
+        // Check if artist is favorite
+        function isFavorite(artistName) {
+            return favorites.includes(artistName);
+        }
+
+        // Update all favorite buttons
+        function updateFavoriteButtons() {
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                const artistName = btn.dataset.artist;
+                if (isFavorite(artistName)) {
+                    btn.classList.add('active');
+                    btn.innerHTML = '<i class="fas fa-star"></i>';
+                } else {
+                    btn.classList.remove('active');
+                    btn.innerHTML = '<i class="far fa-star"></i>';
+                }
+            });
+        }
+
+        // ============== CALENDAR ==============
+
+        // Add event to calendar
+        async function addToCalendar(artist, stage, date) {
+            try {
+                const params = new URLSearchParams({
+                    artist: artist,
+                    stage: stage,
+                    date: date
+                });
+
+                const response = await fetch(`/api/calendar/generate?${params}`);
+                const data = await response.json();
+
+                if (data.ok) {
+                    // Show calendar options
+                    showCalendarOptions(data);
+                } else {
+                    showToast(t('messages.error'), 'error');
+                }
+            } catch (e) {
+                console.error('Error generating calendar:', e);
+                showToast(t('messages.error'), 'error');
+            }
+        }
+
+        // Show calendar options dropdown
+        function showCalendarOptions(data) {
+            // Open Google Calendar in new tab
+            window.open(data.google_url, '_blank');
+            showToast(t('messages.calendarAdded'), 'success');
+        }
+
+        // Download ICS file
+        function downloadICS(icsContent, artistName) {
+            const blob = new Blob([icsContent], { type: 'text/calendar' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${artistName.replace(/\s+/g, '_')}_tomorrowland.ics`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast(t('messages.calendarAdded'), 'success');
+        }
+
+        // ============== TRANSLATIONS ==============
 
         // Load translations from JSON file
         async function loadTranslations(lang) {
@@ -1440,11 +2161,10 @@
                     value = value[key];
                 } else {
                     console.warn(`Translation not found: ${path}`);
-                    return path; // Return path as fallback
+                    return path;
                 }
             }
 
-            // Handle replacements like {count}
             if (typeof value === 'string') {
                 Object.keys(replacements).forEach(k => {
                     value = value.replace(`{${k}}`, replacements[k]);
@@ -1462,100 +2182,57 @@
             currentLang = lang;
             i18n = translations;
 
-            // Update active button
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
 
-            // Update body direction and font
             const meta = translations.meta || {};
             document.body.classList.toggle('lang-en', lang === 'en');
             document.documentElement.lang = meta.lang || lang;
             document.documentElement.dir = meta.dir || (lang === 'he' ? 'rtl' : 'ltr');
 
-            // Update all text content
             updateAllTexts();
-
-            // Save preference
             localStorage.setItem('lang', lang);
         }
 
-        // Update all translatable texts on the page
         function updateAllTexts() {
-            // Hero
             document.querySelector('.hero h1').textContent = t('hero.title');
             document.querySelector('.hero-subtitle').textContent = t('hero.subtitle');
-
-            // Input section
             document.querySelector('.input-header h2').textContent = t('input.title');
             document.querySelector('#submitBtn .btn-text').textContent = t('input.findArtists');
-
-            // Weekend
             document.querySelector('.weekend-label').textContent = t('weekend.label');
             document.querySelector('.weekend-pill[data-weekend="both"]').textContent = t('weekend.both');
 
-            // AI button
             const aiBtn = document.getElementById('aiBtn');
-            if (!aiBtn.disabled) {
+            if (aiBtn && !aiBtn.disabled) {
                 aiBtn.querySelector('span').textContent = t('ai.generateBtn');
             }
 
-            // Results
             document.querySelector('.results-header h2').textContent = t('results.title');
-
-            // Schedule
-            const scheduleHeader = document.querySelector('.schedule-header h2');
-            if (scheduleHeader) {
-                scheduleHeader.innerHTML = `<i class="fas fa-calendar-alt"></i> ${t('schedule.title')}`;
-            }
-            const scheduleSubtitle = document.querySelector('.schedule-header p');
-            if (scheduleSubtitle) {
-                scheduleSubtitle.textContent = t('schedule.subtitle');
-            }
-
-            // Day tabs
-            const dayTabs = document.querySelectorAll('.day-tab .day-name');
-            if (dayTabs.length >= 3) {
-                dayTabs[0].textContent = t('days.friday');
-                dayTabs[1].textContent = t('days.saturday');
-                dayTabs[2].textContent = t('days.sunday');
-            }
-
-            // Loading overlay
             document.querySelector('.loading-text').textContent = t('loading.searchingArtists');
             document.querySelector('.loading-subtext').textContent = t('loading.mayTakeFewSeconds');
-
-            // Footer
             document.querySelector('.footer p').textContent = t('footer.builtWith');
 
-            // Re-render current data if exists
+            // Update Spotify button text
+            updateSpotifyButton();
+
             if (currentArtists.length > 0) {
                 displayArtists(filterArtistsByWeekend(currentArtists, selectedWeekend));
             }
         }
 
-        // Initialize language
         async function initLanguage() {
             const savedLang = localStorage.getItem('lang') || 'he';
             await setLanguage(savedLang);
         }
 
-        // Day name translations helper
-        function getDayName(dayKey) {
-            return t(`days.${dayKey}`) || dayKey;
-        }
-
-        // Format date/time with translation
         function formatDateTime(dateStr) {
             if (!dateStr) return '';
-
             try {
-                // Extract day name (e.g., "THURSDAY")
                 const dayMatch = dateStr.match(/^([A-Z]+)/);
                 const dayName = dayMatch ? dayMatch[1] : '';
                 const translatedDay = t(`days.${dayName}`) || dayName;
 
-                // Extract times using regex
                 const timePattern = /(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2}):\d{2}\s*-\s*\d{4}-\d{2}-\d{2}\s+(\d{2}):(\d{2}):\d{2}/;
                 const match = dateStr.match(timePattern);
 
@@ -1563,29 +2240,17 @@
                     const [, year, month, day, startHour, startMin, endHour, endMin] = match;
                     return `${translatedDay}, ${day}/${month} | ${startHour}:${startMin} - ${endHour}:${endMin}`;
                 }
-
-                // Fallback
-                const simplePattern = /(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/;
-                const simpleMatch = dateStr.match(simplePattern);
-                if (simpleMatch) {
-                    const [, year, month, day, hour, min] = simpleMatch;
-                    return `${translatedDay}, ${day}/${month} | ${hour}:${min}`;
-                }
-
-                return translatedDay ? `${translatedDay} - ${dateStr.replace(dayName, '').trim()}` : dateStr;
+                return dateStr;
             } catch (e) {
-                console.error('Error formatting date:', e);
                 return dateStr;
             }
         }
 
-        // Platform Selection
+        // ============== PLATFORM & WEEKEND ==============
+
         function selectPlatform(platform) {
             currentPlatform = platform;
-
-            document.querySelectorAll('.platform-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
+            document.querySelectorAll('.platform-tab').forEach(tab => tab.classList.remove('active'));
             document.querySelector(`.platform-tab.${platform}`).classList.add('active');
 
             const input = document.getElementById('playlistUrl');
@@ -1600,26 +2265,19 @@
             }
         }
 
-        // Weekend Selection
         function selectWeekend(weekend) {
             selectedWeekend = weekend;
-
-            document.querySelectorAll('.weekend-pill').forEach(btn => {
-                btn.classList.remove('selected');
-            });
+            document.querySelectorAll('.weekend-pill').forEach(btn => btn.classList.remove('selected'));
             const selectedBtn = document.querySelector(`.weekend-pill[data-weekend="${weekend}"]`);
             if (selectedBtn) selectedBtn.classList.add('selected');
 
-            // Filter and display artists if we have them
             if (currentArtists.length > 0) {
                 displayArtists(filterArtistsByWeekend(currentArtists, weekend));
             }
         }
 
-        // Filter artists by weekend
         function filterArtistsByWeekend(artists, weekend) {
             if (weekend === 'both') return artists;
-
             return artists.filter(artist => {
                 const show1Weekend = (artist.show?.weekend_number || '').toLowerCase();
                 const show2Weekend = (artist.show2?.weekend_number || '').toLowerCase();
@@ -1628,7 +2286,8 @@
             });
         }
 
-        // Analyze Playlist
+        // ============== ANALYZE PLAYLIST ==============
+
         async function analyzePlaylist() {
             const url = document.getElementById('playlistUrl').value.trim();
 
@@ -1637,7 +2296,6 @@
                 return;
             }
 
-            // Validate URL
             if (currentPlatform === 'spotify' && !url.includes('spotify.com/playlist')) {
                 showToast(t('messages.invalidSpotify'), 'error');
                 return;
@@ -1647,36 +2305,25 @@
                 return;
             }
 
-            // Show loading
             showLoading(true);
             setButtonLoading(true);
 
             try {
                 const response = await fetch('/analyze', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        playlist_url: url,
-                        platform: currentPlatform
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ playlist_url: url, platform: currentPlatform })
                 });
 
                 const data = await response.json();
 
                 if (data.ok) {
                     currentArtists = data.artists;
-
                     if (currentArtists.length === 0) {
                         showToast(t('messages.noArtistsFound'), 'error');
                     } else {
                         showToast(t('messages.artistsFound', { count: currentArtists.length }), 'success');
-
-                        // Show action row (weekend selection + AI button)
                         document.getElementById('actionRow').style.display = 'flex';
-
-                        // Display results
                         displayArtists(currentArtists);
                     }
                 } else {
@@ -1691,7 +2338,8 @@
             setButtonLoading(false);
         }
 
-        // Display Artists
+        // ============== DISPLAY ARTISTS ==============
+
         function displayArtists(artists) {
             const grid = document.getElementById('artistsGrid');
             const section = document.getElementById('resultsSection');
@@ -1704,12 +2352,20 @@
                     <div class="artist-header">
                         <div class="artist-avatar">${artist.name.charAt(0).toUpperCase()}</div>
                         <div class="artist-info">
-                            <div class="artist-name">${artist.name}</div>
+                            <div class="artist-name">
+                                ${isFavorite(artist.name) ? '<span class="favorite-badge">⭐</span>' : ''}
+                                ${artist.name}
+                            </div>
                             <div class="artist-songs">
                                 <i class="fas fa-music"></i>
                                 ${artist.songs_num || 0} ${t('results.songsInPlaylist')}
                             </div>
                         </div>
+                        <button class="favorite-btn ${isFavorite(artist.name) ? 'active' : ''}"
+                                data-artist="${artist.name}"
+                                onclick="toggleFavorite('${artist.name.replace(/'/g, "\\'")}')">
+                            <i class="${isFavorite(artist.name) ? 'fas' : 'far'} fa-star"></i>
+                        </button>
                     </div>
                     <div class="show-details">
                         ${artist.show ? `
@@ -1724,6 +2380,12 @@
                             <div class="show-item">
                                 <i class="fas fa-clock"></i>
                                 <span>${formatDateTime(artist.show.date)}</span>
+                            </div>
+                            <div class="show-item">
+                                <button class="calendar-btn" onclick="addToCalendar('${artist.name.replace(/'/g, "\\'")}', '${(artist.show.host_name_and_stage || '').replace(/'/g, "\\'")}', '${artist.show.date || ''}')">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    ${t('calendar.addToCalendar')}
+                                </button>
                             </div>
                         ` : ''}
                         ${artist.show2 ? `
@@ -1756,7 +2418,8 @@
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Generate AI Lineup
+        // ============== AI LINEUP ==============
+
         let scheduleData = { friday: [], saturday: [], sunday: [] };
         let currentDayView = 'friday';
         let rawLineupData = null;
@@ -1767,42 +2430,29 @@
                 return;
             }
 
-            // Disable button and show loading
             const aiBtn = document.getElementById('aiBtn');
             aiBtn.disabled = true;
             aiBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('ai.generating')}`;
-
             showLoading(true, t('loading.generatingLineup'));
 
             try {
                 const response = await fetch('/generate_lineup', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        artists: currentArtists.map(a => a.name),
-                        weekend: selectedWeekend
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ artists: currentArtists.map(a => a.name), weekend: selectedWeekend })
                 });
 
                 const data = await response.json();
-                console.log("AI Response:", data); // Debug
 
                 if (data.ok) {
                     rawLineupData = data.lineup;
-
-                    // Check if we have structured JSON or raw text fallback
                     if (data.lineup.parse_error || !data.lineup.days || data.lineup.days.length === 0) {
-                        // Show raw text fallback
-                        const rawText = data.lineup.raw_text || data.lineup.raw_response || JSON.stringify(data.lineup, null, 2);
+                        const rawText = data.lineup.raw_text || JSON.stringify(data.lineup, null, 2);
                         showRawLineup(rawText);
-                        showToast(t('messages.lineupCreated'), 'success');
                     } else {
-                        // Process structured JSON
                         processStructuredLineup(data.lineup);
-                        showToast(t('messages.lineupCreated'), 'success');
                     }
+                    showToast(t('messages.lineupCreated'), 'success');
                 } else {
                     showToast(data.error || t('messages.error'), 'error');
                 }
@@ -1811,535 +2461,79 @@
                 showToast(t('messages.error'), 'error');
             }
 
-            // Re-enable button
             aiBtn.disabled = false;
             aiBtn.innerHTML = `<i class="fas fa-magic"></i> <span>${t('ai.generateBtn')}</span>`;
-
             showLoading(false);
         }
 
-        // Process structured JSON lineup
         function processStructuredLineup(lineup) {
-            // Reset schedule
             scheduleData = { friday: [], saturday: [], sunday: [] };
+            const dayNameMap = { 'friday': 'friday', 'saturday': 'saturday', 'sunday': 'sunday' };
 
-            // Map day names to our keys
-            const dayNameMap = {
-                'friday': 'friday',
-                'saturday': 'saturday',
-                'sunday': 'sunday',
-                'fri': 'friday',
-                'sat': 'saturday',
-                'sun': 'sunday'
-            };
-
-            // Process each day
             lineup.days.forEach(day => {
-                const dayName = (day.day_name || '').toLowerCase();
-                const dayKey = dayNameMap[dayName] || getDayKeyFromNumber(day.day_number);
-
-                // Convert events to our format
+                const dayKey = dayNameMap[(day.day_name || '').toLowerCase()] || 'friday';
                 const events = (day.events || []).map(event => ({
                     artist: event.artist,
                     songs: event.songs_count,
                     stage: event.stage,
                     date: day.date,
                     startTime: event.start_time,
-                    endTime: event.end_time,
-                    travelToNext: event.travel_to_next,
-                    travelToNextStage: event.travel_to_next_stage
+                    endTime: event.end_time
                 }));
-
-                // Add breaks as special events
-                (day.breaks || []).forEach(brk => {
-                    events.push({
-                        isBreak: true,
-                        afterArtist: brk.after_artist,
-                        duration: brk.duration_minutes,
-                        type: brk.type,
-                        suggestion: brk.suggestion
-                    });
-                });
-
-                scheduleData[dayKey] = events.filter(e => !e.isBreak);
-                scheduleData[dayKey + '_breaks'] = events.filter(e => e.isBreak);
+                scheduleData[dayKey] = events;
             });
 
-            // Update day tabs with dates
-            const dates = {};
-            lineup.days.forEach(day => {
-                const dayKey = dayNameMap[(day.day_name || '').toLowerCase()] || getDayKeyFromNumber(day.day_number);
-                dates[dayKey] = day.date;
-            });
-            updateDayTabs(dates);
-
-            // Show schedule section
             document.getElementById('scheduleSection').classList.add('visible');
-            document.getElementById('dayTabs').style.display = 'flex';
-
-            // Display first day with events
-            const firstDayWithEvents = Object.keys(scheduleData).find(day =>
-                !day.includes('_breaks') && scheduleData[day].length > 0
-            ) || 'friday';
-            showDay(firstDayWithEvents);
-
-            // Show tips
-            displayTips(lineup.tips || []);
-
-            // Scroll to schedule
-            document.getElementById('scheduleSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            showDay('friday');
         }
 
-        // Get day key from day number
-        function getDayKeyFromNumber(num) {
-            const map = { 1: 'friday', 2: 'saturday', 3: 'sunday' };
-            return map[num] || 'friday';
-        }
-
-        // Show raw lineup text when parsing fails
         function showRawLineup(text) {
             const section = document.getElementById('scheduleSection');
             section.classList.add('visible');
-
             const grid = document.getElementById('scheduleGrid');
-
-            // Format the text nicely
-            let formattedText = text;
-            if (typeof text === 'string') {
-                formattedText = text
-                    .replace(/Day\s*(\d+):/gi, `<div class="raw-day-header">📅 ${currentLang === 'he' ? 'יום' : 'Day'} $1:</div>`)
-                    .replace(/Travel Time:/gi, '<span class="raw-travel">🚶 ' + t('breaks.minutesWalk') + ':</span>')
-                    .replace(/Suggestion:/gi, '<span class="raw-suggestion">💡 ' + t('tips.title') + ':</span>')
-                    .replace(/\n/g, '<br>');
-            }
-
-            grid.innerHTML = `
-                <div class="raw-lineup-container">
-                    <div class="raw-lineup-header">
-                        <i class="fas fa-list-alt"></i>
-                        <span>${t('schedule.yourLineup')}</span>
-                    </div>
-                    <div class="raw-lineup-content">
-                        ${formattedText}
-                    </div>
-                    <button class="copy-btn" onclick="copyLineup()">
-                        <i class="fas fa-copy"></i> ${t('schedule.copyLineup')}
-                    </button>
-                </div>
-            `;
-
-            // Hide day tabs for raw view
+            grid.innerHTML = `<div class="raw-lineup-container"><div class="raw-lineup-content">${text.replace(/\n/g, '<br>')}</div></div>`;
             document.getElementById('dayTabs').style.display = 'none';
-
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // Copy lineup to clipboard
-        function copyLineup() {
-            const text = typeof rawLineupData === 'string' ? rawLineupData : JSON.stringify(rawLineupData, null, 2);
-            navigator.clipboard.writeText(text).then(() => {
-                showToast(t('messages.copied'), 'success');
-            }).catch(() => {
-                showToast(t('messages.copyError'), 'error');
-            });
-        }
-
-        // Parse AI Lineup text into structured data
-        function parseAILineup(text) {
-            console.log("Parsing AI response:", text); // Debug
-
-            const schedule = { friday: [], saturday: [], sunday: [] };
-            const tips = [];
-            const dates = { friday: '', saturday: '', sunday: '' };
-            let rawText = text; // Keep raw text for fallback
-
-            // Try multiple parsing approaches
-
-            // Approach 1: Split by "Day X:" sections
-            const dayPattern = /Day\s*(\d+)\s*:?\s*([\s\S]*?)(?=Day\s*\d+\s*:|$)/gi;
-            let match;
-            let foundDays = false;
-
-            while ((match = dayPattern.exec(text)) !== null) {
-                foundDays = true;
-                const dayNum = parseInt(match[1]);
-                const dayContent = match[2].trim();
-
-                console.log(`Found Day ${dayNum}:`, dayContent.substring(0, 100)); // Debug
-
-                // Map day number to day name
-                const dayMap = { 1: 'friday', 2: 'saturday', 3: 'sunday' };
-                const dayKey = dayMap[dayNum] || 'friday';
-
-                // Parse events in this day
-                const events = parseEventsFromText(dayContent);
-                console.log(`Parsed ${events.length} events for day ${dayNum}`); // Debug
-                schedule[dayKey] = schedule[dayKey].concat(events);
-            }
-
-            // Approach 2: If no "Day X" format, parse entire text for events
-            if (!foundDays || Object.values(schedule).every(arr => arr.length === 0)) {
-                console.log("Trying fallback parsing..."); // Debug
-                const allEvents = parseEventsFromText(text);
-                console.log(`Fallback found ${allEvents.length} events`); // Debug
-
-                // Distribute events across days based on dates
-                allEvents.forEach(event => {
-                    const dayOfWeek = getDayOfWeekFromDate(event.date);
-                    console.log(`Event ${event.artist} on ${event.date} -> ${dayOfWeek}`); // Debug
-                    if (schedule[dayOfWeek]) {
-                        schedule[dayOfWeek].push(event);
-                    } else {
-                        schedule.friday.push(event);
-                    }
-                });
-            }
-
-            // Extract suggestions/tips
-            const suggestionPattern = /Suggestion:\s*([^\n]+)/gi;
-            let suggMatch;
-            while ((suggMatch = suggestionPattern.exec(text)) !== null) {
-                tips.push(suggMatch[1].trim());
-            }
-
-            // Extract travel time info
-            const travelPattern = /Travel\s*Time:\s*([^\n]+)/gi;
-            let travelMatch;
-            while ((travelMatch = travelPattern.exec(text)) !== null) {
-                tips.push("🚶 " + travelMatch[1].trim());
-            }
-
-            // Sort events by time within each day
-            Object.keys(schedule).forEach(day => {
-                schedule[day].sort((a, b) => {
-                    const timeA = parseInt((a.startTime || '00:00').replace(':', ''));
-                    const timeB = parseInt((b.startTime || '00:00').replace(':', ''));
-                    return timeA - timeB;
-                });
-            });
-
-            // Extract dates from events
-            Object.keys(schedule).forEach(day => {
-                if (schedule[day].length > 0 && schedule[day][0].date) {
-                    dates[day] = schedule[day][0].date;
-                }
-            });
-
-            console.log("Final schedule:", schedule); // Debug
-            console.log("Tips:", tips); // Debug
-
-            return { schedule, tips, dates, rawText };
-        }
-
-        // Parse individual events from text - improved with multiple patterns
-        function parseEventsFromText(text) {
-            const events = [];
-
-            // Pattern 1: Artist Name (X songs): Stage, DD/MM, HH:MM to HH:MM
-            // Example: John Newman (1 song): Placeholder Stage 6, 19/7, 18:00 to 19:00
-            const pattern1 = /([A-Za-z0-9\s\-\.&']+?)\s*\((\d+)\s*songs?\):\s*([^,]+),\s*(\d{1,2}\/\d{1,2}),\s*(\d{1,2}:\d{2})\s*to\s*(\d{1,2}:\d{2})/gi;
-
-            let match;
-            while ((match = pattern1.exec(text)) !== null) {
-                events.push({
-                    artist: match[1].trim(),
-                    songs: parseInt(match[2]),
-                    stage: match[3].trim(),
-                    date: match[4].trim(),
-                    startTime: match[5].trim(),
-                    endTime: match[6].trim()
-                });
-            }
-
-            // Pattern 2: Artist Name (X songs): Stage, DD/MM/YYYY, HH:MM to HH:MM
-            if (events.length === 0) {
-                const pattern2 = /([A-Za-z0-9\s\-\.&']+?)\s*\((\d+)\s*songs?\):\s*([^,]+),\s*(\d{1,2}\/\d{1,2}(?:\/\d{2,4})?),\s*(\d{1,2}:\d{2})\s*(?:to|-)\s*(\d{1,2}:\d{2})/gi;
-                while ((match = pattern2.exec(text)) !== null) {
-                    let dateStr = match[4].trim();
-                    // Remove year if present
-                    if (dateStr.split('/').length > 2) {
-                        const parts = dateStr.split('/');
-                        dateStr = parts[0] + '/' + parts[1];
-                    }
-                    events.push({
-                        artist: match[1].trim(),
-                        songs: parseInt(match[2]),
-                        stage: match[3].trim(),
-                        date: dateStr,
-                        startTime: match[5].trim(),
-                        endTime: match[6].trim()
-                    });
-                }
-            }
-
-            // Pattern 3: More flexible - Artist (X songs) ... Stage ... time
-            if (events.length === 0) {
-                const pattern3 = /([A-Za-z0-9\s\-\.&']+?)\s*\((\d+)\s*songs?\)[:\s]+([^,\n]+?)[\s,]+(\d{1,2}\/\d{1,2})[,\s]+(\d{1,2}:\d{2})\s*(?:to|-)\s*(\d{1,2}:\d{2})/gi;
-                while ((match = pattern3.exec(text)) !== null) {
-                    events.push({
-                        artist: match[1].trim(),
-                        songs: parseInt(match[2]),
-                        stage: match[3].trim(),
-                        date: match[4].trim(),
-                        startTime: match[5].trim(),
-                        endTime: match[6].trim()
-                    });
-                }
-            }
-
-            return events;
-        }
-
-        // Get day of week from date string (e.g., "19/7")
-        function getDayOfWeekFromDate(dateStr) {
-            if (!dateStr) return 'friday';
-
-            const [day, month] = dateStr.split('/').map(Number);
-            const year = 2025; // Assuming Tomorrowland 2025
-            const date = new Date(year, month - 1, day);
-            const dayIndex = date.getDay();
-
-            const dayMap = { 0: 'sunday', 5: 'friday', 6: 'saturday' };
-            return dayMap[dayIndex] || 'friday';
-        }
-
-        // Update day tabs with dates
-        function updateDayTabs(dates) {
-            if (dates.friday) document.getElementById('fridayDate').textContent = dates.friday;
-            if (dates.saturday) document.getElementById('saturdayDate').textContent = dates.saturday;
-            if (dates.sunday) document.getElementById('sundayDate').textContent = dates.sunday;
-        }
-
-        // Show specific day in schedule
         function showDay(day) {
             currentDayView = day;
-
-            // Show day tabs (in case they were hidden)
-            document.getElementById('dayTabs').style.display = 'flex';
-
-            // Update active tab
-            document.querySelectorAll('.day-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelector(`.day-tab[data-day="${day}"]`).classList.add('active');
-
-            // Render schedule for this day
+            document.querySelectorAll('.day-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`.day-tab[data-day="${day}"]`)?.classList.add('active');
             renderSchedule(scheduleData[day]);
         }
 
-        // Render schedule grid
         function renderSchedule(events) {
             const grid = document.getElementById('scheduleGrid');
-            const breaks = scheduleData[currentDayView + '_breaks'] || [];
-
             if (!events || events.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-day">
-                        <i class="fas fa-calendar-times"></i>
-                        <p>${t('schedule.noEvents')}</p>
-                    </div>
-                `;
+                grid.innerHTML = `<div class="empty-day"><i class="fas fa-calendar-times"></i><p>${t('schedule.noEvents')}</p></div>`;
                 return;
             }
 
-            let html = '';
-            let lastEndTime = null;
-
-            events.forEach((event, index) => {
-                // Check for break after previous event
-                const breakAfterPrev = index > 0 ? breaks.find(b =>
-                    b.afterArtist && events[index-1] &&
-                    b.afterArtist.toLowerCase() === events[index-1].artist.toLowerCase()
-                ) : null;
-
-                // Check for gap/break between events
-                if (lastEndTime && index > 0) {
-                    const gap = calculateGap(lastEndTime, event.startTime);
-                    if (breakAfterPrev) {
-                        html += renderBreakCardFromData(breakAfterPrev);
-                    } else if (gap >= 30) {
-                        html += renderBreakCard(gap, lastEndTime, event.startTime);
-                    }
-                }
-
-                // Show travel time if exists
-                const prevEvent = index > 0 ? events[index - 1] : null;
-                const travelTime = prevEvent ? prevEvent.travelToNext : 0;
-                const travelStage = prevEvent ? prevEvent.travelToNextStage : '';
-
-                if (travelTime && travelTime > 0) {
-                    html += `
-                        <div class="travel-indicator">
-                            <i class="fas fa-walking"></i>
-                            <span>${travelTime} ${t('breaks.minutesWalk')}${travelStage ? ' ' + t('breaks.to') + travelStage : ''}</span>
-                        </div>
-                    `;
-                }
-
-                html += `
-                    <div class="time-slot">
-                        <div class="time-label">
-                            ${event.startTime}
-                        </div>
-                        <div class="slot-content">
-                            <div class="event-card">
-                                <div class="event-header">
-                                    <div class="event-artist">${event.artist}</div>
-                                    <div class="event-songs">${event.songs} שירים</div>
-                                </div>
-                                <div class="event-details">
-                                    <div class="event-detail">
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <span>${event.stage}</span>
-                                    </div>
-                                    <div class="event-detail">
-                                        <i class="fas fa-clock"></i>
-                                        <span>${event.startTime} - ${event.endTime}</span>
-                                    </div>
-                                    ${event.date ? `
-                                    <div class="event-detail">
-                                        <i class="fas fa-calendar"></i>
-                                        <span>${event.date}</span>
-                                    </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                lastEndTime = event.endTime;
-            });
-
-            grid.innerHTML = html;
-        }
-
-        // Render break card from structured data
-        function renderBreakCardFromData(brk) {
-            let icon = 'fa-coffee';
-            let hebrewType = t('breaks.minutesBreak');
-
-            if (brk.type === 'meal') {
-                icon = 'fa-utensils';
-                hebrewType = t('breaks.meal');
-            } else if (brk.type === 'snack') {
-                icon = 'fa-cookie-bite';
-                hebrewType = t('breaks.snack');
-            }
-
-            return `
+            grid.innerHTML = events.map(event => `
                 <div class="time-slot">
-                    <div class="time-label break-label">
-                        <i class="fas ${icon}"></i>
-                    </div>
+                    <div class="time-label">${event.startTime}</div>
                     <div class="slot-content">
-                        <div class="break-card">
-                            <i class="fas ${icon}"></i>
-                            <div class="break-text">
-                                <div class="break-title">${brk.duration} ${t('breaks.minutesBreak')} ${hebrewType}</div>
-                                <div class="break-suggestion">${brk.suggestion || ''}</div>
+                        <div class="event-card">
+                            <div class="event-header">
+                                <div class="event-artist">${event.artist}</div>
+                                <div class="event-songs">${event.songs} ${t('results.songs')}</div>
+                            </div>
+                            <div class="event-details">
+                                <div class="event-detail"><i class="fas fa-map-marker-alt"></i><span>${event.stage}</span></div>
+                                <div class="event-detail"><i class="fas fa-clock"></i><span>${event.startTime} - ${event.endTime}</span></div>
                             </div>
                         </div>
                     </div>
                 </div>
-            `;
+            `).join('');
         }
 
-        // Calculate gap in minutes between two times
-        function calculateGap(endTime, startTime) {
-            const [endH, endM] = endTime.split(':').map(Number);
-            const [startH, startM] = startTime.split(':').map(Number);
+        // ============== UI HELPERS ==============
 
-            let endMinutes = endH * 60 + endM;
-            let startMinutes = startH * 60 + startM;
-
-            // Handle overnight
-            if (startMinutes < endMinutes) {
-                startMinutes += 24 * 60;
-            }
-
-            return startMinutes - endMinutes;
-        }
-
-        // Render break/gap card
-        function renderBreakCard(gapMinutes, fromTime, toTime) {
-            let suggestion = '';
-            let icon = 'fa-coffee';
-
-            if (gapMinutes >= 120) {
-                suggestion = t('breaks.perfectMealTime');
-                icon = 'fa-utensils';
-            } else if (gapMinutes >= 60) {
-                suggestion = t('breaks.goodBreakTime');
-                icon = 'fa-glass-cheers';
-            } else {
-                suggestion = t('breaks.walkBetweenStages');
-                icon = 'fa-walking';
-            }
-
-            return `
-                <div class="time-slot">
-                    <div class="time-label" style="background: rgba(255, 165, 0, 0.2); color: var(--warning);">
-                        ${fromTime}
-                    </div>
-                    <div class="slot-content">
-                        <div class="break-card">
-                            <i class="fas ${icon}"></i>
-                            <div class="break-text">
-                                <div class="break-title">${gapMinutes} ${t('breaks.minutesBreak')}</div>
-                                <div class="break-suggestion">${suggestion}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Display tips
-        function displayTips(tips) {
-            const tipsContainer = document.getElementById('scheduleTips');
-
-            const defaultTips = [
-                { icon: 'fa-battery-full', title: t('tips.phoneBattery'), text: t('tips.phoneBatteryText') },
-                { icon: 'fa-tint', title: t('tips.water'), text: t('tips.waterText') },
-                { icon: 'fa-shoe-prints', title: t('tips.shoes'), text: t('tips.shoesText') }
-            ];
-
-            let html = '';
-
-            // Add parsed tips
-            tips.slice(0, 2).forEach(tip => {
-                html += `
-                    <div class="tip-card">
-                        <i class="fas fa-lightbulb"></i>
-                        <div class="tip-content">
-                            <h4>${t('tips.title')}</h4>
-                            <p>${tip}</p>
-                        </div>
-                    </div>
-                `;
-            });
-
-            // Add default tips
-            defaultTips.forEach(tip => {
-                html += `
-                    <div class="tip-card">
-                        <i class="fas ${tip.icon}"></i>
-                        <div class="tip-content">
-                            <h4>${tip.title}</h4>
-                            <p>${tip.text}</p>
-                        </div>
-                    </div>
-                `;
-            });
-
-            tipsContainer.innerHTML = html;
-        }
-
-        // UI Helpers
         function showLoading(show, text = null) {
             const overlay = document.getElementById('loadingOverlay');
-            overlay.querySelector('.loading-text').textContent = text || t('searchingArtists');
+            if (text) overlay.querySelector('.loading-text').textContent = text;
             overlay.classList.toggle('visible', show);
         }
 
@@ -2353,27 +2547,32 @@
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-                ${message}
-            `;
+            toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
             container.appendChild(toast);
-
             setTimeout(() => {
                 toast.style.animation = 'slideUp 0.3s ease reverse';
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
 
-        // Enter key support
+        // ============== INITIALIZATION ==============
+
         document.getElementById('playlistUrl').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                analyzePlaylist();
-            }
+            if (e.key === 'Enter') analyzePlaylist();
         });
 
-        // Initialize language on page load
-        initLanguage();
+        // Close modal when clicking outside
+        document.getElementById('playlistModal').addEventListener('click', (e) => {
+            if (e.target.id === 'playlistModal') closePlaylistModal();
+        });
+
+        // Initialize app
+        async function initApp() {
+            await initLanguage();
+            await checkSpotifyConnection();
+        }
+
+        initApp();
     </script>
 </body>
 </html>
