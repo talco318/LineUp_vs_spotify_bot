@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Tomorrowland LineUp Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1DB954;
+            --primary-dark: #1aa34a;
+            --primary-light: #1ED760;
+            --secondary: #191414;
+            --background: #0a0a0a;
+            --surface: #141414;
+            --surface-light: #1e1e1e;
+            --surface-hover: #282828;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --text-muted: #666666;
+            --error: #E91429;
+            --warning: #FFA500;
+            --success: #1DB954;
+            --spotify: #1DB954;
+            --youtube: #FF0000;
+            --gradient: linear-gradient(135deg, #1DB954 0%, #1ED760 50%, #1DB954 100%);
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Heebo', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        body.lang-en {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            direction: ltr;
+        }
+
+        /* Animated Background */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(29, 185, 84, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(29, 185, 84, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(30, 215, 96, 0.05) 0%, transparent 70%);
+            animation: bgPulse 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 4px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-text span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 4px;
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 20px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+        }        /* Hero Section - Compact */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 1rem;
+        }
+
+        /* Main Input Section */
+        .input-section {
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            padding: 0 2rem;
+        }
+
+        .input-card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .input-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .input-header i {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .input-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .platform-tabs {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .platform-tab {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .platform-tab:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .platform-tab.active {
+            border-color: var(--primary);
+            background: rgba(29, 185, 84, 0.1);
+            color: var(--primary);
+        }
+
+        .platform-tab.spotify.active {
+            border-color: var(--spotify);
+            background: rgba(29, 185, 84, 0.1);
+            color: var(--spotify);
+        }
+
+        .platform-tab.youtube.active {
+            border-color: var(--youtube);
+            background: rgba(255, 0, 0, 0.1);
+            color: var(--youtube);
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            padding-right: 3rem;
+            background: var(--surface-light);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(29, 185, 84, 0.15);
+        }
+
+        .input-field::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Inline Action Row */
+        .action-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .weekend-inline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .weekend-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .weekend-pills {
+            display: flex;
+            gap: 6px;
+        }
+
+        .weekend-pill {
+            padding: 6px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .weekend-pill:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .weekend-pill.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .ai-inline-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ai-inline-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .ai-inline-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem 2rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-family: inherit;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(29, 185, 84, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-btn .spinner {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .submit-btn.loading .spinner {
+            display: block;
+        }
+
+        .submit-btn.loading .btn-text {
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Weekend Selection */
+        .weekend-section {
+            display: none;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .weekend-section.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .weekend-title {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .weekend-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .weekend-btn {
+            flex: 1;
+            min-width: 120px;
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .weekend-btn:hover {
+            border-color: var(--primary);
+            background: rgba(29, 185, 84, 0.1);
+        }
+
+        .weekend-btn.selected {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Results Section */
+        .results-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: none;
+        }
+
+        .results-section.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .results-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-count {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Artist Cards Grid */
+        .artists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .artist-card {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .artist-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .artist-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(29, 185, 84, 0.3);
+        }
+
+        .artist-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .artist-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .artist-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .artist-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .artist-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .artist-songs {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .artist-songs i {
+            color: var(--primary);
+        }
+
+        .show-details {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .show-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.5rem 0;
+        }
+
+        .show-item:not(:last-child) {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .show-item i {
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .show-item span {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .show-item strong {
+            color: var(--text-primary);
+        }
+
+        .artist-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .artist-link {
+            flex: 1;
+            padding: 0.75rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .artist-link.spotify {
+            background: rgba(29, 185, 84, 0.1);
+            color: var(--spotify);
+            border: 1px solid rgba(29, 185, 84, 0.3);
+        }
+
+        .artist-link.spotify:hover {
+            background: var(--spotify);
+            color: white;
+        }
+
+        /* AI Lineup Section */
+        .ai-section {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: none;
+        }
+
+        .ai-section.visible {
+            display: block;
+        }
+
+        .ai-card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .ai-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .ai-card h3 i {
+            color: var(--primary);
+        }
+
+        .ai-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .ai-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ai-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        .ai-result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--surface-light);
+            border-radius: 16px;
+            text-align: right;
+            white-space: pre-wrap;
+            line-height: 1.8;
+            display: none;
+        }
+
+        .ai-result.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .loading-overlay.visible {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(29, 185, 84, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        .loading-subtext {
+            color: var(--text-secondary);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1001;
+        }
+
+        .toast {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .toast.success {
+            background: var(--success);
+            color: white;
+        }
+
+        .toast.error {
+            background: var(--error);
+            color: white;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Schedule Section */
+        .schedule-section {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: none;
+        }
+
+        .schedule-section.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .schedule-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .schedule-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .schedule-header h2 i {
+            color: var(--primary);
+        }
+
+        .schedule-header p {
+            color: var(--text-secondary);
+        }
+
+        /* Day Tabs */
+        .day-tabs {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .day-tab {
+            padding: 1rem 2rem;
+            background: var(--surface);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            color: var(--text-secondary);
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            min-width: 140px;
+        }
+
+        .day-tab:hover {
+            border-color: rgba(29, 185, 84, 0.5);
+            background: rgba(29, 185, 84, 0.1);
+        }
+
+        .day-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .day-tab .day-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .day-tab .day-date {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* Schedule Container */
+        .schedule-container {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow-x: auto;
+        }
+
+        .schedule-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            min-width: 600px;
+        }
+
+        /* Time Slot */
+        .time-slot {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .time-label {
+            background: var(--surface-light);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .slot-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        /* Event Card */
+        .event-card {
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
+            border-radius: 16px;
+            padding: 1.25rem;
+            border-right: 4px solid var(--primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(29, 185, 84, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .event-card:hover::before {
+            opacity: 1;
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .event-artist {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .event-songs {
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .event-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .event-detail i {
+            color: var(--primary);
+            width: 16px;
+        }
+
+        /* Travel/Break Card */
+        .break-card {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px dashed rgba(255, 165, 0, 0.4);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--warning);
+        }
+
+        .break-card i {
+            font-size: 1.5rem;
+        }
+
+        .break-card .break-text {
+            flex: 1;
+        }
+
+        .break-card .break-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .break-card .break-suggestion {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .break-label {
+            background: rgba(255, 165, 0, 0.2) !important;
+            color: var(--warning) !important;
+        }
+
+        /* Travel Indicator */
+        .travel-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0 0.5rem 110px;
+            background: rgba(29, 185, 84, 0.1);
+            border-radius: 20px;
+            color: var(--primary);
+            font-size: 0.85rem;
+            border: 1px dashed rgba(29, 185, 84, 0.3);
+        }
+
+        .travel-indicator i {
+            font-size: 1rem;
+        }
+
+        /* Schedule Tips */
+        .schedule-tips {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .tip-card {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1.25rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .tip-card i {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-top: 2px;
+        }
+
+        .tip-card .tip-content h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .tip-card .tip-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Empty State */
+        .empty-day {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-day i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Raw Lineup Display */
+        .raw-lineup-container {
+            background: var(--surface-light);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .raw-lineup-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .raw-lineup-content {
+            line-height: 2;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .raw-day-header {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1.5rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(29, 185, 84, 0.3);
+        }
+
+        .raw-travel {
+            color: var(--warning);
+            font-weight: 500;
+        }
+
+        .raw-suggestion {
+            color: #8B5CF6;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* AI Button Improvements */
+        .ai-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .ai-btn .fa-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Better Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--surface-light);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 4rem;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .input-card {
+                padding: 1.5rem;
+            }
+
+            .platform-tabs {
+                flex-direction: column;
+            }
+
+            .artists-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .weekend-buttons {
+                flex-direction: column;
+            }
+
+            .day-tabs {
+                flex-direction: column;
+            }
+
+            .day-tab {
+                width: 100%;
+            }
+
+            .time-slot {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .event-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-particles"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" data-he="מחפש את האמנים שלך..." data-en="Searching for your artists...">מחפש את האמנים שלך...</div>
+        <div class="loading-subtext" data-he="זה יכול לקחת כמה שניות" data-en="This may take a few seconds">זה יכול לקחת כמה שניות</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="logo-text">TML <span>LineUp</span></div>
+            </a>
+
+            <!-- Language Switcher -->
+            <div class="lang-switcher">
+                <button class="lang-btn active" data-lang="he" onclick="setLanguage('he')">עב</button>
+                <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero - Compact -->
+    <section class="hero">
+        <h1 data-he="🎵 מצא את האמנים שלך בטומורולנד" data-en="🎵 Find Your Artists at Tomorrowland">🎵 מצא את האמנים שלך בטומורולנד</h1>
+        <p class="hero-subtitle" data-he="הכנס קישור לפלייליסט ונמצא לך את כל האמנים שמופיעים בפסטיבל" data-en="Enter a playlist link and we'll find all the artists performing at the festival">הכנס קישור לפלייליסט ונמצא לך את כל האמנים שמופיעים בפסטיבל</p>
+    </section>
+
+    <!-- Input Section -->
+    <section class="input-section">
+        <div class="input-card">
+            <div class="input-header">
+                <i class="fas fa-link"></i>
+                <h2 data-he="הכנס קישור לפלייליסט" data-en="Enter Playlist Link">הכנס קישור לפלייליסט</h2>
+            </div>
+
+            <div class="platform-tabs">
+                <button class="platform-tab spotify active" data-platform="spotify" onclick="selectPlatform('spotify')">
+                    <i class="fab fa-spotify"></i>
+                    Spotify
+                </button>
+                <button class="platform-tab youtube" data-platform="youtube" onclick="selectPlatform('youtube')">
+                    <i class="fab fa-youtube"></i>
+                    YouTube
+                </button>
+            </div>
+
+            <div class="input-wrapper">
+                <input type="url" class="input-field" id="playlistUrl"
+                       placeholder="https://open.spotify.com/playlist/..."
+                       autocomplete="off">
+                <i class="fab fa-spotify input-icon" id="inputIcon"></i>
+            </div>
+
+            <button class="submit-btn" id="submitBtn" onclick="analyzePlaylist()">
+                <span class="spinner"></span>
+                <span class="btn-text" data-he="🔍 מצא אמנים" data-en="🔍 Find Artists">
+                    🔍 מצא אמנים
+                </span>
+            </button>
+
+            <!-- Weekend Selection + AI Button - inline -->
+            <div class="action-row" id="actionRow" style="display: none; margin-top: 1rem; gap: 1rem; flex-wrap: wrap;">
+                <div class="weekend-inline">
+                    <span class="weekend-label" data-he="סופ״ש:" data-en="Weekend:">סופ״ש:</span>
+                    <div class="weekend-pills">
+                        <button class="weekend-pill" data-weekend="Weekend 1" onclick="selectWeekend('Weekend 1')">1</button>
+                        <button class="weekend-pill" data-weekend="Weekend 2" onclick="selectWeekend('Weekend 2')">2</button>
+                        <button class="weekend-pill selected" data-weekend="both" onclick="selectWeekend('both')" data-he="שניהם" data-en="Both">שניהם</button>
+                    </div>
+                </div>
+                <button class="ai-inline-btn" id="aiBtn" onclick="generateAILineup()">
+                    <i class="fas fa-magic"></i>
+                    <span data-he="צור ליינאפ AI" data-en="Generate AI Lineup">צור ליינאפ AI</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section" id="resultsSection">
+        <div class="results-header">
+            <h2 data-he="🎉 האמנים שלך בטומורולנד" data-en="🎉 Your Artists at Tomorrowland">🎉 האמנים שלך בטומורולנד</h2>
+            <div class="results-count" id="resultsCount" data-he="נמצאו 0 אמנים" data-en="Found 0 artists">נמצאו 0 אמנים</div>
+        </div>
+        <div class="artists-grid" id="artistsGrid">
+            <!-- Artist cards will be inserted here -->
+        </div>
+    </section>
+
+    <!-- Schedule Section (AI Generated) -->
+    <section class="schedule-section" id="scheduleSection">
+        <div class="schedule-header">
+            <h2><i class="fas fa-calendar-alt"></i> הליינאפ האישי שלך</h2>
+            <p>לוח הזמנים המותאם אישית שלך לטומורולנד</p>
+        </div>
+
+        <!-- Day Tabs -->
+        <div class="day-tabs" id="dayTabs">
+            <button class="day-tab active" data-day="friday" onclick="showDay('friday')">
+                <span class="day-name">יום שישי</span>
+                <span class="day-date" id="fridayDate"></span>
+            </button>
+            <button class="day-tab" data-day="saturday" onclick="showDay('saturday')">
+                <span class="day-name">יום שבת</span>
+                <span class="day-date" id="saturdayDate"></span>
+            </button>
+            <button class="day-tab" data-day="sunday" onclick="showDay('sunday')">
+                <span class="day-name">יום ראשון</span>
+                <span class="day-date" id="sundayDate"></span>
+            </button>
+        </div>
+
+        <!-- Schedule Grid -->
+        <div class="schedule-container">
+            <div class="schedule-grid" id="scheduleGrid">
+                <!-- Schedule will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Tips Section -->
+        <div class="schedule-tips" id="scheduleTips">
+            <!-- Tips will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>נבנה עם ❤️ עבור חובבי טומורולנד</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://www.tomorrowland.com" target="_blank">Tomorrowland Official</a>
+        </p>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // State
+        let currentPlatform = 'spotify';
+        let currentArtists = [];
+        let selectedWeekend = 'both';
+        let currentLang = 'he';
+        let i18n = {}; // Will hold loaded translations
+
+        // Load translations from JSON file
+        async function loadTranslations(lang) {
+            try {
+                const response = await fetch(`/static/locales/${lang}.json`);
+                if (!response.ok) throw new Error('Failed to load translations');
+                return await response.json();
+            } catch (error) {
+                console.error('Error loading translations:', error);
+                return null;
+            }
+        }
+
+        // Get translation by path (e.g., "hero.title" or "messages.error")
+        function t(path, replacements = {}) {
+            const keys = path.split('.');
+            let value = i18n;
+
+            for (const key of keys) {
+                if (value && typeof value === 'object' && key in value) {
+                    value = value[key];
+                } else {
+                    console.warn(`Translation not found: ${path}`);
+                    return path; // Return path as fallback
+                }
+            }
+
+            // Handle replacements like {count}
+            if (typeof value === 'string') {
+                Object.keys(replacements).forEach(k => {
+                    value = value.replace(`{${k}}`, replacements[k]);
+                });
+            }
+
+            return value;
+        }
+
+        // Set Language
+        async function setLanguage(lang) {
+            const translations = await loadTranslations(lang);
+            if (!translations) return;
+
+            currentLang = lang;
+            i18n = translations;
+
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            // Update body direction and font
+            const meta = translations.meta || {};
+            document.body.classList.toggle('lang-en', lang === 'en');
+            document.documentElement.lang = meta.lang || lang;
+            document.documentElement.dir = meta.dir || (lang === 'he' ? 'rtl' : 'ltr');
+
+            // Update all text content
+            updateAllTexts();
+
+            // Save preference
+            localStorage.setItem('lang', lang);
+        }
+
+        // Update all translatable texts on the page
+        function updateAllTexts() {
+            // Hero
+            document.querySelector('.hero h1').textContent = t('hero.title');
+            document.querySelector('.hero-subtitle').textContent = t('hero.subtitle');
+
+            // Input section
+            document.querySelector('.input-header h2').textContent = t('input.title');
+            document.querySelector('#submitBtn .btn-text').textContent = t('input.findArtists');
+
+            // Weekend
+            document.querySelector('.weekend-label').textContent = t('weekend.label');
+            document.querySelector('.weekend-pill[data-weekend="both"]').textContent = t('weekend.both');
+
+            // AI button
+            const aiBtn = document.getElementById('aiBtn');
+            if (!aiBtn.disabled) {
+                aiBtn.querySelector('span').textContent = t('ai.generateBtn');
+            }
+
+            // Results
+            document.querySelector('.results-header h2').textContent = t('results.title');
+
+            // Schedule
+            const scheduleHeader = document.querySelector('.schedule-header h2');
+            if (scheduleHeader) {
+                scheduleHeader.innerHTML = `<i class="fas fa-calendar-alt"></i> ${t('schedule.title')}`;
+            }
+            const scheduleSubtitle = document.querySelector('.schedule-header p');
+            if (scheduleSubtitle) {
+                scheduleSubtitle.textContent = t('schedule.subtitle');
+            }
+
+            // Day tabs
+            const dayTabs = document.querySelectorAll('.day-tab .day-name');
+            if (dayTabs.length >= 3) {
+                dayTabs[0].textContent = t('days.friday');
+                dayTabs[1].textContent = t('days.saturday');
+                dayTabs[2].textContent = t('days.sunday');
+            }
+
+            // Loading overlay
+            document.querySelector('.loading-text').textContent = t('loading.searchingArtists');
+            document.querySelector('.loading-subtext').textContent = t('loading.mayTakeFewSeconds');
+
+            // Footer
+            document.querySelector('.footer p').textContent = t('footer.builtWith');
+
+            // Re-render current data if exists
+            if (currentArtists.length > 0) {
+                displayArtists(filterArtistsByWeekend(currentArtists, selectedWeekend));
+            }
+        }
+
+        // Initialize language
+        async function initLanguage() {
+            const savedLang = localStorage.getItem('lang') || 'he';
+            await setLanguage(savedLang);
+        }
+
+        // Day name translations helper
+        function getDayName(dayKey) {
+            return t(`days.${dayKey}`) || dayKey;
+        }
+
+        // Format date/time with translation
+        function formatDateTime(dateStr) {
+            if (!dateStr) return '';
+
+            try {
+                // Extract day name (e.g., "THURSDAY")
+                const dayMatch = dateStr.match(/^([A-Z]+)/);
+                const dayName = dayMatch ? dayMatch[1] : '';
+                const translatedDay = t(`days.${dayName}`) || dayName;
+
+                // Extract times using regex
+                const timePattern = /(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2}):\d{2}\s*-\s*\d{4}-\d{2}-\d{2}\s+(\d{2}):(\d{2}):\d{2}/;
+                const match = dateStr.match(timePattern);
+
+                if (match) {
+                    const [, year, month, day, startHour, startMin, endHour, endMin] = match;
+                    return `${translatedDay}, ${day}/${month} | ${startHour}:${startMin} - ${endHour}:${endMin}`;
+                }
+
+                // Fallback
+                const simplePattern = /(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2})/;
+                const simpleMatch = dateStr.match(simplePattern);
+                if (simpleMatch) {
+                    const [, year, month, day, hour, min] = simpleMatch;
+                    return `${translatedDay}, ${day}/${month} | ${hour}:${min}`;
+                }
+
+                return translatedDay ? `${translatedDay} - ${dateStr.replace(dayName, '').trim()}` : dateStr;
+            } catch (e) {
+                console.error('Error formatting date:', e);
+                return dateStr;
+            }
+        }
+
+        // Platform Selection
+        function selectPlatform(platform) {
+            currentPlatform = platform;
+
+            document.querySelectorAll('.platform-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.platform-tab.${platform}`).classList.add('active');
+
+            const input = document.getElementById('playlistUrl');
+            const icon = document.getElementById('inputIcon');
+
+            if (platform === 'spotify') {
+                input.placeholder = 'https://open.spotify.com/playlist/...';
+                icon.className = 'fab fa-spotify input-icon';
+            } else {
+                input.placeholder = 'https://music.youtube.com/playlist?list=...';
+                icon.className = 'fab fa-youtube input-icon';
+            }
+        }
+
+        // Weekend Selection
+        function selectWeekend(weekend) {
+            selectedWeekend = weekend;
+
+            document.querySelectorAll('.weekend-pill').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            const selectedBtn = document.querySelector(`.weekend-pill[data-weekend="${weekend}"]`);
+            if (selectedBtn) selectedBtn.classList.add('selected');
+
+            // Filter and display artists if we have them
+            if (currentArtists.length > 0) {
+                displayArtists(filterArtistsByWeekend(currentArtists, weekend));
+            }
+        }
+
+        // Filter artists by weekend
+        function filterArtistsByWeekend(artists, weekend) {
+            if (weekend === 'both') return artists;
+
+            return artists.filter(artist => {
+                const show1Weekend = (artist.show?.weekend_number || '').toLowerCase();
+                const show2Weekend = (artist.show2?.weekend_number || '').toLowerCase();
+                const weekendLower = weekend.toLowerCase();
+                return show1Weekend.includes(weekendLower) || show2Weekend.includes(weekendLower);
+            });
+        }
+
+        // Analyze Playlist
+        async function analyzePlaylist() {
+            const url = document.getElementById('playlistUrl').value.trim();
+
+            if (!url) {
+                showToast(t('messages.enterPlaylistError'), 'error');
+                return;
+            }
+
+            // Validate URL
+            if (currentPlatform === 'spotify' && !url.includes('spotify.com/playlist')) {
+                showToast(t('messages.invalidSpotify'), 'error');
+                return;
+            }
+            if (currentPlatform === 'youtube' && !url.includes('music.youtube.com')) {
+                showToast(t('messages.invalidYoutube'), 'error');
+                return;
+            }
+
+            // Show loading
+            showLoading(true);
+            setButtonLoading(true);
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        playlist_url: url,
+                        platform: currentPlatform
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.ok) {
+                    currentArtists = data.artists;
+
+                    if (currentArtists.length === 0) {
+                        showToast(t('messages.noArtistsFound'), 'error');
+                    } else {
+                        showToast(t('messages.artistsFound', { count: currentArtists.length }), 'success');
+
+                        // Show action row (weekend selection + AI button)
+                        document.getElementById('actionRow').style.display = 'flex';
+
+                        // Display results
+                        displayArtists(currentArtists);
+                    }
+                } else {
+                    showToast(data.error || t('messages.error'), 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast(t('messages.error'), 'error');
+            }
+
+            showLoading(false);
+            setButtonLoading(false);
+        }
+
+        // Display Artists
+        function displayArtists(artists) {
+            const grid = document.getElementById('artistsGrid');
+            const section = document.getElementById('resultsSection');
+            const count = document.getElementById('resultsCount');
+
+            count.textContent = t('results.found', { count: artists.length });
+
+            grid.innerHTML = artists.map(artist => `
+                <div class="artist-card">
+                    <div class="artist-header">
+                        <div class="artist-avatar">${artist.name.charAt(0).toUpperCase()}</div>
+                        <div class="artist-info">
+                            <div class="artist-name">${artist.name}</div>
+                            <div class="artist-songs">
+                                <i class="fas fa-music"></i>
+                                ${artist.songs_num || 0} ${t('results.songsInPlaylist')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="show-details">
+                        ${artist.show ? `
+                            <div class="show-item">
+                                <i class="fas fa-calendar"></i>
+                                <span><strong>${artist.show.weekend_number || ''}</strong></span>
+                            </div>
+                            <div class="show-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>${artist.show.host_name_and_stage || ''}</span>
+                            </div>
+                            <div class="show-item">
+                                <i class="fas fa-clock"></i>
+                                <span>${formatDateTime(artist.show.date)}</span>
+                            </div>
+                        ` : ''}
+                        ${artist.show2 ? `
+                            <div class="show-item" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                                <i class="fas fa-calendar"></i>
+                                <span><strong>${artist.show2.weekend_number || ''}</strong></span>
+                            </div>
+                            <div class="show-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>${artist.show2.host_name_and_stage || ''}</span>
+                            </div>
+                            <div class="show-item">
+                                <i class="fas fa-clock"></i>
+                                <span>${formatDateTime(artist.show2.date)}</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    ${artist.spotify_link ? `
+                        <div class="artist-links">
+                            <a href="${artist.spotify_link}" target="_blank" class="artist-link spotify">
+                                <i class="fab fa-spotify"></i>
+                                Spotify
+                            </a>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+
+            section.classList.add('visible');
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Generate AI Lineup
+        let scheduleData = { friday: [], saturday: [], sunday: [] };
+        let currentDayView = 'friday';
+        let rawLineupData = null;
+
+        async function generateAILineup() {
+            if (currentArtists.length === 0) {
+                showToast(t('messages.searchArtistsFirst'), 'error');
+                return;
+            }
+
+            // Disable button and show loading
+            const aiBtn = document.getElementById('aiBtn');
+            aiBtn.disabled = true;
+            aiBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('ai.generating')}`;
+
+            showLoading(true, t('loading.generatingLineup'));
+
+            try {
+                const response = await fetch('/generate_lineup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        artists: currentArtists.map(a => a.name),
+                        weekend: selectedWeekend
+                    })
+                });
+
+                const data = await response.json();
+                console.log("AI Response:", data); // Debug
+
+                if (data.ok) {
+                    rawLineupData = data.lineup;
+
+                    // Check if we have structured JSON or raw text fallback
+                    if (data.lineup.parse_error || !data.lineup.days || data.lineup.days.length === 0) {
+                        // Show raw text fallback
+                        const rawText = data.lineup.raw_text || data.lineup.raw_response || JSON.stringify(data.lineup, null, 2);
+                        showRawLineup(rawText);
+                        showToast(t('messages.lineupCreated'), 'success');
+                    } else {
+                        // Process structured JSON
+                        processStructuredLineup(data.lineup);
+                        showToast(t('messages.lineupCreated'), 'success');
+                    }
+                } else {
+                    showToast(data.error || t('messages.error'), 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showToast(t('messages.error'), 'error');
+            }
+
+            // Re-enable button
+            aiBtn.disabled = false;
+            aiBtn.innerHTML = `<i class="fas fa-magic"></i> <span>${t('ai.generateBtn')}</span>`;
+
+            showLoading(false);
+        }
+
+        // Process structured JSON lineup
+        function processStructuredLineup(lineup) {
+            // Reset schedule
+            scheduleData = { friday: [], saturday: [], sunday: [] };
+
+            // Map day names to our keys
+            const dayNameMap = {
+                'friday': 'friday',
+                'saturday': 'saturday',
+                'sunday': 'sunday',
+                'fri': 'friday',
+                'sat': 'saturday',
+                'sun': 'sunday'
+            };
+
+            // Process each day
+            lineup.days.forEach(day => {
+                const dayName = (day.day_name || '').toLowerCase();
+                const dayKey = dayNameMap[dayName] || getDayKeyFromNumber(day.day_number);
+
+                // Convert events to our format
+                const events = (day.events || []).map(event => ({
+                    artist: event.artist,
+                    songs: event.songs_count,
+                    stage: event.stage,
+                    date: day.date,
+                    startTime: event.start_time,
+                    endTime: event.end_time,
+                    travelToNext: event.travel_to_next,
+                    travelToNextStage: event.travel_to_next_stage
+                }));
+
+                // Add breaks as special events
+                (day.breaks || []).forEach(brk => {
+                    events.push({
+                        isBreak: true,
+                        afterArtist: brk.after_artist,
+                        duration: brk.duration_minutes,
+                        type: brk.type,
+                        suggestion: brk.suggestion
+                    });
+                });
+
+                scheduleData[dayKey] = events.filter(e => !e.isBreak);
+                scheduleData[dayKey + '_breaks'] = events.filter(e => e.isBreak);
+            });
+
+            // Update day tabs with dates
+            const dates = {};
+            lineup.days.forEach(day => {
+                const dayKey = dayNameMap[(day.day_name || '').toLowerCase()] || getDayKeyFromNumber(day.day_number);
+                dates[dayKey] = day.date;
+            });
+            updateDayTabs(dates);
+
+            // Show schedule section
+            document.getElementById('scheduleSection').classList.add('visible');
+            document.getElementById('dayTabs').style.display = 'flex';
+
+            // Display first day with events
+            const firstDayWithEvents = Object.keys(scheduleData).find(day =>
+                !day.includes('_breaks') && scheduleData[day].length > 0
+            ) || 'friday';
+            showDay(firstDayWithEvents);
+
+            // Show tips
+            displayTips(lineup.tips || []);
+
+            // Scroll to schedule
+            document.getElementById('scheduleSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Get day key from day number
+        function getDayKeyFromNumber(num) {
+            const map = { 1: 'friday', 2: 'saturday', 3: 'sunday' };
+            return map[num] || 'friday';
+        }
+
+        // Show raw lineup text when parsing fails
+        function showRawLineup(text) {
+            const section = document.getElementById('scheduleSection');
+            section.classList.add('visible');
+
+            const grid = document.getElementById('scheduleGrid');
+
+            // Format the text nicely
+            let formattedText = text;
+            if (typeof text === 'string') {
+                formattedText = text
+                    .replace(/Day\s*(\d+):/gi, `<div class="raw-day-header">📅 ${currentLang === 'he' ? 'יום' : 'Day'} $1:</div>`)
+                    .replace(/Travel Time:/gi, '<span class="raw-travel">🚶 ' + t('breaks.minutesWalk') + ':</span>')
+                    .replace(/Suggestion:/gi, '<span class="raw-suggestion">💡 ' + t('tips.title') + ':</span>')
+                    .replace(/\n/g, '<br>');
+            }
+
+            grid.innerHTML = `
+                <div class="raw-lineup-container">
+                    <div class="raw-lineup-header">
+                        <i class="fas fa-list-alt"></i>
+                        <span>${t('schedule.yourLineup')}</span>
+                    </div>
+                    <div class="raw-lineup-content">
+                        ${formattedText}
+                    </div>
+                    <button class="copy-btn" onclick="copyLineup()">
+                        <i class="fas fa-copy"></i> ${t('schedule.copyLineup')}
+                    </button>
+                </div>
+            `;
+
+            // Hide day tabs for raw view
+            document.getElementById('dayTabs').style.display = 'none';
+
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Copy lineup to clipboard
+        function copyLineup() {
+            const text = typeof rawLineupData === 'string' ? rawLineupData : JSON.stringify(rawLineupData, null, 2);
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(t('messages.copied'), 'success');
+            }).catch(() => {
+                showToast(t('messages.copyError'), 'error');
+            });
+        }
+
+        // Parse AI Lineup text into structured data
+        function parseAILineup(text) {
+            console.log("Parsing AI response:", text); // Debug
+
+            const schedule = { friday: [], saturday: [], sunday: [] };
+            const tips = [];
+            const dates = { friday: '', saturday: '', sunday: '' };
+            let rawText = text; // Keep raw text for fallback
+
+            // Try multiple parsing approaches
+
+            // Approach 1: Split by "Day X:" sections
+            const dayPattern = /Day\s*(\d+)\s*:?\s*([\s\S]*?)(?=Day\s*\d+\s*:|$)/gi;
+            let match;
+            let foundDays = false;
+
+            while ((match = dayPattern.exec(text)) !== null) {
+                foundDays = true;
+                const dayNum = parseInt(match[1]);
+                const dayContent = match[2].trim();
+
+                console.log(`Found Day ${dayNum}:`, dayContent.substring(0, 100)); // Debug
+
+                // Map day number to day name
+                const dayMap = { 1: 'friday', 2: 'saturday', 3: 'sunday' };
+                const dayKey = dayMap[dayNum] || 'friday';
+
+                // Parse events in this day
+                const events = parseEventsFromText(dayContent);
+                console.log(`Parsed ${events.length} events for day ${dayNum}`); // Debug
+                schedule[dayKey] = schedule[dayKey].concat(events);
+            }
+
+            // Approach 2: If no "Day X" format, parse entire text for events
+            if (!foundDays || Object.values(schedule).every(arr => arr.length === 0)) {
+                console.log("Trying fallback parsing..."); // Debug
+                const allEvents = parseEventsFromText(text);
+                console.log(`Fallback found ${allEvents.length} events`); // Debug
+
+                // Distribute events across days based on dates
+                allEvents.forEach(event => {
+                    const dayOfWeek = getDayOfWeekFromDate(event.date);
+                    console.log(`Event ${event.artist} on ${event.date} -> ${dayOfWeek}`); // Debug
+                    if (schedule[dayOfWeek]) {
+                        schedule[dayOfWeek].push(event);
+                    } else {
+                        schedule.friday.push(event);
+                    }
+                });
+            }
+
+            // Extract suggestions/tips
+            const suggestionPattern = /Suggestion:\s*([^\n]+)/gi;
+            let suggMatch;
+            while ((suggMatch = suggestionPattern.exec(text)) !== null) {
+                tips.push(suggMatch[1].trim());
+            }
+
+            // Extract travel time info
+            const travelPattern = /Travel\s*Time:\s*([^\n]+)/gi;
+            let travelMatch;
+            while ((travelMatch = travelPattern.exec(text)) !== null) {
+                tips.push("🚶 " + travelMatch[1].trim());
+            }
+
+            // Sort events by time within each day
+            Object.keys(schedule).forEach(day => {
+                schedule[day].sort((a, b) => {
+                    const timeA = parseInt((a.startTime || '00:00').replace(':', ''));
+                    const timeB = parseInt((b.startTime || '00:00').replace(':', ''));
+                    return timeA - timeB;
+                });
+            });
+
+            // Extract dates from events
+            Object.keys(schedule).forEach(day => {
+                if (schedule[day].length > 0 && schedule[day][0].date) {
+                    dates[day] = schedule[day][0].date;
+                }
+            });
+
+            console.log("Final schedule:", schedule); // Debug
+            console.log("Tips:", tips); // Debug
+
+            return { schedule, tips, dates, rawText };
+        }
+
+        // Parse individual events from text - improved with multiple patterns
+        function parseEventsFromText(text) {
+            const events = [];
+
+            // Pattern 1: Artist Name (X songs): Stage, DD/MM, HH:MM to HH:MM
+            // Example: John Newman (1 song): Placeholder Stage 6, 19/7, 18:00 to 19:00
+            const pattern1 = /([A-Za-z0-9\s\-\.&']+?)\s*\((\d+)\s*songs?\):\s*([^,]+),\s*(\d{1,2}\/\d{1,2}),\s*(\d{1,2}:\d{2})\s*to\s*(\d{1,2}:\d{2})/gi;
+
+            let match;
+            while ((match = pattern1.exec(text)) !== null) {
+                events.push({
+                    artist: match[1].trim(),
+                    songs: parseInt(match[2]),
+                    stage: match[3].trim(),
+                    date: match[4].trim(),
+                    startTime: match[5].trim(),
+                    endTime: match[6].trim()
+                });
+            }
+
+            // Pattern 2: Artist Name (X songs): Stage, DD/MM/YYYY, HH:MM to HH:MM
+            if (events.length === 0) {
+                const pattern2 = /([A-Za-z0-9\s\-\.&']+?)\s*\((\d+)\s*songs?\):\s*([^,]+),\s*(\d{1,2}\/\d{1,2}(?:\/\d{2,4})?),\s*(\d{1,2}:\d{2})\s*(?:to|-)\s*(\d{1,2}:\d{2})/gi;
+                while ((match = pattern2.exec(text)) !== null) {
+                    let dateStr = match[4].trim();
+                    // Remove year if present
+                    if (dateStr.split('/').length > 2) {
+                        const parts = dateStr.split('/');
+                        dateStr = parts[0] + '/' + parts[1];
+                    }
+                    events.push({
+                        artist: match[1].trim(),
+                        songs: parseInt(match[2]),
+                        stage: match[3].trim(),
+                        date: dateStr,
+                        startTime: match[5].trim(),
+                        endTime: match[6].trim()
+                    });
+                }
+            }
+
+            // Pattern 3: More flexible - Artist (X songs) ... Stage ... time
+            if (events.length === 0) {
+                const pattern3 = /([A-Za-z0-9\s\-\.&']+?)\s*\((\d+)\s*songs?\)[:\s]+([^,\n]+?)[\s,]+(\d{1,2}\/\d{1,2})[,\s]+(\d{1,2}:\d{2})\s*(?:to|-)\s*(\d{1,2}:\d{2})/gi;
+                while ((match = pattern3.exec(text)) !== null) {
+                    events.push({
+                        artist: match[1].trim(),
+                        songs: parseInt(match[2]),
+                        stage: match[3].trim(),
+                        date: match[4].trim(),
+                        startTime: match[5].trim(),
+                        endTime: match[6].trim()
+                    });
+                }
+            }
+
+            return events;
+        }
+
+        // Get day of week from date string (e.g., "19/7")
+        function getDayOfWeekFromDate(dateStr) {
+            if (!dateStr) return 'friday';
+
+            const [day, month] = dateStr.split('/').map(Number);
+            const year = 2025; // Assuming Tomorrowland 2025
+            const date = new Date(year, month - 1, day);
+            const dayIndex = date.getDay();
+
+            const dayMap = { 0: 'sunday', 5: 'friday', 6: 'saturday' };
+            return dayMap[dayIndex] || 'friday';
+        }
+
+        // Update day tabs with dates
+        function updateDayTabs(dates) {
+            if (dates.friday) document.getElementById('fridayDate').textContent = dates.friday;
+            if (dates.saturday) document.getElementById('saturdayDate').textContent = dates.saturday;
+            if (dates.sunday) document.getElementById('sundayDate').textContent = dates.sunday;
+        }
+
+        // Show specific day in schedule
+        function showDay(day) {
+            currentDayView = day;
+
+            // Show day tabs (in case they were hidden)
+            document.getElementById('dayTabs').style.display = 'flex';
+
+            // Update active tab
+            document.querySelectorAll('.day-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.day-tab[data-day="${day}"]`).classList.add('active');
+
+            // Render schedule for this day
+            renderSchedule(scheduleData[day]);
+        }
+
+        // Render schedule grid
+        function renderSchedule(events) {
+            const grid = document.getElementById('scheduleGrid');
+            const breaks = scheduleData[currentDayView + '_breaks'] || [];
+
+            if (!events || events.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-day">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>${t('schedule.noEvents')}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            let lastEndTime = null;
+
+            events.forEach((event, index) => {
+                // Check for break after previous event
+                const breakAfterPrev = index > 0 ? breaks.find(b =>
+                    b.afterArtist && events[index-1] &&
+                    b.afterArtist.toLowerCase() === events[index-1].artist.toLowerCase()
+                ) : null;
+
+                // Check for gap/break between events
+                if (lastEndTime && index > 0) {
+                    const gap = calculateGap(lastEndTime, event.startTime);
+                    if (breakAfterPrev) {
+                        html += renderBreakCardFromData(breakAfterPrev);
+                    } else if (gap >= 30) {
+                        html += renderBreakCard(gap, lastEndTime, event.startTime);
+                    }
+                }
+
+                // Show travel time if exists
+                const prevEvent = index > 0 ? events[index - 1] : null;
+                const travelTime = prevEvent ? prevEvent.travelToNext : 0;
+                const travelStage = prevEvent ? prevEvent.travelToNextStage : '';
+
+                if (travelTime && travelTime > 0) {
+                    html += `
+                        <div class="travel-indicator">
+                            <i class="fas fa-walking"></i>
+                            <span>${travelTime} ${t('breaks.minutesWalk')}${travelStage ? ' ' + t('breaks.to') + travelStage : ''}</span>
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="time-slot">
+                        <div class="time-label">
+                            ${event.startTime}
+                        </div>
+                        <div class="slot-content">
+                            <div class="event-card">
+                                <div class="event-header">
+                                    <div class="event-artist">${event.artist}</div>
+                                    <div class="event-songs">${event.songs} שירים</div>
+                                </div>
+                                <div class="event-details">
+                                    <div class="event-detail">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>${event.stage}</span>
+                                    </div>
+                                    <div class="event-detail">
+                                        <i class="fas fa-clock"></i>
+                                        <span>${event.startTime} - ${event.endTime}</span>
+                                    </div>
+                                    ${event.date ? `
+                                    <div class="event-detail">
+                                        <i class="fas fa-calendar"></i>
+                                        <span>${event.date}</span>
+                                    </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                lastEndTime = event.endTime;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        // Render break card from structured data
+        function renderBreakCardFromData(brk) {
+            let icon = 'fa-coffee';
+            let hebrewType = t('breaks.minutesBreak');
+
+            if (brk.type === 'meal') {
+                icon = 'fa-utensils';
+                hebrewType = t('breaks.meal');
+            } else if (brk.type === 'snack') {
+                icon = 'fa-cookie-bite';
+                hebrewType = t('breaks.snack');
+            }
+
+            return `
+                <div class="time-slot">
+                    <div class="time-label break-label">
+                        <i class="fas ${icon}"></i>
+                    </div>
+                    <div class="slot-content">
+                        <div class="break-card">
+                            <i class="fas ${icon}"></i>
+                            <div class="break-text">
+                                <div class="break-title">${brk.duration} ${t('breaks.minutesBreak')} ${hebrewType}</div>
+                                <div class="break-suggestion">${brk.suggestion || ''}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Calculate gap in minutes between two times
+        function calculateGap(endTime, startTime) {
+            const [endH, endM] = endTime.split(':').map(Number);
+            const [startH, startM] = startTime.split(':').map(Number);
+
+            let endMinutes = endH * 60 + endM;
+            let startMinutes = startH * 60 + startM;
+
+            // Handle overnight
+            if (startMinutes < endMinutes) {
+                startMinutes += 24 * 60;
+            }
+
+            return startMinutes - endMinutes;
+        }
+
+        // Render break/gap card
+        function renderBreakCard(gapMinutes, fromTime, toTime) {
+            let suggestion = '';
+            let icon = 'fa-coffee';
+
+            if (gapMinutes >= 120) {
+                suggestion = t('breaks.perfectMealTime');
+                icon = 'fa-utensils';
+            } else if (gapMinutes >= 60) {
+                suggestion = t('breaks.goodBreakTime');
+                icon = 'fa-glass-cheers';
+            } else {
+                suggestion = t('breaks.walkBetweenStages');
+                icon = 'fa-walking';
+            }
+
+            return `
+                <div class="time-slot">
+                    <div class="time-label" style="background: rgba(255, 165, 0, 0.2); color: var(--warning);">
+                        ${fromTime}
+                    </div>
+                    <div class="slot-content">
+                        <div class="break-card">
+                            <i class="fas ${icon}"></i>
+                            <div class="break-text">
+                                <div class="break-title">${gapMinutes} ${t('breaks.minutesBreak')}</div>
+                                <div class="break-suggestion">${suggestion}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Display tips
+        function displayTips(tips) {
+            const tipsContainer = document.getElementById('scheduleTips');
+
+            const defaultTips = [
+                { icon: 'fa-battery-full', title: t('tips.phoneBattery'), text: t('tips.phoneBatteryText') },
+                { icon: 'fa-tint', title: t('tips.water'), text: t('tips.waterText') },
+                { icon: 'fa-shoe-prints', title: t('tips.shoes'), text: t('tips.shoesText') }
+            ];
+
+            let html = '';
+
+            // Add parsed tips
+            tips.slice(0, 2).forEach(tip => {
+                html += `
+                    <div class="tip-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <div class="tip-content">
+                            <h4>${t('tips.title')}</h4>
+                            <p>${tip}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Add default tips
+            defaultTips.forEach(tip => {
+                html += `
+                    <div class="tip-card">
+                        <i class="fas ${tip.icon}"></i>
+                        <div class="tip-content">
+                            <h4>${tip.title}</h4>
+                            <p>${tip.text}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            tipsContainer.innerHTML = html;
+        }
+
+        // UI Helpers
+        function showLoading(show, text = null) {
+            const overlay = document.getElementById('loadingOverlay');
+            overlay.querySelector('.loading-text').textContent = text || t('searchingArtists');
+            overlay.classList.toggle('visible', show);
+        }
+
+        function setButtonLoading(loading) {
+            const btn = document.getElementById('submitBtn');
+            btn.classList.toggle('loading', loading);
+            btn.disabled = loading;
+        }
+
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                ${message}
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideUp 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Enter key support
+        document.getElementById('playlistUrl').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                analyzePlaylist();
+            }
+        });
+
+        // Initialize language on page load
+        initLanguage();
+    </script>
+</body>
+</html>

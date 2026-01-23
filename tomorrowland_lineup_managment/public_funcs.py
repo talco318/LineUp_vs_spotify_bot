@@ -41,9 +41,10 @@ def extract_artists_from_tomorrowland_lineup() -> list[Artist]:
     List[Artist]: A list of 'Artist' objects containing the extracted data for the artists.
     """
     artists: list[Artist] = []
-    url_w1 = 'https://artist-lineup-cdn.tomorrowland.com/TLBE24-W1-211903bb-da4c-445d-a1b3-6b17479a9fab.json'
-    url_w2 = 'https://artist-lineup-cdn.tomorrowland.com/TLBE24-W2-211903bb-da4c-445d-a1b3-6b17479a9fab.json'
-
+    #url_w1 = 'https://artist-lineup-cdn.tomorrowland.com/TLBE24-W1-211903bb-da4c-445d-a1b3-6b17479a9fab.json'
+    url_w1 = 'https://artist-lineup-cdn.tomorrowland.com/TLBE25-W1-2b21fd6c-aa71-43a9-87d1-0334f759a95b.json'
+    #url_w2 = 'https://artist-lineup-cdn.tomorrowland.com/TLBE24-W2-211903bb-da4c-445d-a1b3-6b17479a9fab.json'
+    url_w2 = 'https://artist-lineup-cdn.tomorrowland.com/TLBE25-W2-2b21fd6c-aa71-43a9-87d1-0334f759a95b.json'
     headers = {'User-Agent': 'My App 1.0'}
     for url in [url_w1, url_w2]:
         try:

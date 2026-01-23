@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "lang": "en",
+    "dir": "ltr",
+    "name": "English"
+  },
+  "header": {
+    "title": "TML LineUp"
+  },
+  "hero": {
+    "title": "🎵 Find Your Artists at Tomorrowland",
+    "subtitle": "Enter a playlist link and we'll find all artists performing at the festival"
+  },
+  "input": {
+    "title": "Enter Playlist Link",
+    "placeholder": {
+      "spotify": "https://open.spotify.com/playlist/...",
+      "youtube": "https://music.youtube.com/playlist?list=..."
+    },
+    "findArtists": "🔍 Find Artists",
+    "searching": "Searching..."
+  },
+  "weekend": {
+    "label": "Weekend:",
+    "weekend1": "1",
+    "weekend2": "2",
+    "both": "Both"
+  },
+  "ai": {
+    "generateBtn": "Generate AI Lineup",
+    "generating": "Generating..."
+  },
+  "results": {
+    "title": "🎉 Your Artists at Tomorrowland",
+    "found": "Found {count} artists",
+    "songsInPlaylist": "songs in playlist",
+    "songs": "songs"
+  },
+  "schedule": {
+    "title": "Your Personal Lineup",
+    "subtitle": "Your customized Tomorrowland schedule",
+    "noEvents": "No events scheduled for this day",
+    "copyLineup": "Copy Lineup",
+    "yourLineup": "Your Customized Lineup"
+  },
+  "days": {
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday",
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday"
+  },
+  "breaks": {
+    "minutesBreak": "minute break",
+    "minutesWalk": "min walk",
+    "meal": "meal",
+    "snack": "snack",
+    "perfectMealTime": "Perfect time for a proper meal!",
+    "goodBreakTime": "Good time for a quick break",
+    "walkBetweenStages": "Walking time between stages",
+    "to": "to "
+  },
+  "tips": {
+    "title": "Tips",
+    "phoneBattery": "Phone Battery",
+    "phoneBatteryText": "Bring a power bank - you'll need it!",
+    "water": "Hydration",
+    "waterText": "Drink plenty of water, especially on hot days",
+    "shoes": "Comfortable Shoes",
+    "shoesText": "You'll walk a lot - choose comfortable shoes"
+  },
+  "loading": {
+    "searchingArtists": "Searching for your artists...",
+    "mayTakeFewSeconds": "This may take a few seconds",
+    "generatingLineup": "Creating your personalized lineup..."
+  },
+  "messages": {
+    "enterPlaylistError": "Please enter a playlist link",
+    "invalidSpotify": "Please enter a valid Spotify playlist link",
+    "invalidYoutube": "Please enter a valid YouTube Music link",
+    "noArtistsFound": "No artists from your playlist found in the Tomorrowland lineup",
+    "artistsFound": "Found {count} artists! 🎉",
+    "lineupCreated": "Lineup created successfully! ✨",
+    "searchArtistsFirst": "Please search for artists first",
+    "copied": "Lineup copied! 📋",
+    "copyError": "Could not copy",
+    "error": "An error occurred"
+  },
+  "footer": {
+    "builtWith": "Built with ❤️ for Tomorrowland lovers"
+  }
+}
