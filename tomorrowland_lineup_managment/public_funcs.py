@@ -90,6 +90,23 @@ def extract_artists_from_tomorrowland_lineup() -> list[Artist]:
 
     return artists
 
+
+def create_artist_by_name(artist_name: str) -> [Artist]:
+    """
+    Search the Tomorrowland lineup for a specific artist and return an Artist object.
+
+    Args:
+        artist_name (str): The name of the artist to search for.
+
+    Returns:
+        Artist | None: The Artist object if found, otherwise None.
+    """
+    artists = extract_artists_from_tomorrowland_lineup()
+    for artist in artists:
+        if artist.name.lower() == artist_name.lower():
+            return artist
+    return None
+
 # For local file lineup:
 # def extract_artists_from_tomorrowland_lineup() -> list[Artist]:
 #     """
