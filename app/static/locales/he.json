@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "lang": "he",
+    "dir": "rtl",
+    "name": "עברית"
+  },
+  "header": {
+    "title": "TML LineUp",
+    "map": "מפה",
+    "favorites": "מועדפים"
+  },
+  "hero": {
+    "title": "🎵 מצא את האמנים שלך בטומורולנד",
+    "subtitle": "הכנס קישור לפלייליסט ונמצא לך את כל האמנים שמופיעים בפסטיבל"
+  },
+  "input": {
+    "title": "הכנס קישור לפלייליסט",
+    "orConnectSpotify": "או התחבר לספוטיפיי",
+    "placeholder": {
+      "spotify": "https://open.spotify.com/playlist/...",
+      "youtube": "https://music.youtube.com/playlist?list=..."
+    },
+    "findArtists": "🔍 מצא אמנים",
+    "searching": "מחפש..."
+  },
+  "spotify": {
+    "connect": "התחבר לספוטיפיי",
+    "connected": "מחובר לספוטיפיי",
+    "disconnect": "התנתק",
+    "selectPlaylist": "בחר פלייליסט",
+    "yourPlaylists": "הפלייליסטים שלך",
+    "loadingPlaylists": "טוען פלייליסטים...",
+    "noPlaylists": "לא נמצאו פלייליסטים",
+    "tracks": "שירים"
+  },
+  "weekend": {
+    "label": "סופ״ש:",
+    "weekend1": "1",
+    "weekend2": "2",
+    "both": "שניהם"
+  },
+  "ai": {
+    "generateBtn": "צור ליינאפ AI",
+    "generating": "יוצר ליינאפ..."
+  },
+  "results": {
+    "title": "🎉 האמנים שלך בטומורולנד",
+    "found": "נמצאו {count} אמנים",
+    "songsInPlaylist": "שירים בפלייליסט",
+    "songs": "שירים"
+  },
+  "favorites": {
+    "title": "⭐ המועדפים שלי",
+    "add": "הוסף למועדפים",
+    "remove": "הסר מהמועדפים",
+    "mustSee": "חובה לראות!",
+    "empty": "עדיין לא סימנת אמנים מועדפים",
+    "emptyHint": "לחץ על הכוכב ליד אמן כדי להוסיף אותו למועדפים",
+    "count": "{count} אמנים מועדפים",
+    "showOnly": "הצג מועדפים בלבד"
+  },
+  "calendar": {
+    "addToCalendar": "הוסף ליומן",
+    "addAllToCalendar": "הוסף הכל ליומן",
+    "google": "Google Calendar",
+    "apple": "Apple Calendar",
+    "outlook": "Outlook",
+    "download": "הורד קובץ ICS",
+    "eventTitle": "הופעה: {artist}",
+    "eventLocation": "Tomorrowland - {stage}",
+    "reminder": "תזכורת: 30 דקות לפני",
+    "added": "נוסף ליומן! 📅"
+  },
+  "map": {
+    "title": "🗺️ מפת הפסטיבל",
+    "subtitle": "מיקום הבמות וזמני הליכה",
+    "stages": "במות",
+    "walkingTime": "זמן הליכה",
+    "yourLocation": "המיקום שלך",
+    "minutesWalk": "דק׳ הליכה",
+    "selectStage": "בחר במה",
+    "from": "מ-",
+    "to": "ל-",
+    "routeTo": "נווט ל-{stage}",
+    "zoomIn": "התקרב",
+    "zoomOut": "התרחק",
+    "legend": "מקרא",
+    "large": "גדולה",
+    "medium": "בינונית",
+    "small": "קטנה"
+  },
+  "schedule": {
+    "title": "הליינאפ האישי שלך",
+    "subtitle": "לוח הזמנים המותאם אישית שלך לטומורולנד",
+    "noEvents": "אין אירועים מתוכננים ליום זה",
+    "copyLineup": "העתק ליינאפ",
+    "yourLineup": "הליינאפ המותאם שלך"
+  },
+  "days": {
+    "friday": "יום שישי",
+    "saturday": "יום שבת",
+    "sunday": "יום ראשון",
+    "FRIDAY": "יום שישי",
+    "SATURDAY": "שבת",
+    "SUNDAY": "יום ראשון",
+    "MONDAY": "יום שני",
+    "TUESDAY": "יום שלישי",
+    "WEDNESDAY": "יום רביעי",
+    "THURSDAY": "יום חמישי"
+  },
+  "breaks": {
+    "minutesBreak": "דקות הפסקה",
+    "minutesWalk": "דקות הליכה",
+    "meal": "ארוחה",
+    "snack": "חטיף",
+    "perfectMealTime": "זמן מושלם לארוחה מסודרת!",
+    "goodBreakTime": "זמן טוב להפסקה קלה ומשקה",
+    "walkBetweenStages": "זמן להעברה בין במות",
+    "to": "ל-"
+  },
+  "tips": {
+    "title": "טיפים",
+    "phoneBattery": "טעינת טלפון",
+    "phoneBatteryText": "קח פאוור בנק - תצטרך אותו!",
+    "water": "שתייה",
+    "waterText": "שתה הרבה מים, במיוחד בימים חמים",
+    "shoes": "נעליים נוחות",
+    "shoesText": "תלך הרבה - בחר נעליים נוחות"
+  },
+  "loading": {
+    "searchingArtists": "מחפש את האמנים שלך...",
+    "mayTakeFewSeconds": "זה יכול לקחת כמה שניות",
+    "generatingLineup": "יוצר ליינאפ מותאם אישית...",
+    "connectingSpotify": "מתחבר לספוטיפיי..."
+  },
+  "messages": {
+    "enterPlaylistError": "אנא הכנס קישור לפלייליסט",
+    "invalidSpotify": "אנא הכנס קישור תקין לפלייליסט ספוטיפיי",
+    "invalidYoutube": "אנא הכנס קישור תקין ליוטיוב מיוזיק",
+    "noArtistsFound": "לא נמצאו אמנים מהפלייליסט בליינאפ של טומורולנד",
+    "artistsFound": "נמצאו {count} אמנים! 🎉",
+    "lineupCreated": "הליינאפ נוצר בהצלחה! ✨",
+    "searchArtistsFirst": "אנא חפש אמנים קודם",
+    "copied": "הליינאפ הועתק! 📋",
+    "copyError": "לא ניתן להעתיק",
+    "error": "אירעה שגיאה",
+    "favoriteAdded": "נוסף למועדפים ⭐",
+    "favoriteRemoved": "הוסר מהמועדפים",
+    "spotifyConnected": "התחברת לספוטיפיי! 🎵",
+    "spotifyDisconnected": "התנתקת מספוטיפיי",
+    "calendarAdded": "נוסף ליומן! 📅"
+  },
+  "footer": {
+    "builtWith": "נבנה עם ❤️ עבור חובבי טומורולנד"
+  }
+}

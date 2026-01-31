@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: tomorrowland-lineup
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app.flask_app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: SPOTIFY_CLIENT_ID_API
+        sync: false
+      - key: SPOTIFY_CLIENT_SECRET_API
+        sync: false
+      - key: SPOTIFY_REDIRECT_URI
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false

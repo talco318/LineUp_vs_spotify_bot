@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "lang": "en",
+    "dir": "ltr",
+    "name": "English"
+  },
+  "header": {
+    "title": "TML LineUp",
+    "map": "Map",
+    "favorites": "Favorites"
+  },
+  "hero": {
+    "title": "🎵 Find Your Artists at Tomorrowland",
+    "subtitle": "Enter a playlist link and we'll find all artists performing at the festival"
+  },
+  "input": {
+    "title": "Enter Playlist Link",
+    "orConnectSpotify": "or connect to Spotify",
+    "placeholder": {
+      "spotify": "https://open.spotify.com/playlist/...",
+      "youtube": "https://music.youtube.com/playlist?list=..."
+    },
+    "findArtists": "🔍 Find Artists",
+    "searching": "Searching..."
+  },
+  "spotify": {
+    "connect": "Connect to Spotify",
+    "connected": "Connected to Spotify",
+    "disconnect": "Disconnect",
+    "selectPlaylist": "Select Playlist",
+    "yourPlaylists": "Your Playlists",
+    "loadingPlaylists": "Loading playlists...",
+    "noPlaylists": "No playlists found",
+    "tracks": "tracks"
+  },
+  "weekend": {
+    "label": "Weekend:",
+    "weekend1": "1",
+    "weekend2": "2",
+    "both": "Both"
+  },
+  "ai": {
+    "generateBtn": "Generate AI Lineup",
+    "generating": "Generating..."
+  },
+  "results": {
+    "title": "🎉 Your Artists at Tomorrowland",
+    "found": "Found {count} artists",
+    "songsInPlaylist": "songs in playlist",
+    "songs": "songs"
+  },
+  "favorites": {
+    "title": "⭐ My Favorites",
+    "add": "Add to favorites",
+    "remove": "Remove from favorites",
+    "mustSee": "Must see!",
+    "empty": "You haven't marked any favorite artists yet",
+    "emptyHint": "Click the star next to an artist to add them to favorites",
+    "count": "{count} favorite artists",
+    "showOnly": "Show favorites only"
+  },
+  "calendar": {
+    "addToCalendar": "Add to Calendar",
+    "addAllToCalendar": "Add All to Calendar",
+    "google": "Google Calendar",
+    "apple": "Apple Calendar",
+    "outlook": "Outlook",
+    "download": "Download ICS file",
+    "eventTitle": "Show: {artist}",
+    "eventLocation": "Tomorrowland - {stage}",
+    "reminder": "Reminder: 30 minutes before",
+    "added": "Added to calendar! 📅"
+  },
+  "map": {
+    "title": "🗺️ Festival Map",
+    "subtitle": "Stage locations and walking times",
+    "stages": "Stages",
+    "walkingTime": "Walking time",
+    "yourLocation": "Your location",
+    "minutesWalk": "min walk",
+    "selectStage": "Select stage",
+    "from": "From ",
+    "to": "To ",
+    "routeTo": "Navigate to {stage}",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "legend": "Legend",
+    "large": "Large",
+    "medium": "Medium",
+    "small": "Small"
+  },
+  "schedule": {
+    "title": "Your Personal Lineup",
+    "subtitle": "Your customized Tomorrowland schedule",
+    "noEvents": "No events scheduled for this day",
+    "copyLineup": "Copy Lineup",
+    "yourLineup": "Your Customized Lineup"
+  },
+  "days": {
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday",
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday"
+  },
+  "breaks": {
+    "minutesBreak": "minute break",
+    "minutesWalk": "min walk",
+    "meal": "meal",
+    "snack": "snack",
+    "perfectMealTime": "Perfect time for a proper meal!",
+    "goodBreakTime": "Good time for a quick break",
+    "walkBetweenStages": "Walking time between stages",
+    "to": "to "
+  },
+  "tips": {
+    "title": "Tips",
+    "phoneBattery": "Phone Battery",
+    "phoneBatteryText": "Bring a power bank - you'll need it!",
+    "water": "Hydration",
+    "waterText": "Drink plenty of water, especially on hot days",
+    "shoes": "Comfortable Shoes",
+    "shoesText": "You'll walk a lot - choose comfortable shoes"
+  },
+  "loading": {
+    "searchingArtists": "Searching for your artists...",
+    "mayTakeFewSeconds": "This may take a few seconds",
+    "generatingLineup": "Creating your personalized lineup...",
+    "connectingSpotify": "Connecting to Spotify..."
+  },
+  "messages": {
+    "enterPlaylistError": "Please enter a playlist link",
+    "invalidSpotify": "Please enter a valid Spotify playlist link",
+    "invalidYoutube": "Please enter a valid YouTube Music link",
+    "noArtistsFound": "No artists from your playlist found in the Tomorrowland lineup",
+    "artistsFound": "Found {count} artists! 🎉",
+    "lineupCreated": "Lineup created successfully! ✨",
+    "searchArtistsFirst": "Please search for artists first",
+    "copied": "Lineup copied! 📋",
+    "copyError": "Could not copy",
+    "error": "An error occurred",
+    "favoriteAdded": "Added to favorites ⭐",
+    "favoriteRemoved": "Removed from favorites",
+    "spotifyConnected": "Connected to Spotify! 🎵",
+    "spotifyDisconnected": "Disconnected from Spotify",
+    "calendarAdded": "Added to calendar! 📅"
+  },
+  "footer": {
+    "builtWith": "Built with ❤️ for Tomorrowland lovers"
+  }
+}

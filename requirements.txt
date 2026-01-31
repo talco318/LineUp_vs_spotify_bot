@@ -9,6 +9,8 @@ requests>=2.29.0
 beautifulsoup4>=4.12.2
 anthropic~=0.43.0
 google-generativeai
+Flask>=2.2
+gunicorn>=21.0.0
 # ------------------------------------------------------------------------------
 
 protobuf~=5.29.3
